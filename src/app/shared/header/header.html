@@ -1,0 +1,9 @@
+<header>
+  <nav>
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      {{ t().nav.home }}
+    </a>
+    <a routerLink="/login" routerLinkActive="active">{{ t().nav.login }}</a>
+  </nav>
+  <app-lang-switch />
+</header>

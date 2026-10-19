@@ -1,0 +1,147 @@
+# mockinter.dev (versión Angular)
+
+Web tipo Duolingo para practicar entrevistas técnicas. Pablo (frontend, ~5 años
+de Angular, un año sin tocar código) la reconstruye desde cero en Angular
+moderno (v22) como portfolio y como práctica para entrevistas.
+Siempre hablar en español.
+
+## Cómo trabajamos
+
+- Pablo dirige. Claude propone y escribe, pero no se acepta nada que Pablo no
+  sepa explicar.
+- Antes de escribir código, explicar en 2-3 frases qué se va a hacer y por qué.
+  No escribir nada hasta que Pablo dé el visto bueno o diga que lo escribe él.
+- Cambios pequeños: un concepto cada vez, como mucho 2-3 ficheros de golpe.
+- Cuando algo haya cambiado respecto al Angular antiguo (NgModules, `*ngIf`,
+  `@Input`, inyección por constructor, Zone.js...), mostrar la versión antigua
+  y la nueva lado a lado.
+- De vez en cuando dejar una pieza clave para que la escriba Pablo, con un TODO
+  claro.
+- Al acabar cada tarea, hacer una pregunta tipo entrevista sobre lo que se ha
+  hecho.
+- Al acabar cada sesión: commit, mini-retro de 5 minutos y 3 preguntas de
+  entrevista.
+- Todo en español, incluidas las preguntas y las respuestas de ejemplo de
+  entrevista. Nada de frases en inglés, Pablo no va a hacer la entrevista en
+  inglés.
+- Explicaciones y ejemplos muy sencillos, "para tontos": analogías cotidianas,
+  ejemplos pequeños y una sola idea cada vez. Si Pablo dice que no lo entiende,
+  volver a explicarlo más simple en vez de añadir más tecnicismos.
+
+## Stack
+
+- Angular 22: standalone, zoneless, signals, `@if`/`@for`, `input()`/`output()`,
+  `inject()`, Signal Forms, `httpResource`.
+- Supabase para auth y base de datos (Postgres), con Row Level Security.
+- Vitest para tests.
+
+## Producto (MVP)
+
+- Flujo de práctica: pregunta → respuesta → feedback → siguiente, con racha y
+  progreso.
+- Dos tipos de pregunta:
+  - `test`: 4 opciones, una correcta, con explicación.
+  - `open`: el usuario piensa su respuesta, ve una respuesta modelo y se
+    autoevalúa (la sabía / a medias / no).
+- Registro y login con email y con Google, con el progreso guardado por
+  usuario.
+- Onboarding al registrarse: el usuario elige las tecnologías que quiere
+  practicar (selección múltiple). No se le pregunta el nivel. Se puede cambiar
+  desde Ajustes.
+- Filtros por tecnología, tema y dificultad (fácil / media / difícil). El
+  selector de dificultad está dentro de la práctica y se puede cambiar cuando
+  se quiera; por defecto, todas. Un junior puede ir a lo difícil desde el
+  primer día.
+- Botón ES/EN que cambia toda la app (UI y preguntas) en tiempo real.
+- Botón "reportar un problema" en cada pregunta.
+- Gratis, sin suscripción.
+
+## Idioma (i18n)
+
+- Nada de `@angular/localize`: traduce al compilar y obliga a recargar.
+- `LanguageService` propio con `lang = signal<'es' | 'en'>()`.
+- Textos de la UI en diccionarios `es.ts` y `en.ts`, tipados para que falle si
+  falta una clave en un idioma.
+- Una pipe o un `computed` para traducir en las plantillas.
+- Idioma inicial: el guardado en el perfil del usuario; si no, el de
+  localStorage; si no, el del navegador.
+- Todo el contenido existe en los dos idiomas: las preguntas se escriben en
+  español y se traducen enteras al inglés. No hay preguntas exclusivas de un
+  idioma.
+- Una pregunta no puede pasar a `published` si le falta alguna traducción. La
+  etiqueta "Solo en inglés" / "Only in Spanish" queda solo como red de
+  seguridad en el código.
+
+## Banco de preguntas
+
+- Las preguntas viven en Supabase, nunca en un JSON dentro del front.
+- Objetivo: ~1000 preguntas, generadas por Claude según la demanda del mercado
+  y revisadas por Pablo antes de publicarse.
+- Se cargan por lotes con un JSON de importación. Se guarda un export en el
+  repo (`/data`) como copia de seguridad.
+- Cada pregunta lleva tecnología, tema, dificultad, tipo y versión de referencia
+  (p. ej. `angular: 22`), para localizar las que queden obsoletas.
+
+### Fases de contenido
+
+1. Lanzamiento (300): JavaScript 80, TypeScript 50, Angular 120,
+   HTML/CSS/accesibilidad 50.
+2. Frontend completo (350): React 150, testing 50,
+   navegador/HTTP/rendimiento/seguridad 50, Git y CI/CD 40,
+   comportamiento y soft skills 60.
+3. Más allá del front (350): Java/Spring 150, Node 60, SQL 50,
+   diseño de sistemas front 40, cloud básico 50.
+
+### Modelo de datos (orientativo)
+
+- `questions`: id, tech, topic, difficulty (`easy` | `medium` | `hard`, se
+  muestra como fácil / media / difícil), type (`test` | `open`), correct_index
+  (solo en `test`), status (`draft` | `reviewed` | `published`), ref_version,
+  created_at, updated_at.
+- `question_translations`: question_id, lang (`es` | `en`), prompt, options
+  (jsonb, solo en `test`), explanation o model_answer.
+  Validación: las dos traducciones tienen el mismo número de opciones.
+- `profiles`: user_id, preferred_lang, techs (lista de tecnologías elegidas en
+  el onboarding), streak, last_practice_at, is_admin.
+- `attempts`: user_id, question_id, result (`correct` | `wrong` | `knew` |
+  `partial` | `didnt_know`), created_at.
+- `reports`: user_id, question_id, message, status (`new` | `resolved` |
+  `dismissed`), created_at.
+- Opcional: comprobar la respuesta en el servidor (función de Postgres) para
+  no enviar `correct_index` al cliente.
+
+## Admin
+
+MVP:
+- Importar y exportar JSON/CSV, con validación por fila antes de guardar
+  (p. ej. "fila 37: falta la explicación en inglés").
+- Editor con ES y EN lado a lado y vista previa tal y como la ve el usuario.
+- Indicador de traducción por pregunta y filtro "falta traducción".
+- Flujo de estados: `draft` → `reviewed` → `published`.
+- Tabla con búsqueda, filtros (tecnología, tema, dificultad, tipo, estado),
+  paginación en el servidor y acciones en bloque.
+- Bandeja de reportes con estados y enlace directo a editar la pregunta.
+
+Más adelante:
+- Estadísticas por pregunta (porcentaje de acierto, veces respondida) para
+  detectar niveles mal asignados o preguntas mal redactadas.
+- Historial de cambios y borrado lógico.
+
+## Plan de sesiones (1 al día, unas 3 h)
+
+0. Kickoff: historias de usuario, modelo de datos definitivo, estructura de
+   carpetas, Supabase y repo.
+1. Esqueleto: proyecto, layout, rutas, lazy loading, 404 y `LanguageService`
+   con el botón ES/EN.
+2. El corazón: flujo de práctica (test y abierta) con signals, `computed`,
+   `input()` y `output()`, usando datos de prueba.
+3. Datos reales: servicio con `inject()`, `httpResource`, estados de carga y
+   error, filtros.
+4. Usuarios: Signal Forms, auth con Supabase (email y Google), onboarding por
+   tecnologías, guards, progreso, racha e idioma preferido.
+5a. Admin I: guard por rol, importación con validación, tabla con filtros.
+5b. Admin II: editor ES/EN, estados, vista previa, reportes.
+6. Calidad: Vitest (`LanguageService`, servicio de preguntas, componente,
+   guard) y accesibilidad básica.
+7. Demo day: despliegue, README, las 300 preguntas de la fase 1 y pitch en
+   inglés.
