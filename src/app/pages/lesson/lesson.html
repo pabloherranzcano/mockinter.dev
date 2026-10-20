@@ -1,4 +1,20 @@
-@if (store.finished()) {
+@if (questionsService.rows.isLoading()) {
+  <main class="lesson state">
+    <p>{{ t().lesson.loading }}</p>
+  </main>
+} @else if (questionsService.rows.error()) {
+  <main class="lesson state">
+    <h2>{{ t().lesson.error }}</h2>
+    <button type="button" class="btn" (click)="questionsService.rows.reload()">
+      {{ t().lesson.retry }}
+    </button>
+  </main>
+} @else if (questionsService.questions().length === 0) {
+  <main class="lesson state">
+    <h2>{{ t().lesson.empty }}</h2>
+    <a class="btn" routerLink="/">{{ t().lesson.backHome }}</a>
+  </main>
+} @else if (store.finished()) {
   <main class="lesson result">
     <h2>{{ t().lesson.finished }}</h2>
     <p>{{ t().lesson.score }}: {{ store.correctCount() }} / {{ store.total() }}</p>

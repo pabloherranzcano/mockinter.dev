@@ -1,8 +1,8 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, untracked } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../core/language.service';
 import { LessonStore } from '../../core/lesson/lesson.store';
-import { QUESTIONS_MOCK } from '../../core/models/questions.mock';
+import { QuestionsService } from '../../core/questions/questions.service';
 
 @Component({
   imports: [RouterLink],
@@ -16,8 +16,14 @@ export class Lesson {
 
   protected readonly t = inject(LanguageService).t;
   protected readonly store = inject(LessonStore);
+  protected readonly questionsService = inject(QuestionsService);
 
   constructor() {
-    this.store.start(QUESTIONS_MOCK);
+    effect(() => {
+      const questions = this.questionsService.questions();
+      if (questions.length > 0) {
+        untracked(() => this.store.start(questions));
+      }
+    });
   }
 }

@@ -41,8 +41,13 @@ Siempre hablar en español.
 
 - Flujo de práctica: pregunta → respuesta → feedback → siguiente, con racha y
   progreso. Es práctica libre: sin vidas, sin XP y sin estrellas.
-- Un solo tipo de pregunta, `test`: 4 opciones, una correcta, con explicación.
-  Nada de preguntas `open` por ahora.
+- Tres tipos de pregunta, todos con corrección automática y explicación:
+  - `test`: 4 opciones, una correcta.
+  - `fill`: una frase con un hueco `___` y varias palabras para completarla,
+    una correcta.
+  - `order`: piezas desordenadas que se tocan en el orden correcto.
+  Nada de preguntas `open`. El orden de implementación es `test`, luego `fill`
+  (comparte datos y lógica con `test`) y por último `order`.
 - Objetivo: compartir la app en LinkedIn como portfolio. Debe funcionar al
   abrir el enlace, y la primera lección se puede probar sin registrarse.
 - Registro y login con email y con Google, con el progreso guardado por
@@ -97,11 +102,13 @@ Siempre hablar en español.
 ### Modelo de datos (orientativo)
 
 - `questions`: id, tech, topic, difficulty (`easy` | `medium` | `hard`, se
-  muestra como fácil / media / difícil), correct_index, status (`draft` | `reviewed` | `published`), ref_version,
-  created_at, updated_at.
+  muestra como fácil / media / difícil), type (`test` | `fill` | `order`),
+  correct_index (solo en `test` y `fill`), status (`draft` | `reviewed` |
+  `published`), ref_version, created_at, updated_at.
 - `question_translations`: question_id, lang (`es` | `en`), prompt, options
-  (jsonb), explanation.
-  Validación: las dos traducciones tienen el mismo número de opciones.
+  (jsonb: en `test` y `fill` son las opciones; en `order` son las piezas, en el
+  orden correcto, y se barajan al mostrarlas), explanation.
+  Validación: las dos traducciones tienen el mismo número de opciones o piezas.
 - `profiles`: user_id, preferred_lang, techs (lista de tecnologías elegidas en
   el onboarding), streak, last_practice_at, is_admin.
 - `attempts`: user_id, question_id, result (`correct` | `wrong`), created_at.
@@ -137,6 +144,9 @@ Más adelante:
    `input()` y `output()`, usando datos de prueba.
 3. Datos reales: servicio con `inject()`, `httpResource`, estados de carga y
    error, filtros.
+3b. Estilos: copiar el diseño de la versión React (variables de color con modo
+   oscuro, tipografías, botones) a `styles.scss` y a los `.scss` de cada
+   componente. Es lo primero que ve quien llega desde LinkedIn.
 4. Usuarios: Signal Forms, auth con Supabase (email y Google), onboarding por
    tecnologías, guards, progreso, racha e idioma preferido.
 5a. Admin I: guard por rol, importación con validación, tabla con filtros.

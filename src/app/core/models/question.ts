@@ -4,7 +4,7 @@ export interface Question {
   id: string;
   tech: string;
   topic: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: Difficulty;
   correctIndex: number;
   text: Record<Lang, QuestionText>;
 }
@@ -14,3 +14,7 @@ export interface QuestionText {
   options: string[];
   explanation: string;
 }
+
+export type Difficulty = 'easy' | 'medium' | 'hard';
+export type QuestionType = 'test' | 'fill' | 'order';
+

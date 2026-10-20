@@ -22,5 +22,9 @@ export const en: typeof es = {
     finished: 'Lesson complete!',
     score: 'Correct answers',
     backHome: 'Back to home',
+    loading: 'Preparing your lesson…',
+    error: 'The lesson could not be loaded. Check your connection and try again.',
+    retry: 'Try again',
+    empty: 'There are no questions available yet.',
   },
 };

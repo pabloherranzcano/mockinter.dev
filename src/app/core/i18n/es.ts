@@ -20,5 +20,9 @@ export const es = {
     finished: '¡Lección terminada!',
     score: 'Aciertos',
     backHome: 'Volver al inicio',
+    loading: 'Preparando la lección…',
+    error: 'No se pudo cargar la lección. Revisa tu conexión e inténtalo otra vez.',
+    retry: 'Reintentar',
+    empty: 'Todavía no hay preguntas disponibles.',
   },
 };
