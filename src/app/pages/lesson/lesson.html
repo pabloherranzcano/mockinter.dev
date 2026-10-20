@@ -1,1 +1,48 @@
-<p>{{topicId()}}</p>
+@if (store.finished()) {
+  <main class="lesson result">
+    <h2>{{ t().lesson.finished }}</h2>
+    <p>{{ t().lesson.score }}: {{ store.correctCount() }} / {{ store.total() }}</p>
+    <a class="btn" routerLink="/">{{ t().lesson.backHome }}</a>
+  </main>
+} @else if (store.current()) {
+  <main class="lesson">
+    <p class="topic">{{ topicId() }}</p>
+
+    <div
+      class="progress"
+      role="progressbar"
+      aria-valuemin="0"
+      aria-valuemax="100"
+      [attr.aria-valuenow]="store.progress()"
+    >
+      <span [style.width.%]="store.progress()"></span>
+    </div>
+
+    <h2 class="prompt">{{ store.prompt() }}</h2>
+
+    <div class="options">
+      @for (option of store.optionViews(); track option.index; let i = $index) {
+        <button
+          type="button"
+          class="option"
+          [class]="option.state"
+          (click)="store.select(i)"
+          [disabled]="store.checked()">
+          {{option.text}}
+        </button>
+      }
+    </div>
+
+    @if (store.checked()) {
+      <div class="feedback" [class.ok]="store.isCorrect()" [class.bad]="!store.isCorrect()">
+        <strong>{{ store.isCorrect() ? t().lesson.correct : t().lesson.wrong }}</strong>
+        <p>{{ store.explanation() }}</p>
+      </div>
+      <button type="button" class="btn" (click)="store.next()">{{ t().lesson.next }}</button>
+    } @else {
+      <button type="button" class="btn" [disabled]="!store.canCheck()" (click)="store.check()">
+        {{ t().lesson.check }}
+      </button>
+    }
+  </main>
+}

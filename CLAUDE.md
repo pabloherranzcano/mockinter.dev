@@ -24,6 +24,8 @@ Siempre hablar en español.
 - Todo en español, incluidas las preguntas y las respuestas de ejemplo de
   entrevista. Nada de frases en inglés, Pablo no va a hacer la entrevista en
   inglés.
+- Estilo de código: siempre llaves en los `if`, nunca `if (x) return;` en una
+  línea.
 - Explicaciones y ejemplos muy sencillos, "para tontos": analogías cotidianas,
   ejemplos pequeños y una sola idea cada vez. Si Pablo dice que no lo entiende,
   volver a explicarlo más simple en vez de añadir más tecnicismos.
@@ -38,11 +40,11 @@ Siempre hablar en español.
 ## Producto (MVP)
 
 - Flujo de práctica: pregunta → respuesta → feedback → siguiente, con racha y
-  progreso.
-- Dos tipos de pregunta:
-  - `test`: 4 opciones, una correcta, con explicación.
-  - `open`: el usuario piensa su respuesta, ve una respuesta modelo y se
-    autoevalúa (la sabía / a medias / no).
+  progreso. Es práctica libre: sin vidas, sin XP y sin estrellas.
+- Un solo tipo de pregunta, `test`: 4 opciones, una correcta, con explicación.
+  Nada de preguntas `open` por ahora.
+- Objetivo: compartir la app en LinkedIn como portfolio. Debe funcionar al
+  abrir el enlace, y la primera lección se puede probar sin registrarse.
 - Registro y login con email y con Google, con el progreso guardado por
   usuario.
 - Onboarding al registrarse: el usuario elige las tecnologías que quiere
@@ -79,7 +81,7 @@ Siempre hablar en español.
   y revisadas por Pablo antes de publicarse.
 - Se cargan por lotes con un JSON de importación. Se guarda un export en el
   repo (`/data`) como copia de seguridad.
-- Cada pregunta lleva tecnología, tema, dificultad, tipo y versión de referencia
+- Cada pregunta lleva tecnología, tema, dificultad y versión de referencia
   (p. ej. `angular: 22`), para localizar las que queden obsoletas.
 
 ### Fases de contenido
@@ -95,16 +97,14 @@ Siempre hablar en español.
 ### Modelo de datos (orientativo)
 
 - `questions`: id, tech, topic, difficulty (`easy` | `medium` | `hard`, se
-  muestra como fácil / media / difícil), type (`test` | `open`), correct_index
-  (solo en `test`), status (`draft` | `reviewed` | `published`), ref_version,
+  muestra como fácil / media / difícil), correct_index, status (`draft` | `reviewed` | `published`), ref_version,
   created_at, updated_at.
 - `question_translations`: question_id, lang (`es` | `en`), prompt, options
-  (jsonb, solo en `test`), explanation o model_answer.
+  (jsonb), explanation.
   Validación: las dos traducciones tienen el mismo número de opciones.
 - `profiles`: user_id, preferred_lang, techs (lista de tecnologías elegidas en
   el onboarding), streak, last_practice_at, is_admin.
-- `attempts`: user_id, question_id, result (`correct` | `wrong` | `knew` |
-  `partial` | `didnt_know`), created_at.
+- `attempts`: user_id, question_id, result (`correct` | `wrong`), created_at.
 - `reports`: user_id, question_id, message, status (`new` | `resolved` |
   `dismissed`), created_at.
 - Opcional: comprobar la respuesta en el servidor (función de Postgres) para
@@ -118,7 +118,7 @@ MVP:
 - Editor con ES y EN lado a lado y vista previa tal y como la ve el usuario.
 - Indicador de traducción por pregunta y filtro "falta traducción".
 - Flujo de estados: `draft` → `reviewed` → `published`.
-- Tabla con búsqueda, filtros (tecnología, tema, dificultad, tipo, estado),
+- Tabla con búsqueda, filtros (tecnología, tema, dificultad, estado),
   paginación en el servidor y acciones en bloque.
 - Bandeja de reportes con estados y enlace directo a editar la pregunta.
 
@@ -133,7 +133,7 @@ Más adelante:
    carpetas, Supabase y repo.
 1. Esqueleto: proyecto, layout, rutas, lazy loading, 404 y `LanguageService`
    con el botón ES/EN.
-2. El corazón: flujo de práctica (test y abierta) con signals, `computed`,
+2. El corazón: flujo de práctica (test) con signals, `computed`,
    `input()` y `output()`, usando datos de prueba.
 3. Datos reales: servicio con `inject()`, `httpResource`, estados de carga y
    error, filtros.

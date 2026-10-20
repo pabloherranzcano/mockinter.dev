@@ -14,4 +14,13 @@ export const en: typeof es = {
   notFound: {
     title: 'Web not found',
   },
+  lesson: {
+    check: 'Check',
+    next: 'Continue',
+    correct: 'Correct!',
+    wrong: 'Not quite',
+    finished: 'Lesson complete!',
+    score: 'Correct answers',
+    backHome: 'Back to home',
+  },
 };
