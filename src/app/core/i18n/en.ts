@@ -10,6 +10,7 @@ export const en: typeof es = {
     onlyInEnglish: 'Only in English',
     onlyInSpanish: 'Only in Spanish',
     changeLanguage: 'Change language',
+    changeTheme: 'Switch theme',
   },
   notFound: {
     title: 'Web not found',

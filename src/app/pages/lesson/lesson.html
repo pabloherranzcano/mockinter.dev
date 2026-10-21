@@ -22,7 +22,7 @@
   </main>
 } @else if (store.current()) {
   <main class="lesson">
-    <p class="topic">{{ topicId() }}</p>
+    <p class="topic">// {{ store.current()?.tech }} · {{ store.current()?.topic }}</p>
 
     <div
       class="progress"
@@ -44,7 +44,8 @@
           [class]="option.state"
           (click)="store.select(i)"
           [disabled]="store.checked()">
-          {{option.text}}
+          <span class="key">{{ i + 1 }}</span>
+          <span class="text">{{ option.text }}</span>
         </button>
       }
     </div>

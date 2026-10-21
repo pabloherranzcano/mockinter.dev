@@ -28,7 +28,14 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/styles.scss"]
+            "styles": [
+              "@fontsource/figtree/400.css",
+              "@fontsource/figtree/600.css",
+              "@fontsource/figtree/700.css",
+              "@fontsource/jetbrains-mono/500.css",
+              "@fontsource/jetbrains-mono/700.css",
+              "src/styles.scss"
+            ]
           },
           "configurations": {
             "production": {

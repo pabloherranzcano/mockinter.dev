@@ -1,1 +1,187 @@
-/* You can add global styles to this file, and also import other style files */
+// Estilos globales de mockinter.dev.
+// Aquí viven los colores (variables CSS), la base y los botones. Lo propio de cada
+// pantalla va en el .scss de su componente.
+
+// Una mixin es un trozo de CSS reutilizable con parámetros (esto es SCSS, no CSS).
+// Dibuja el resplandor de los botones con el color que le pases.
+@mixin glow($color) {
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, $color 28%, transparent),
+    0 0 22px color-mix(in srgb, $color 45%, transparent);
+}
+
+// ---------- Colores ----------
+// Oscuro por defecto. El claro se activa si el usuario lo elige o si el sistema lo pide.
+:root {
+  --bg: #0b1020;
+  --surface: #131a31;
+  --sunk: #0e1428;
+  --ink: #e6e9f5;
+  --muted: #97a0bc;
+  --line: #26304f;
+
+  --accent: #8b5cf6;
+  --accent-ink: #ffffff;
+  --cyan: #22d3ee;
+  --amber: #f4b330;
+
+  --ok: #34d399;
+  --ok-ink: #04251a;
+  --bad: #f87171;
+  --bad-ink: #2a0707;
+
+  --font-body: 'Figtree', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Menlo, Consolas, monospace;
+  --radius: 8px;
+  // Ancho común del contenido: el header y las pantallas se alinean con él
+  --content-width: 40rem;
+
+  color-scheme: dark;
+}
+
+// Los colores del modo claro, en una mixin para escribirlos una sola vez
+// y usarlos en los dos sitios donde se activa.
+@mixin light-colors {
+  --bg: #f4f3fc;
+  --surface: #ffffff;
+  --sunk: #e9e7f7;
+  --ink: #1a1633;
+  --muted: #5e5a7e;
+  --line: #d6d2ee;
+
+  --accent: #7c3aed;
+  --cyan: #0891b2;
+  --amber: #bf7e00;
+
+  --ok: #15803d;
+  --ok-ink: #ffffff;
+  --bad: #b91c1c;
+  --bad-ink: #ffffff;
+
+  color-scheme: light;
+}
+
+// 1) El usuario eligió claro con el botón: ThemeService pone data-theme="light" en <html>.
+:root[data-theme='light'] {
+  @include light-colors;
+}
+
+// 2) No ha elegido nada y el sistema está en claro. Si eligió oscuro, esta regla no se aplica.
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    @include light-colors;
+  }
+}
+
+// ---------- Base ----------
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 1rem/1.5 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+a {
+  color: var(--cyan);
+}
+
+code {
+  padding: 0.1em 0.4em;
+  border-radius: 6px;
+  background: var(--sunk);
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+// ---------- Botones ----------
+// Planos, con un resplandor al pasar el ratón. Variantes: .ghost, .ok, .bad.
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: 700 0.85rem/1.2 var(--font-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    box-shadow 0.15s,
+    transform 0.08s;
+
+  &:hover:not(:disabled) {
+    @include glow(var(--accent));
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    border-color: var(--line);
+    background: var(--sunk);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+
+  &.ghost {
+    border-color: var(--line);
+    background: transparent;
+    color: var(--ink);
+
+    &:hover:not(:disabled) {
+      border-color: var(--accent);
+      @include glow(var(--accent));
+    }
+  }
+
+  &.ok {
+    border-color: var(--ok);
+    background: var(--ok);
+    color: var(--ok-ink);
+
+    &:hover:not(:disabled) {
+      @include glow(var(--ok));
+    }
+  }
+
+  &.bad {
+    border-color: var(--bad);
+    background: var(--bad);
+    color: var(--bad-ink);
+
+    &:hover:not(:disabled) {
+      @include glow(var(--bad));
+    }
+  }
+}

@@ -1,21 +1,61 @@
+// Solo la línea fina cruza todo el ancho; el contenido se alinea con la tarjeta de la lección.
 header {
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  width: min(var(--content-width), calc(100% - 2rem));
+  margin: 0 auto;
+  padding-block: 0.75rem;
+}
+
+.brand {
+  margin-right: auto;
+  color: var(--ink);
+  font: 700 1rem/1 var(--font-mono);
+  text-decoration: none;
+
+  span {
+    color: var(--amber);
+  }
+}
+
+// El selector de idioma y el de tema van juntos, más pegados que el resto del header
+.tools {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1rem;
+  gap: 0.5rem;
 }
 
 nav {
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
+
+  // En pantallas estrechas el menú baja a una segunda fila, bajo la marca y el idioma
+  @media (max-width: 30rem) {
+    order: 3;
+    flex-basis: 100%;
+  }
 
   a {
-    color: inherit;
+    padding-block: 0.25rem;
+    border-bottom: 2px solid transparent;
+    color: var(--muted);
+    font: 500 0.85rem/1.2 var(--font-mono);
     text-decoration: none;
+    transition: color 0.15s;
+
+    &:hover {
+      color: var(--ink);
+    }
 
     &.active {
-      font-weight: 700;
-      text-decoration: underline;
+      color: var(--ink);
+      border-bottom-color: var(--accent);
     }
   }
 }

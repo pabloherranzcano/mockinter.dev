@@ -1,9 +1,15 @@
 <header>
-  <nav>
-    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
-      {{ t().nav.home }}
-    </a>
-    <a routerLink="/login" routerLinkActive="active">{{ t().nav.login }}</a>
-  </nav>
-  <app-lang-switch></app-lang-switch>
+  <div class="bar">
+    <a class="brand" routerLink="/">mockinter<span>.dev</span></a>
+    <nav>
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        {{ t().nav.home }}
+      </a>
+      <a routerLink="/login" routerLinkActive="active">{{ t().nav.login }}</a>
+    </nav>
+    <div class="tools">
+      <app-lang-switch></app-lang-switch>
+      <app-theme-switch></app-theme-switch>
+    </div>
+  </div>
 </header>

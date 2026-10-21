@@ -8,6 +8,7 @@ export const es = {
     onlyInEnglish: 'Solo en inglés',
     onlyInSpanish: 'Solo en español',
     changeLanguage: 'Cambiar idioma',
+    changeTheme: 'Cambiar tema',
   },
   notFound: {
     title: 'Página no encontrada'
