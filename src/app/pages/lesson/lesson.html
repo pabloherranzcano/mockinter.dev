@@ -9,7 +9,7 @@
       {{ t().lesson.retry }}
     </button>
   </main>
-} @else if (questionsService.questions().length === 0) {
+} @else if (lessonQuestions().length === 0) {
   <main class="lesson state">
     <h2>{{ t().lesson.empty }}</h2>
     <a class="btn" routerLink="/">{{ t().lesson.backHome }}</a>

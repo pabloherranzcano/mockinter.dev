@@ -13,6 +13,13 @@ export const es = {
   notFound: {
     title: 'Página no encontrada'
   },
+  home: {
+    title: 'Practica entrevistas técnicas',
+    subtitle: 'Preguntas cortas de frontend con explicación. Sin registrarte, en 5 minutos.',
+    pick: '¿Qué quieres practicar?',
+    all: 'Todas',
+    start: 'Empezar',
+  },
   lesson: {
     check: 'Comprobar',
     next: 'Continuar',

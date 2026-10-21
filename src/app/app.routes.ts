@@ -10,11 +10,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login').then((m) => m.Login),
   },
   {
-    path: 'lesson/:topicId',
-    loadComponent: () => import('./pages/lesson/lesson').then((m) => m.Lesson),
-  },
-  {
-    path: 'lesson/:topicId/:level',
+    path: 'lesson/:tech',
     loadComponent: () => import('./pages/lesson/lesson').then((m) => m.Lesson),
   },
   // {

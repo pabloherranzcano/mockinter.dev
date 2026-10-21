@@ -15,6 +15,13 @@ export const en: typeof es = {
   notFound: {
     title: 'Web not found',
   },
+  home: {
+    title: 'Practice technical interviews',
+    subtitle: 'Short frontend questions with explanations. No sign-up, in 5 minutes.',
+    pick: 'What do you want to practice?',
+    all: 'All',
+    start: 'Start',
+  },
   lesson: {
     check: 'Check',
     next: 'Continue',

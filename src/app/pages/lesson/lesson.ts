@@ -12,15 +12,22 @@ import { QuestionsService } from '../../core/questions/questions.service';
   templateUrl: './lesson.html',
 })
 export class Lesson {
-  topicId = input.required<string>();
+  // Viene de la URL (/lesson/:tech). 'all' significa todas las tecnologías.
+  tech = input.required<string>();
 
   protected readonly t = inject(LanguageService).t;
   protected readonly store = inject(LessonStore);
   protected readonly questionsService = inject(QuestionsService);
 
+  protected readonly lessonQuestions = computed(() =>
+    this.questionsService
+      .questions()
+      .filter((question) => this.tech() === 'all' || question.tech === this.tech()),
+  );
+
   constructor() {
     effect(() => {
-      const questions = this.questionsService.questions();
+      const questions = this.lessonQuestions();
       if (questions.length > 0) {
         untracked(() => this.store.start(questions));
       }

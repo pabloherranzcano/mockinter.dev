@@ -55,10 +55,11 @@ Siempre hablar en español.
 - Onboarding al registrarse: el usuario elige las tecnologías que quiere
   practicar (selección múltiple). No se le pregunta el nivel. Se puede cambiar
   desde Ajustes.
-- Filtros por tecnología, tema y dificultad (fácil / media / difícil). El
-  selector de dificultad está dentro de la práctica y se puede cambiar cuando
-  se quiera; por defecto, todas. Un junior puede ir a lo difícil desde el
-  primer día.
+- Filtro por tecnología en la Home (viaja en la URL: `/lesson/:tech`, con `all`
+  para todas). Las preguntas salen mezcladas, de cualquier dificultad: un
+  junior puede practicar las difíciles desde el primer día. El campo
+  `difficulty` se guarda en los datos, pero no hay filtro ni selector de
+  dificultad por ahora (pospuesto hasta tener muchas preguntas).
 - Botón ES/EN que cambia toda la app (UI y preguntas) en tiempo real.
 - Botón "reportar un problema" en cada pregunta.
 - Gratis, sin suscripción.

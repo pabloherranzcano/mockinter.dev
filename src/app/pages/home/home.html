@@ -1,1 +1,45 @@
-<p>home works!</p>
+@if (questionsService.rows.isLoading()) {
+  <main class="home state">
+    <p>{{ t().lesson.loading }}</p>
+  </main>
+} @else if (questionsService.rows.error()) {
+  <main class="home state">
+    <p>{{ t().lesson.error }}</p>
+    <button type="button" class="btn" (click)="questionsService.rows.reload()">
+      {{ t().lesson.retry }}
+    </button>
+  </main>
+} @else {
+  <main class="home">
+    <h1>{{ t().home.title }}</h1>
+    <p class="lead">{{ t().home.subtitle }}</p>
+
+    <section aria-labelledby="pick-title">
+      <h2 id="pick-title" class="label">// {{ t().home.pick }}</h2>
+      <div class="chips">
+        <button
+          type="button"
+          class="chip"
+          [class.selected]="selected() === 'all'"
+          [attr.aria-pressed]="selected() === 'all'"
+          (click)="selected.set('all')"
+        >
+          {{ t().home.all }} <span class="count">{{ total() }}</span>
+        </button>
+        @for (tech of techs(); track tech.name) {
+          <button
+            type="button"
+            class="chip"
+            [class.selected]="selected() === tech.name"
+            [attr.aria-pressed]="selected() === tech.name"
+            (click)="selected.set(tech.name)"
+          >
+            {{ tech.name }} <span class="count">{{ tech.count }}</span>
+          </button>
+        }
+      </div>
+    </section>
+
+    <a class="btn start" [routerLink]="['/lesson', selected()]">{{ t().home.start }}</a>
+  </main>
+}
