@@ -1,6 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { LanguageService } from '../language.service';
 import { Question } from '../models/question';
+import { ProgressService } from '../progress.service';
 
 export interface OptionView {
   text: string;
@@ -14,6 +15,7 @@ export type OptionState = 'selected' | 'correct' | 'wrong' | '';
 @Injectable()
 export class LessonStore {
   private readonly lang = inject(LanguageService).lang;
+  private readonly progressService = inject(ProgressService);
 
   private readonly queue = signal<Question[]>([]);
   readonly total = signal(0);
@@ -83,13 +85,17 @@ export class LessonStore {
   }
 
   check() {
-    if (!this.canCheck()) {
+    const question = this.current();
+    if (!this.canCheck() || !question) {
       return;
     }
     this.checked.set(true);
-    if (this.isCorrect()) {
+    const correct = this.isCorrect();
+    if (correct) {
       this.correctCount.update((n) => n + 1);
     }
+    // Sin await: guardar el intento no debe retrasar la pantalla. Un invitado no guarda nada.
+    void this.progressService.record(question.id, correct);
   }
 
   next() {
