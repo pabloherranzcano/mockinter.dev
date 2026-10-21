@@ -41,9 +41,14 @@ nav {
     flex-basis: 100%;
   }
 
-  a {
-    padding-block: 0.25rem;
+  // "Salir" es un botón, pero se ve igual que los enlaces del menú
+  a,
+  button {
+    padding: 0.25rem 0;
+    border: 0;
     border-bottom: 2px solid transparent;
+    background: none;
+    cursor: pointer;
     color: var(--muted);
     font: 500 0.85rem/1.2 var(--font-mono);
     text-decoration: none;

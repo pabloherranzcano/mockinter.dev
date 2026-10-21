@@ -1,1 +1,40 @@
-<p>login works!</p>
+<main class="login">
+  <h1>{{ mode() === 'signIn' ? t().login.signInTitle : t().login.signUpTitle }}</h1>
+
+  <form class="card" (submit)="onSubmit($event)" novalidate>
+    <label class="field">
+      <span class="label">{{ t().login.email }}</span>
+      <input type="email" autocomplete="email" [formField]="loginForm.email" />
+      @if (loginForm.email().touched() && loginForm.email().invalid()) {
+        <span class="hint" role="alert">{{ t().login.emailInvalid }}</span>
+      }
+    </label>
+
+    <label class="field">
+      <span class="label">{{ t().login.password }}</span>
+      <input
+        type="password"
+        [attr.autocomplete]="mode() === 'signIn' ? 'current-password' : 'new-password'"
+        [formField]="loginForm.password"
+      />
+      @if (loginForm.password().touched() && loginForm.password().invalid()) {
+        <span class="hint" role="alert">{{ t().login.passwordShort }}</span>
+      }
+    </label>
+
+    @if (error()) {
+      <p class="alert" role="alert">{{ error() }}</p>
+    }
+    @if (info()) {
+      <p class="notice" role="status">{{ info() }}</p>
+    }
+
+    <button type="submit" class="btn" [disabled]="loginForm().submitting()">
+      {{ mode() === 'signIn' ? t().login.signIn : t().login.signUp }}
+    </button>
+  </form>
+
+  <button type="button" class="switch" (click)="toggleMode()">
+    {{ mode() === 'signIn' ? t().login.toSignUp : t().login.toSignIn }}
+  </button>
+</main>
