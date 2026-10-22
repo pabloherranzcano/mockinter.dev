@@ -1,0 +1,758 @@
+[
+  {
+    "id": "ng-lifecycle-constructor-vs-oninit",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre el constructor y `ngOnInit` de un componente?",
+      "options": [
+        "Ninguna: Angular ejecuta los dos en el mismo instante y en cualquier orden",
+        "El constructor crea la instancia; `ngOnInit` va después, con los inputs ya asignados",
+        "`ngOnInit` se ejecuta antes que el constructor para preparar las dependencias",
+        "El constructor solo sirve para los servicios y `ngOnInit` solo para las plantillas"
+      ],
+      "explanation": "El constructor se ejecuta al crear la clase (inyección de dependencias e inicialización de propiedades), cuando todavía no se han asignado los inputs. `ngOnInit` se ejecuta una vez, después de la primera asignación de inputs: es el sitio para la lógica de arranque que depende de ellos."
+    },
+    "en": {
+      "prompt": "What is the difference between a component's constructor and `ngOnInit`?",
+      "options": [
+        "None: Angular runs both at the same moment and in any order",
+        "Constructor creates the instance; `ngOnInit` comes later, with inputs set",
+        "`ngOnInit` runs before the constructor to prepare the dependencies",
+        "The constructor is only for services and `ngOnInit` only for templates"
+      ],
+      "explanation": "The constructor runs when the class is created (dependency injection and property initialization), when inputs have not been assigned yet. `ngOnInit` runs once, after the first assignment of inputs: it is the place for startup logic that depends on them."
+    }
+  },
+  {
+    "id": "ng-lifecycle-order",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿En qué orden se ejecutan estos ganchos la primera vez que se crea un componente con inputs?",
+      "options": [
+        "`ngOnInit`, `ngOnChanges`, `ngAfterViewInit`, `ngAfterContentInit` y `ngDoCheck`",
+        "`ngAfterViewInit`, `ngOnInit`, `ngOnChanges`, `ngDoCheck` y `ngAfterContentInit`",
+        "`ngOnChanges`, `ngOnInit`, `ngDoCheck`, `ngAfterContentInit` y `ngAfterViewInit`",
+        "`ngDoCheck`, `ngOnChanges`, `ngOnInit`, `ngAfterViewInit` y `ngAfterContentInit`"
+      ],
+      "explanation": "Tras el constructor: `ngOnChanges` (si hay inputs enlazados), `ngOnInit`, `ngDoCheck`, `ngAfterContentInit` (contenido proyectado listo) y `ngAfterViewInit` (vista propia lista). `ngOnDestroy` va al final."
+    },
+    "en": {
+      "prompt": "In what order do these hooks run the first time a component with inputs is created?",
+      "options": [
+        "`ngOnInit`, `ngOnChanges`, `ngAfterViewInit`, `ngAfterContentInit` and `ngDoCheck`",
+        "`ngAfterViewInit`, `ngOnInit`, `ngOnChanges`, `ngDoCheck` and `ngAfterContentInit`",
+        "`ngOnChanges`, `ngOnInit`, `ngDoCheck`, `ngAfterContentInit` and `ngAfterViewInit`",
+        "`ngDoCheck`, `ngOnChanges`, `ngOnInit`, `ngAfterViewInit` and `ngAfterContentInit`"
+      ],
+      "explanation": "After the constructor: `ngOnChanges` (if inputs are bound), `ngOnInit`, `ngDoCheck`, `ngAfterContentInit` (projected content ready) and `ngAfterViewInit` (own view ready). `ngOnDestroy` comes last."
+    }
+  },
+  {
+    "id": "ng-lifecycle-ngonchanges",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cuándo se ejecuta `ngOnChanges`?",
+      "options": [
+        "Antes de `ngOnInit` y cada vez que cambia un input enlazado desde el padre",
+        "Cada vez que cambia cualquier propiedad de la clase del propio componente",
+        "Solo una vez, justo después de que la vista del componente se haya creado",
+        "Cada vez que el usuario hace clic en un elemento de la plantilla"
+      ],
+      "explanation": "`ngOnChanges` recibe un `SimpleChanges` con los inputs que han cambiado (valor anterior y actual). Se llama antes de `ngOnInit` y después, cada vez que cambia un input enlazado. No se dispara por cambios en propiedades internas."
+    },
+    "en": {
+      "prompt": "When does `ngOnChanges` run?",
+      "options": [
+        "Before `ngOnInit` and whenever a bound input changes",
+        "Every time any property of the component's own class changes",
+        "Only once, right after the component's view has been created",
+        "Every time the user clicks an element in the template"
+      ],
+      "explanation": "`ngOnChanges` receives a `SimpleChanges` with the inputs that changed (previous and current value). It is called before `ngOnInit` and afterwards, every time a bound input changes. It is not triggered by changes to internal properties."
+    }
+  },
+  {
+    "id": "ng-lifecycle-parent-child-order",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Un componente padre contiene a un hijo en su plantilla. ¿Qué se ejecuta primero?",
+      "options": [
+        "El `ngOnInit` del padre y, solo después, el constructor del hijo",
+        "El constructor del hijo, antes del `ngOnInit` del padre",
+        "El `ngAfterViewInit` del padre, antes que cualquier gancho del hijo",
+        "Ningún orden fijo: cambia en cada ejecución según el navegador"
+      ],
+      "explanation": "El orden es: constructor del padre, constructor del hijo, `ngOnInit` del padre, `ngOnChanges` y `ngOnInit` del hijo... Los componentes se instancian al crear la vista del padre, antes de la primera detección de cambios, que es cuando corren los ganchos `ngOnInit`."
+    },
+    "en": {
+      "prompt": "A parent component contains a child in its template. What runs first?",
+      "options": [
+        "The parent's `ngOnInit` and only after that, the child's constructor",
+        "The child's constructor, before the parent's `ngOnInit`",
+        "The parent's `ngAfterViewInit`, before any hook of the child",
+        "No fixed order: it changes on every run depending on the browser"
+      ],
+      "explanation": "The order is: parent constructor, child constructor, parent `ngOnInit`, child `ngOnChanges` and `ngOnInit`... Components are instantiated when the parent's view is created, before the first change detection, which is when `ngOnInit` hooks run."
+    }
+  },
+  {
+    "id": "ng-lifecycle-afterviewinit-order",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Un padre contiene a un hijo. ¿En qué orden se ejecutan sus `ngAfterViewInit`?",
+      "options": [
+        "Primero el del padre y después el del hijo, de arriba abajo",
+        "Los dos a la vez, porque Angular los ejecuta en paralelo",
+        "Solo se ejecuta el del padre; el del hijo no tiene vista propia",
+        "Primero el del hijo y luego el del padre, que contiene al hijo"
+      ],
+      "explanation": "`ngAfterViewInit` se ejecuta cuando la vista del componente **y la de sus hijos** están listas, así que el del hijo va primero y el del padre después. Al destruir ocurre lo mismo: `ngOnDestroy` del hijo antes que el del padre."
+    },
+    "en": {
+      "prompt": "A parent contains a child. In what order do their `ngAfterViewInit` run?",
+      "options": [
+        "The parent's first and then the child's, from top to bottom",
+        "Both at once, because Angular runs them in parallel",
+        "Only the parent's runs; the child has no view of its own",
+        "The child's first, then the parent's, which contains the child"
+      ],
+      "explanation": "`ngAfterViewInit` runs when the component's view **and its children's** are ready, so the child's goes first and the parent's after. On destroy it is the same: the child's `ngOnDestroy` before the parent's."
+    }
+  },
+  {
+    "id": "ng-lifecycle-ondestroy-use",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué se usa `ngOnDestroy`?",
+      "options": [
+        "Para recibir los datos iniciales del componente antes de que se pinte la vista",
+        "Para impedir que el usuario salga de la página mientras haya cambios sin guardar",
+        "Para limpiar recursos: suscripciones, temporizadores y listeners",
+        "Para volver a crear el componente cuando Angular detecta que ha fallado"
+      ],
+      "explanation": "`ngOnDestroy` se ejecuta justo antes de que Angular destruya el componente. Es el sitio para liberar lo que no se libera solo: suscripciones a Observables que no terminan, `setInterval`, listeners manuales..."
+    },
+    "en": {
+      "prompt": "What is `ngOnDestroy` used for?",
+      "options": [
+        "To receive the component's initial data before the view is painted",
+        "To prevent the user from leaving the page while there are unsaved changes",
+        "To clean up resources: unsubscribe, cancel timers and remove listeners",
+        "To recreate the component when Angular detects that it has failed"
+      ],
+      "explanation": "`ngOnDestroy` runs right before Angular destroys the component. It is the place to release what is not released by itself: subscriptions to Observables that never end, `setInterval`, manual listeners..."
+    }
+  },
+  {
+    "id": "ng-lifecycle-destroyref",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué ofrece `inject(DestroyRef)` frente a implementar `ngOnDestroy`?",
+      "options": [
+        "Registrar limpieza con `onDestroy(...)` en cualquier contexto de inyección",
+        "Que la destrucción del componente se produzca antes, sin esperar al siguiente ciclo de Angular",
+        "Que Angular elimine los listeners por su cuenta y no haga falta escribir ningún callback",
+        "Nada: es un alias de `ngOnDestroy` que solo funciona dentro de componentes standalone"
+      ],
+      "explanation": "`DestroyRef.onDestroy(callback)` registra una limpieza que se ejecuta al destruirse el contexto, y funciona en componentes, directivas y servicios. Es lo que usa `takeUntilDestroyed()` por dentro. Permite agrupar la limpieza junto al código que crea el recurso."
+    },
+    "en": {
+      "prompt": "What does `inject(DestroyRef)` offer over implementing `ngOnDestroy`?",
+      "options": [
+        "Registering cleanup with `onDestroy(...)` in any injection context",
+        "That the component's destruction happens earlier, without waiting for the next Angular cycle",
+        "That Angular removes listeners by itself and no callback needs to be written",
+        "Nothing: it is an alias of `ngOnDestroy` that only works inside standalone components"
+      ],
+      "explanation": "`DestroyRef.onDestroy(callback)` registers a cleanup that runs when the context is destroyed, and works in components, directives and services. It is what `takeUntilDestroyed()` uses internally. It lets you keep the cleanup next to the code that creates the resource."
+    }
+  },
+  {
+    "id": "ng-lifecycle-afterviewinit-dom",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Cuándo está garantizado que puedes acceder a los elementos de la propia plantilla con `@ViewChild`?",
+      "options": [
+        "En el constructor, porque la vista se crea siempre antes que la clase",
+        "En `ngOnInit`, siempre, porque es el primer gancho que se ejecuta tras el constructor",
+        "En `ngAfterViewInit`, cuando la vista del componente ya está creada",
+        "Solo en `ngOnDestroy`, justo antes de que se elimine el componente"
+      ],
+      "explanation": "Los elementos de la plantilla propia solo están garantizados tras `ngAfterViewInit` (y los que están dentro de un `@if` pueden no existir todavía en `ngOnInit`). Para usar el DOM sin depender del gancho, existe `afterNextRender`."
+    },
+    "en": {
+      "prompt": "When is it guaranteed that you can access the elements of your own template with `@ViewChild`?",
+      "options": [
+        "In the constructor, because the view is always created before the class",
+        "In `ngOnInit`, always, because it is the first hook that runs after the constructor",
+        "In `ngAfterViewInit`, when the component's view has already been created",
+        "Only in `ngOnDestroy`, right before the component is removed"
+      ],
+      "explanation": "Elements of your own template are only guaranteed after `ngAfterViewInit` (and those inside an `@if` may not exist yet in `ngOnInit`). To use the DOM without depending on the hook, there is `afterNextRender`."
+    }
+  },
+  {
+    "id": "ng-afternextrender",
+    "tech": "angular",
+    "topic": "lifecycle",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Para qué sirve `afterNextRender` y en qué entorno se ejecuta?",
+      "options": [
+        "Para ejecutar código antes del primer render, tanto en el navegador como en el servidor",
+        "Para ejecutar código una vez, tras el siguiente render, solo en el navegador (no en SSR)",
+        "Para repetir un cálculo después de cada petición HTTP que haga la aplicación",
+        "Para retrasar el arranque de la aplicación hasta que todos los componentes existan"
+      ],
+      "explanation": "`afterNextRender` ejecuta un callback **una vez** después de que Angular haya renderizado, y solo en el navegador. Es el sitio para tocar el DOM o inicializar librerías de terceros que no existen en el servidor. Para ejecutar tras cada render existe `afterEveryRender`."
+    },
+    "en": {
+      "prompt": "What is `afterNextRender` for and in which environment does it run?",
+      "options": [
+        "To run code before the first render, in both the browser and the server",
+        "To run code once, after the next render, only in the browser (not in SSR)",
+        "To repeat a calculation after every HTTP request the application makes",
+        "To delay application startup until all components exist"
+      ],
+      "explanation": "`afterNextRender` runs a callback **once** after Angular has rendered, and only in the browser. It is the place to touch the DOM or initialize third-party libraries that do not exist on the server. To run after every render there is `afterEveryRender`."
+    }
+  },
+  {
+    "id": "ng-cd-default-strategy-v22",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En Angular 22, ¿qué estrategia de detección de cambios tiene un componente nuevo si no escribes `changeDetection`?",
+      "options": [
+        "`OnPush`: es la estrategia por defecto, y `Eager` es la antigua `Default`",
+        "`Default`, que revisa el componente en cada ciclo, como en versiones anteriores",
+        "Ninguna: hay que declararla siempre, o el compilador lanza un error",
+        "`Manual`: el componente solo se repinta cuando llamas a `detectChanges()`"
+      ],
+      "explanation": "En Angular 22, **`OnPush` es el valor por defecto**. La antigua `Default` pasa a llamarse `ChangeDetectionStrategy.Eager` (y `Default` queda como alias obsoleto) para quien quiera que el componente se revise siempre. Al migrar apps antiguas se suele añadir `Eager` para conservar el comportamiento."
+    },
+    "en": {
+      "prompt": "In Angular 22, what change detection strategy does a new component have if you do not write `changeDetection`?",
+      "options": [
+        "`OnPush`: it is the default strategy, and `Eager` is the old `Default`",
+        "`Default`, which checks the component on every cycle, as in earlier versions",
+        "None: it must always be declared, or the compiler throws an error",
+        "`Manual`: the component only re-renders when you call `detectChanges()`"
+      ],
+      "explanation": "In Angular 22, **`OnPush` is the default**. The old `Default` is now called `ChangeDetectionStrategy.Eager` (and `Default` stays as a deprecated alias) for those who want the component always checked. When migrating old apps, `Eager` is usually added to keep the behavior."
+    }
+  },
+  {
+    "id": "ng-cd-eager-vs-onpush",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `Eager` (antes `Default`) y `OnPush`?",
+      "options": [
+        "`Eager` solo revisa el componente al arrancar y `OnPush` lo revisa continuamente",
+        "`OnPush` revisa siempre el componente y `Eager` solo cuando el usuario lo pide",
+        "`Eager` revisa el componente en cada pasada; `OnPush` solo en ciertas circunstancias",
+        "Ninguna: las dos revisan el componente exactamente en los mismos casos"
+      ],
+      "explanation": "`Eager` revisa el componente siempre que la detección de cambios llega a él. `OnPush` solo cuando cambia la referencia de un input, ocurre un evento en su plantilla, cambia un signal que lee, o se llama a `markForCheck()` (o emite la pipe `async`). Menos trabajo, con más disciplina."
+    },
+    "en": {
+      "prompt": "What is the difference between `Eager` (formerly `Default`) and `OnPush`?",
+      "options": [
+        "`Eager` only checks the component at startup and `OnPush` checks it continuously",
+        "`OnPush` always checks the component and `Eager` only when the user asks",
+        "`Eager` checks the component on every pass; `OnPush` only in certain circumstances",
+        "None: both check the component in exactly the same cases"
+      ],
+      "explanation": "`Eager` checks the component whenever change detection reaches it. `OnPush` only when an input's reference changes, an event occurs in its template, a signal it reads changes, or `markForCheck()` is called (or the `async` pipe emits). Less work, with more discipline."
+    }
+  },
+  {
+    "id": "ng-cd-onpush-triggers",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Cuál de estas situaciones hace que un componente `OnPush` se vuelva a revisar?",
+      "options": [
+        "Que cambie una propiedad normal de su clase sin ningún evento asociado",
+        "Que pase un segundo desde la última vez que se revisó el componente",
+        "Que se modifique una propiedad dentro de un objeto que recibe como input",
+        "Que cambie un signal que su plantilla lee, o que ocurra un evento en ella"
+      ],
+      "explanation": "Un componente `OnPush` se revisa cuando: cambia la **referencia** de un input, ocurre un evento enlazado en su plantilla, cambia un **signal** que su plantilla lee, se llama a `markForCheck()` o emite una pipe `async`. Mutar un objeto de entrada o cambiar una propiedad normal no lo activa."
+    },
+    "en": {
+      "prompt": "Which of these situations makes an `OnPush` component get checked again?",
+      "options": [
+        "A plain property of its class changing with no associated event",
+        "One second passing since the component was last checked",
+        "A property inside an object it receives as an input being modified",
+        "A signal its template reads changing, or an event occurring in it"
+      ],
+      "explanation": "An `OnPush` component is checked when: an input's **reference** changes, an event bound in its template occurs, a **signal** its template reads changes, `markForCheck()` is called or an `async` pipe emits. Mutating an input object or changing a plain property does not trigger it."
+    }
+  },
+  {
+    "id": "ng-cd-onpush-mutation",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Un hijo `OnPush` recibe `[data]=\"user\"` y el padre se repinta. ¿Qué ocurre con cada línea?\n\n```ts\nthis.user.name = 'Luis';                      // (A)\nthis.user = { ...this.user, name: 'Luis' };    // (B)\n```",
+      "options": [
+        "Las dos actualizan el hijo, porque en ambas cambia el nombre del usuario",
+        "La (A) no actualiza el hijo, porque la referencia es la misma; la (B) sí",
+        "La (A) actualiza el hijo y la (B) no, porque crear un objeto nuevo es más lento",
+        "Ninguna actualiza el hijo, porque `OnPush` ignora los cambios de los inputs"
+      ],
+      "explanation": "Un hijo `OnPush` compara la **referencia** del input. Mutar el objeto (A) deja la misma referencia, así que el hijo no se entera. Crear un objeto nuevo (B) cambia la referencia y lo repinta. Por eso con `OnPush` se prefiere el estilo **inmutable**."
+    },
+    "en": {
+      "prompt": "An `OnPush` child receives `[data]=\"user\"` and the parent re-renders. What happens with each line?\n\n```ts\nthis.user.name = 'Luis';                      // (A)\nthis.user = { ...this.user, name: 'Luis' };    // (B)\n```",
+      "options": [
+        "Both update the child, because the user's name changes in both",
+        "(A) does not update the child, because the reference is the same; (B) does",
+        "(A) updates the child and (B) does not, because creating a new object is slower",
+        "Neither updates the child, because `OnPush` ignores input changes"
+      ],
+      "explanation": "An `OnPush` child compares the input's **reference**. Mutating the object (A) keeps the same reference, so the child is unaware. Creating a new object (B) changes the reference and re-renders it. That is why `OnPush` favors the **immutable** style."
+    }
+  },
+  {
+    "id": "ng-cd-markforcheck-vs-detectchanges",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `markForCheck()` y `detectChanges()`?",
+      "options": [
+        "`markForCheck()` lo marca para el próximo ciclo; `detectChanges()` revisa ahora",
+        "`markForCheck()` revisa de inmediato y `detectChanges()` solo programa la revisión para más tarde",
+        "Ninguna: los dos fuerzan una revisión inmediata y se pueden usar indistintamente",
+        "`markForCheck()` solo sirve en tests y `detectChanges()` solo en código de producción"
+      ],
+      "explanation": "`markForCheck()` **marca** el componente (y sus ancestros) como pendiente: se revisará en el próximo ciclo de detección de cambios. `detectChanges()` **ejecuta** la detección ahora mismo sobre ese componente y sus hijos. En zoneless, un signal hace lo primero automáticamente."
+    },
+    "en": {
+      "prompt": "What is the difference between `markForCheck()` and `detectChanges()`?",
+      "options": [
+        "`markForCheck()` marks it for the next cycle; `detectChanges()` checks now",
+        "`markForCheck()` checks immediately and `detectChanges()` only schedules the check for later",
+        "None: both force an immediate check and can be used interchangeably",
+        "`markForCheck()` is only for tests and `detectChanges()` only for production code"
+      ],
+      "explanation": "`markForCheck()` **marks** the component (and its ancestors) as pending: it will be checked in the next change detection cycle. `detectChanges()` **runs** detection right now on that component and its children. In zoneless, a signal does the former automatically."
+    }
+  },
+  {
+    "id": "ng-method-in-template",
+    "tech": "angular",
+    "topic": "change-detection",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué problema tiene llamar a un método de la clase desde la plantilla, como `{{ calcularTotal() }}`?",
+      "options": [
+        "Ninguno: Angular guarda el resultado y solo lo recalcula cuando cambian sus datos",
+        "No funciona: la plantilla no puede ejecutar métodos de la clase del componente",
+        "Se ejecuta en cada ciclo de detección de cambios, aunque nada haya cambiado",
+        "Obliga a que el método sea asíncrono, porque la plantilla espera una promesa"
+      ],
+      "explanation": "Un método llamado desde la plantilla se ejecuta **cada vez que Angular revisa** esa vista. Si es costoso, penaliza el rendimiento. Alternativas: un `computed` (memoizado), una pipe pura o calcular el valor una vez cuando cambian los datos."
+    },
+    "en": {
+      "prompt": "What problem does calling a class method from the template have, like `{{ calcularTotal() }}`?",
+      "options": [
+        "None: Angular caches the result and only recalculates it when its data changes",
+        "It does not work: the template cannot run methods of the component class",
+        "It runs on every change detection cycle, even if nothing has changed",
+        "It forces the method to be asynchronous, because the template expects a promise"
+      ],
+      "explanation": "A method called from the template runs **every time Angular checks** that view. If it is expensive, it hurts performance. Alternatives: a `computed` (memoized), a pure pipe, or calculating the value once when the data changes."
+    }
+  },
+  {
+    "id": "ng-pipe-pure-vs-impure",
+    "tech": "angular",
+    "topic": "pipes",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre una pipe pura y una impura?",
+      "options": [
+        "La pura puede tener estado interno y la impura debe ser siempre una función sin estado",
+        "La pura se ejecuta en cada ciclo de detección y la impura solo cuando cambia su entrada",
+        "La pura solo funciona con cadenas y la impura puede transformar cualquier tipo de valor",
+        "La pura solo se ejecuta cuando cambia su entrada; la impura, en cada ciclo de detección"
+      ],
+      "explanation": "Por defecto las pipes son **puras**: Angular solo las vuelve a ejecutar si cambia la referencia de su entrada (por eso son baratas). Una pipe **impura** (`pure: false`) se ejecuta en cada ciclo de detección de cambios: útil si depende de estado externo, pero costosa. La pipe `async` es impura."
+    },
+    "en": {
+      "prompt": "What is the difference between a pure and an impure pipe?",
+      "options": [
+        "The pure one can hold internal state and the impure one must always be a stateless function",
+        "The pure one runs on every detection cycle and the impure one only when its input changes",
+        "The pure one only works with strings and the impure one can transform any type of value",
+        "The pure one only runs when its input changes; the impure one, on every detection cycle"
+      ],
+      "explanation": "By default pipes are **pure**: Angular only re-runs them if the reference of their input changes (that is why they are cheap). An **impure** pipe (`pure: false`) runs on every change detection cycle: useful if it depends on external state, but costly. The `async` pipe is impure."
+    }
+  },
+  {
+    "id": "ng-input-signal-vs-decorator",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ventaja tiene `input()` frente al decorador `@Input()`?",
+      "options": [
+        "Que el valor se lee sin paréntesis, igual que cualquier otra propiedad de la clase",
+        "Es un signal: se puede usar en `computed` y `effect`, y admite `input.required`",
+        "Que funciona sin necesidad de que el padre le pase ningún valor ni plantilla",
+        "Que no se puede cambiar desde fuera, ni siquiera cuando el padre lo actualiza"
+      ],
+      "explanation": "`input()` devuelve un **signal de solo lectura**: se lee con `()`, se puede derivar en un `computed` o reaccionar en un `effect`, y su tipo se infiere. `input.required<T>()` obliga al padre a pasarlo. `@Input()` era una propiedad normal, sin reactividad."
+    },
+    "en": {
+      "prompt": "What advantage does `input()` have over the `@Input()` decorator?",
+      "options": [
+        "That the value is read without parentheses, like any other class property",
+        "It is a signal, usable in `computed` and `effect`, with `input.required`",
+        "That it works without the parent having to pass any value or template",
+        "That it cannot be changed from outside, not even when the parent updates it"
+      ],
+      "explanation": "`input()` returns a **read-only signal**: it is read with `()`, can be derived in a `computed` or reacted to in an `effect`, and its type is inferred. `input.required<T>()` forces the parent to pass it. `@Input()` was a plain property, with no reactivity."
+    }
+  },
+  {
+    "id": "ng-output-function",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cómo emite un valor un componente que declara `saved = output<string>()`?",
+      "options": [
+        "Con `this.saved.emit('valor')`, y el padre lo escucha con `(saved)=\"...\"`",
+        "Asignando el valor con `this.saved = 'valor'`, como cualquier propiedad",
+        "Llamando a `this.saved.next('valor')`, porque `output()` devuelve un `Subject`",
+        "Con `this.saved('valor')`, porque `output()` devuelve una función normal"
+      ],
+      "explanation": "`output<T>()` crea un `OutputEmitterRef<T>`: se emite con `.emit(valor)` y el padre escucha con `(saved)=\"onSaved($event)\"`. Sustituye a `@Output() saved = new EventEmitter<T>()` sin depender de RxJS."
+    },
+    "en": {
+      "prompt": "How does a component that declares `saved = output<string>()` emit a value?",
+      "options": [
+        "With `this.saved.emit('valor')`, and the parent listens with `(saved)=\"...\"`",
+        "By assigning the value with `this.saved = 'valor'`, like any property",
+        "By calling `this.saved.next('valor')`, because `output()` returns a `Subject`",
+        "With `this.saved('valor')`, because `output()` returns a normal function"
+      ],
+      "explanation": "`output<T>()` creates an `OutputEmitterRef<T>`: it is emitted with `.emit(value)` and the parent listens with `(saved)=\"onSaved($event)\"`. It replaces `@Output() saved = new EventEmitter<T>()` without depending on RxJS."
+    }
+  },
+  {
+    "id": "ng-model-two-way",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué sirve `model()` en un componente?",
+      "options": [
+        "Para definir la estructura de datos que el componente guarda en la base de datos",
+        "Para validar los valores que el componente recibe antes de mostrarlos en pantalla",
+        "Para tener un input que también puede escribir su valor y usarse con `[(valor)]`",
+        "Para conectar el componente con un modelo de datos de un servicio de la aplicación"
+      ],
+      "explanation": "`model()` crea una propiedad **bidireccional**: es un `input` que además emite sus cambios (un `output` con el sufijo `Change`). Permite que el padre escriba `[(value)]=\"miSignal\"` y que hijo y padre se mantengan sincronizados."
+    },
+    "en": {
+      "prompt": "What is `model()` for in a component?",
+      "options": [
+        "To define the data structure the component stores in the database",
+        "To validate the values the component receives before showing them on screen",
+        "To have an input that can also write its value and be used with `[(value)]`",
+        "To connect the component to a data model of an application service"
+      ],
+      "explanation": "`model()` creates a **two-way** property: it is an `input` that also emits its changes (an `output` with the `Change` suffix). It lets the parent write `[(value)]=\"mySignal\"` and keeps child and parent in sync."
+    }
+  },
+  {
+    "id": "ng-parent-child-communication",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Cómo se comunican normalmente un componente padre y su hijo?",
+      "options": [
+        "El padre llama a los métodos privados del hijo accediendo a su instancia directamente",
+        "El padre pasa datos con inputs; el hijo avisa al padre con outputs",
+        "Los dos escriben en variables globales de `window` que ambos pueden leer",
+        "Mediante `localStorage`, porque es la única memoria compartida entre componentes"
+      ],
+      "explanation": "El flujo habitual es \"datos hacia abajo, eventos hacia arriba\": el padre pasa datos con `input()` y el hijo emite eventos con `output()`. Para componentes sin relación directa se usa un servicio con estado (un store)."
+    },
+    "en": {
+      "prompt": "How do a parent component and its child normally communicate?",
+      "options": [
+        "The parent calls the child's private methods by accessing its instance directly",
+        "The parent passes data with inputs; the child notifies the parent with outputs",
+        "Both write to global `window` variables that both can read",
+        "Through `localStorage`, because it is the only memory shared between components"
+      ],
+      "explanation": "The usual flow is \"data down, events up\": the parent passes data with `input()` and the child emits events with `output()`. For components with no direct relationship, a stateful service (a store) is used."
+    }
+  },
+  {
+    "id": "ng-content-projection",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Para qué sirve `<ng-content>`?",
+      "options": [
+        "Para cargar un componente de forma perezosa cuando entra en la pantalla",
+        "Para dibujar una lista de elementos repitiendo la misma plantilla varias veces",
+        "Para aplicar estilos globales a todos los elementos que haya dentro del componente",
+        "Para mostrar el contenido que el padre escribe entre las etiquetas del componente"
+      ],
+      "explanation": "`<ng-content>` es la **proyección de contenido**: lo que escribes entre `<app-card>...</app-card>` se pinta donde pongas `<ng-content />` en la plantilla de `app-card`. Con `select` (`<ng-content select=\"[header]\" />`) puedes tener varias ranuras."
+    },
+    "en": {
+      "prompt": "What is `<ng-content>` for?",
+      "options": [
+        "To lazy-load a component when it enters the screen",
+        "To draw a list of elements by repeating the same template several times",
+        "To apply global styles to every element inside the component",
+        "To show inside the component the content the parent writes between its tags"
+      ],
+      "explanation": "`<ng-content>` is **content projection**: what you write between `<app-card>...</app-card>` is rendered where you put `<ng-content />` in `app-card`'s template. With `select` (`<ng-content select=\"[header]\" />`) you can have several slots."
+    }
+  },
+  {
+    "id": "ng-viewchild-vs-contentchild",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `viewChild` y `contentChild`?",
+      "options": [
+        "`viewChild` busca en la plantilla propia; `contentChild`, en lo proyectado",
+        "`viewChild` busca en el padre del componente y `contentChild` en sus hijos directos",
+        "`viewChild` solo encuentra componentes y `contentChild` solo encuentra elementos HTML",
+        "Ninguna: son sinónimos y Angular elige uno según el momento de ejecución"
+      ],
+      "explanation": "`viewChild` consulta lo que **está en la plantilla del propio componente**. `contentChild` consulta lo que el padre **proyecta** con `<ng-content>` dentro de él. Las versiones con signals (`viewChild()`, `contentChild()`) devuelven un signal."
+    },
+    "en": {
+      "prompt": "What is the difference between `viewChild` and `contentChild`?",
+      "options": [
+        "`viewChild` searches the own template; `contentChild`, the projected content",
+        "`viewChild` searches the component's parent and `contentChild` its direct children",
+        "`viewChild` only finds components and `contentChild` only finds HTML elements",
+        "None: they are synonyms and Angular picks one depending on the moment of execution"
+      ],
+      "explanation": "`viewChild` queries what **is in the component's own template**. `contentChild` queries what the parent **projects** with `<ng-content>` inside it. The signal versions (`viewChild()`, `contentChild()`) return a signal."
+    }
+  },
+  {
+    "id": "ng-container-vs-template",
+    "tech": "angular",
+    "topic": "templates",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `<ng-container>` y `<ng-template>`?",
+      "options": [
+        "`<ng-container>` se pinta como un `<div>` y `<ng-template>` como un `<span>`",
+        "`<ng-container>` agrupa sin añadir al DOM; `<ng-template>` no se pinta hasta usarse",
+        "Los dos se pintan siempre y solo se distinguen por el nombre de la etiqueta",
+        "`<ng-container>` solo se usa en NgModules y `<ng-template>` en componentes standalone"
+      ],
+      "explanation": "`<ng-container>` es un contenedor lógico: agrupa sin crear ningún elemento en el DOM (útil para aplicar `@if` o directivas sin envolver el contenido). `<ng-template>` define una plantilla que **no se pinta** hasta que se instancia, con `ngTemplateOutlet` o una directiva estructural."
+    },
+    "en": {
+      "prompt": "What is the difference between `<ng-container>` and `<ng-template>`?",
+      "options": [
+        "`<ng-container>` is painted as a `<div>` and `<ng-template>` as a `<span>`",
+        "`<ng-container>` groups without adding to the DOM; `<ng-template>` renders only when used",
+        "Both are always rendered and only differ in the tag name",
+        "`<ng-container>` is only used in NgModules and `<ng-template>` in standalone components"
+      ],
+      "explanation": "`<ng-container>` is a logical container: it groups without creating any element in the DOM (useful to apply `@if` or directives without wrapping the content). `<ng-template>` defines a template that is **not rendered** until instantiated, with `ngTemplateOutlet` or a structural directive."
+    }
+  },
+  {
+    "id": "ng-defer-block",
+    "tech": "angular",
+    "topic": "templates",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué hace un bloque `@defer`?",
+      "options": [
+        "Carga de forma perezosa lo que contiene y lo pinta cuando se cumple su disparador",
+        "Ejecuta el contenido del bloque dos veces, para comprobar que el resultado es el mismo",
+        "Retrasa la compilación de toda la aplicación hasta que el usuario inicia sesión",
+        "Convierte el contenido del bloque en una `Promise` que hay que esperar con `await`"
+      ],
+      "explanation": "`@defer` divide el código de los componentes que contiene en un trozo aparte y lo descarga cuando se cumple un disparador (`on viewport`, `on idle`, `on interaction`, `on timer`, `when condición`). Se puede acompañar de `@placeholder`, `@loading` y `@error`. Reduce el paquete inicial."
+    },
+    "en": {
+      "prompt": "What does a `@defer` block do?",
+      "options": [
+        "It lazy-loads the block's dependencies and renders it when its trigger is met",
+        "It runs the block's content twice, to check that the result is the same",
+        "It delays compiling the entire application until the user logs in",
+        "It turns the block's content into a `Promise` that must be awaited with `await`"
+      ],
+      "explanation": "`@defer` splits the code of the components it contains into a separate chunk and downloads it when a trigger is met (`on viewport`, `on idle`, `on interaction`, `on timer`, `when condition`). It can be paired with `@placeholder`, `@loading` and `@error`. It reduces the initial bundle."
+    }
+  },
+  {
+    "id": "ng-defer-on-viewport",
+    "tech": "angular",
+    "topic": "templates",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Cuándo se carga el contenido de este bloque?\n\n```ts\n@defer (on viewport) {\n  <app-comments />\n} @placeholder {\n  <p>Comentarios…</p>\n}\n```",
+      "options": [
+        "Al arrancar la aplicación, antes de pintar la primera pantalla",
+        "Cuando el usuario hace clic en el placeholder para pedir los comentarios",
+        "Cuando el placeholder entra en la zona visible de la pantalla",
+        "Nunca: `@defer` solo se activa si se indica también un tiempo con `on timer`"
+      ],
+      "explanation": "`on viewport` dispara la carga cuando el `@placeholder` (el elemento que se ve mientras tanto) **entra en el viewport**. Sin ese disparador explícito, el valor por defecto de `@defer` es `on idle` (cuando el navegador está inactivo)."
+    },
+    "en": {
+      "prompt": "When is this block's content loaded?\n\n```ts\n@defer (on viewport) {\n  <app-comments />\n} @placeholder {\n  <p>Comentarios…</p>\n}\n```",
+      "options": [
+        "When the application starts, before painting the first screen",
+        "When the user clicks the placeholder to request the comments",
+        "When the placeholder enters the visible area of the screen",
+        "Never: `@defer` only activates if a time is also given with `on timer`"
+      ],
+      "explanation": "`on viewport` triggers loading when the `@placeholder` (the element shown meanwhile) **enters the viewport**. Without an explicit trigger, `@defer`'s default is `on idle` (when the browser is idle)."
+    }
+  },
+  {
+    "id": "ng-host-metadata",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Cómo se enlaza una clase o un atributo al elemento host de un componente en el Angular moderno?",
+      "options": [
+        "Con el decorador `@HostBinding`, que es la única forma admitida actualmente",
+        "Modificando `document.body` desde el constructor del propio componente",
+        "Escribiendo los atributos en la etiqueta del padre que usa el componente siempre",
+        "Con `host` en `@Component`: `host: { '[class.active]': 'active()' }`"
+      ],
+      "explanation": "La guía de estilo actual recomienda la propiedad **`host`** del decorador (`host: { '[class.active]': 'isActive()', '(click)': 'toggle()' }`) en lugar de `@HostBinding` y `@HostListener`. Todo queda en un solo sitio y funciona con signals."
+    },
+    "en": {
+      "prompt": "How do you bind a class or attribute to a component's host element in modern Angular?",
+      "options": [
+        "With the `@HostBinding` decorator, which is the only currently supported way",
+        "By modifying `document.body` from the component's own constructor",
+        "By always writing the attributes on the tag of the parent that uses the component",
+        "With `host` in `@Component`: `host: { '[class.active]': 'active()' }`"
+      ],
+      "explanation": "The current style guide recommends the **`host`** property of the decorator (`host: { '[class.active]': 'isActive()', '(click)': 'toggle()' }`) instead of `@HostBinding` and `@HostListener`. Everything is in one place and works with signals."
+    }
+  },
+  {
+    "id": "ng-view-encapsulation",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué hace `ViewEncapsulation.Emulated`, que es el valor por defecto?",
+      "options": [
+        "Aplica los estilos del componente a todos los elementos de la página sin excepción",
+        "Limita los estilos al componente con atributos únicos en sus elementos",
+        "Mueve los estilos del componente a un Shadow DOM real del navegador siempre",
+        "Impide que el componente use estilos globales definidos en `styles.scss`"
+      ],
+      "explanation": "Con `Emulated`, Angular añade a los elementos del componente un atributo único (`_ngcontent-xxx`) y reescribe los selectores del CSS para incluirlo, así que los estilos **no se escapan**. Esto también les da más especificidad que un selector global igual."
+    },
+    "en": {
+      "prompt": "What does `ViewEncapsulation.Emulated`, the default, do?",
+      "options": [
+        "It applies the component's styles to every element on the page without exception",
+        "It scopes styles to the component using unique attributes on its elements",
+        "It always moves the component's styles to a real browser Shadow DOM",
+        "It prevents the component from using global styles defined in `styles.scss`"
+      ],
+      "explanation": "With `Emulated`, Angular adds a unique attribute (`_ngcontent-xxx`) to the component's elements and rewrites the CSS selectors to include it, so styles **do not leak**. That also gives them more specificity than an identical global selector."
+    }
+  }
+]
