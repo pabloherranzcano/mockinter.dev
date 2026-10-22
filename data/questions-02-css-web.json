@@ -1,0 +1,618 @@
+[
+  {
+    "id": "css-scss-vs-css-vars",
+    "tech": "css",
+    "topic": "variables",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre una variable de SCSS (`$color`) y una variable CSS (`--color`)?",
+      "options": [
+        "Ninguna: Sass convierte cada `$color` en una `--color` cuando compila el proyecto",
+        "Las de SCSS pueden cambiar en el navegador mientras que las de CSS quedan fijas",
+        "Las de SCSS se resuelven al compilar; las de CSS siguen vivas",
+        "Las de CSS solo se pueden usar dentro de bloques con media queries"
+      ],
+      "explanation": "Sass sustituye `$color` por su valor al compilar, así que el nombre no existe en el navegador y el valor queda fijo. Una variable CSS sigue viva, y un media query, un atributo o JavaScript pueden redefinirla. Por eso los temas claro y oscuro usan variables CSS."
+    },
+    "en": {
+      "prompt": "What is the difference between an SCSS variable (`$color`) and a CSS variable (`--color`)?",
+      "options": [
+        "None: Sass converts every `$color` into a `--color` when it compiles the project",
+        "SCSS ones can change in the browser while CSS ones stay fixed",
+        "SCSS ones resolve at compile time; CSS ones stay alive",
+        "CSS ones can only be used inside blocks with media queries"
+      ],
+      "explanation": "Sass replaces `$color` with its value when compiling, so the name does not exist in the browser and the value is fixed. A CSS variable stays alive, and a media query, an attribute or JavaScript can redefine it. That is why light and dark themes use CSS variables."
+    }
+  },
+  {
+    "id": "css-rem-vs-em",
+    "tech": "css",
+    "topic": "units",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿A qué es relativa la unidad `rem`?",
+      "options": [
+        "Al tamaño de letra del elemento padre más cercano en el árbol del documento",
+        "Al tamaño de letra de `<html>`, el elemento raíz",
+        "Al ancho actual de la ventana del navegador en el que se muestra la página",
+        "Al tamaño de letra que tenga el propio elemento donde se escribe"
+      ],
+      "explanation": "`rem` mira siempre al `font-size` de `<html>` (16 px por defecto). `em` mira al `font-size` del propio elemento, o al del padre cuando se usa en `font-size`. Por eso `em` se acumula al anidar y `rem` no."
+    },
+    "en": {
+      "prompt": "What is the `rem` unit relative to?",
+      "options": [
+        "The font size of the nearest parent element in the document tree",
+        "The font size of `<html>`, the root element",
+        "The current width of the browser window the page is shown in",
+        "The font size of the very element where it is written"
+      ],
+      "explanation": "`rem` always looks at the `font-size` of `<html>` (16 px by default). `em` looks at the element's own `font-size`, or the parent's when used in `font-size`. That is why `em` compounds when nested and `rem` does not."
+    }
+  },
+  {
+    "id": "css-default-font-size",
+    "tech": "css",
+    "topic": "units",
+    "difficulty": "hard",
+    "refVersion": "evergreen",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Un usuario cambia el tamaño de letra por defecto de su navegador. ¿Qué medidas de tu CSS se escalan?",
+      "options": [
+        "Tanto las medidas escritas en `px` como las escritas en `rem` y `em`",
+        "Solo las escritas en `px`, que son las más fiables en todos los navegadores",
+        "Ninguna: ese ajuste solo afecta a los menús del propio navegador",
+        "Solo las escritas en `rem` o `em`"
+      ],
+      "explanation": "El zoom del navegador escala todo, también los `px`. En cambio, el tamaño de letra por defecto es una preferencia que solo respetan `rem` y `em`. Por eso se usa `rem` para texto y breakpoints: es una cuestión de accesibilidad."
+    },
+    "en": {
+      "prompt": "A user changes their browser's default font size. Which of your CSS measurements scale?",
+      "options": [
+        "Both the measurements written in `px` and those written in `rem` and `em`",
+        "Only those written in `px`, which are the most reliable in every browser",
+        "None: that setting only affects the browser's own menus",
+        "Only those written in `rem` or `em`"
+      ],
+      "explanation": "Browser zoom scales everything, `px` too. The default font size, however, is a preference that only `rem` and `em` respect. That is why `rem` is used for text and breakpoints: it is an accessibility matter."
+    }
+  },
+  {
+    "id": "css-rem-media-queries",
+    "tech": "css",
+    "topic": "responsive",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Por qué conviene escribir un media query como `max-width: 30rem` en vez de `480px`?",
+      "options": [
+        "El punto de ruptura escala con la letra elegida",
+        "Porque los media queries no aceptan valores escritos en `px` en CSS moderno",
+        "Porque con `rem` el navegador evalúa el media query más rápido en móviles",
+        "No hay diferencia en ningún caso; es solo una preferencia de estilo del equipo"
+      ],
+      "explanation": "Con letra más grande el texto ocupa más y el diseño de escritorio se rompe antes. Un breakpoint en `rem` se adapta: a 24 px de letra base, `30rem` equivale a 720 px, y el diseño móvil entra antes."
+    },
+    "en": {
+      "prompt": "Why is a media query like `max-width: 30rem` preferable to `480px`?",
+      "options": [
+        "The breakpoint scales with the chosen font size",
+        "Because media queries do not accept `px` values in modern CSS",
+        "Because with `rem` the browser evaluates the media query faster on phones",
+        "There is no difference in any case; it is just a team style preference"
+      ],
+      "explanation": "With larger text the content takes more space and the desktop layout breaks sooner. A breakpoint in `rem` adapts: with a 24 px base font, `30rem` equals 720 px, and the mobile layout kicks in earlier."
+    }
+  },
+  {
+    "id": "css-min-container",
+    "tech": "css",
+    "topic": "layout",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué hace `width: min(40rem, calc(100% - 2rem)); margin: 0 auto;`?",
+      "options": [
+        "Fuerza siempre 40rem de ancho, aunque la pantalla sea más estrecha que eso",
+        "Ocupa siempre la pantalla menos 2rem, sin ningún tope de ancho máximo",
+        "Ocupa hasta 40rem (o la pantalla menos 2rem, si es menor) y se centra",
+        "Elige el valor mayor de los dos y alinea la caja a la izquierda"
+      ],
+      "explanation": "`min()` devuelve el menor de los valores: en pantallas grandes la caja no pasa de 40rem, y en pequeñas se queda 1rem más corta que la pantalla a cada lado. `margin: 0 auto` reparte el espacio sobrante y la centra."
+    },
+    "en": {
+      "prompt": "What does `width: min(40rem, calc(100% - 2rem)); margin: 0 auto;` do?",
+      "options": [
+        "It always forces 40rem of width, even if the screen is narrower than that",
+        "It always fills the screen minus 2rem, with no maximum width cap",
+        "It fills up to 40rem (or the screen minus 2rem, if smaller) and centers",
+        "It picks the larger of the two values and left-aligns the box"
+      ],
+      "explanation": "`min()` returns the smaller value: on large screens the box does not exceed 40rem, and on small ones it stays 1rem shorter than the screen on each side. `margin: 0 auto` splits the leftover space and centers it."
+    }
+  },
+  {
+    "id": "css-current-color",
+    "tech": "css",
+    "topic": "colors",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Un botón tiene `color: green; border: 2px solid currentColor;`. ¿De qué color es el borde?",
+      "options": [
+        "Negro, que es el color de borde que aplica el navegador cuando no se indica otro",
+        "Verde, el color de texto del propio elemento",
+        "Transparente, porque `currentColor` no es un valor válido en la propiedad `border`",
+        "Del color de fondo de la página, porque lo hereda del elemento raíz"
+      ],
+      "explanation": "`currentColor` es una palabra clave que vale lo mismo que la propiedad `color` del elemento. Si cambias el color del texto, el borde cambia con él sin tocar nada más."
+    },
+    "en": {
+      "prompt": "A button has `color: green; border: 2px solid currentColor;`. What color is the border?",
+      "options": [
+        "Black, which is the border color the browser applies when none is given",
+        "Green, the element's own text color",
+        "Transparent, because `currentColor` is not a valid value in the `border` property",
+        "The page's background color, because it inherits it from the root element"
+      ],
+      "explanation": "`currentColor` is a keyword that equals the element's `color` property. If you change the text color, the border changes with it without touching anything else."
+    }
+  },
+  {
+    "id": "css-em-padding",
+    "tech": "css",
+    "topic": "units",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Un botón tiene `font-size: 20px` y `padding: 0.5em 1em`. ¿Cuánto relleno vertical y horizontal tiene?",
+      "options": [
+        "5 px y 10 px",
+        "8 px y 16 px",
+        "20 px y 40 px",
+        "10 px y 20 px"
+      ],
+      "explanation": "En `padding`, `em` es relativa al `font-size` del propio elemento: 0,5 × 20 px son 10 px (vertical) y 1 × 20 px son 20 px (horizontal). Así el relleno escala con el texto del botón."
+    },
+    "en": {
+      "prompt": "A button has `font-size: 20px` and `padding: 0.5em 1em`. How much vertical and horizontal padding does it have?",
+      "options": [
+        "5 px and 10 px",
+        "8 px and 16 px",
+        "20 px and 40 px",
+        "10 px and 20 px"
+      ],
+      "explanation": "In `padding`, `em` is relative to the element's own `font-size`: 0.5 × 20 px is 10 px (vertical) and 1 × 20 px is 20 px (horizontal). That way the padding scales with the button's text."
+    }
+  },
+  {
+    "id": "css-em-nesting",
+    "tech": "css",
+    "topic": "units",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Dentro de un contenedor con letra de 16 px hay un `div` con `font-size: 1.5em` y, dentro de él, otro `div` con `font-size: 1.5em`. ¿Cuánto mide la letra del `div` interior?",
+      "options": [
+        "36 px: en `font-size`, `em` se calcula sobre el padre y se acumula",
+        "24 px, el mismo tamaño que el `div` exterior, porque `em` no se acumula entre niveles",
+        "16 px, el tamaño de letra del contenedor, porque se hereda sin cambios",
+        "1,5 px, porque `em` multiplica el número escrito por un píxel"
+      ],
+      "explanation": "El `div` exterior mide 1,5 × 16 = 24 px, y el interior 1,5 × 24 = 36 px. En `font-size`, `em` se calcula sobre el padre, así que se multiplica en cada nivel. Para tamaños de letra se prefiere `rem`, que no se acumula."
+    },
+    "en": {
+      "prompt": "Inside a 16 px container there is a `div` with `font-size: 1.5em` and, inside it, another `div` with `font-size: 1.5em`. How large is the inner `div`'s text?",
+      "options": [
+        "36 px: in `font-size`, `em` is based on the parent and compounds",
+        "24 px, the same size as the outer `div`, because `em` does not compound across levels",
+        "16 px, the container's font size, because it is inherited unchanged",
+        "1.5 px, because `em` multiplies the written number by one pixel"
+      ],
+      "explanation": "The outer `div` is 1.5 × 16 = 24 px, and the inner one 1.5 × 24 = 36 px. In `font-size`, `em` is based on the parent, so it multiplies at each level. `rem`, which does not compound, is preferred for font sizes."
+    }
+  },
+  {
+    "id": "css-border-box",
+    "tech": "css",
+    "topic": "layout",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué efecto tiene `box-sizing: border-box` sobre un elemento con `width` y `padding`?",
+      "options": [
+        "El `width` mide solo el contenido, y el relleno y el borde se suman fuera de él",
+        "Elimina el borde de todos los elementos de la página donde se aplique la regla",
+        "El `width` incluye relleno y borde, así que el ancho total es el escrito",
+        "Solo afecta a los elementos que usan `display: flex` como contenedor o como hijo"
+      ],
+      "explanation": "Con `content-box` (el valor por defecto) el `width` mide solo el contenido y el relleno y el borde se suman, así que la caja ocupa más de lo escrito. Con `border-box`, el `width` incluye todo. Casi todos los proyectos lo aplican a `*`."
+    },
+    "en": {
+      "prompt": "What effect does `box-sizing: border-box` have on an element with `width` and `padding`?",
+      "options": [
+        "`width` measures only the content, and padding and border add outside it",
+        "It removes the border from every element on the page where the rule applies",
+        "`width` includes padding and border, so the total width is the written one",
+        "It only affects elements that use `display: flex` as a container or as a child"
+      ],
+      "explanation": "With `content-box` (the default) `width` measures only the content and padding and border add to it, so the box takes up more than written. With `border-box`, `width` includes everything. Almost every project applies it to `*`."
+    }
+  },
+  {
+    "id": "css-flex-order-a11y",
+    "tech": "css",
+    "topic": "accessibility",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Con la propiedad `order` en un contenedor flex cambias la posición visual de un elemento. ¿Qué orden sigue un lector de pantalla?",
+      "options": [
+        "El orden visual, ya cambiado por `order`, que es el que ve el usuario",
+        "El orden del HTML, no el visual, aunque `order` lo cambie",
+        "Alfabético, según el texto de cada elemento de la lista",
+        "Aleatorio: depende del lector de pantalla y de su versión"
+      ],
+      "explanation": "`order` solo cambia cómo se ve. El árbol de accesibilidad y el orden de tabulación siguen el orden del HTML. Por eso conviene no abusar de `order`: puede hacer que lo que se ve y lo que se lee no coincidan."
+    },
+    "en": {
+      "prompt": "With the `order` property in a flex container you change an element's visual position. What order does a screen reader follow?",
+      "options": [
+        "The visual order, already changed by `order`, which is what the user sees",
+        "The HTML order, not the visual one, even if `order` changes it",
+        "Alphabetical, according to the text of each element in the list",
+        "Random: it depends on the screen reader and its version"
+      ],
+      "explanation": "`order` only changes how things look. The accessibility tree and the tab order follow the HTML order. That is why `order` should not be overused: what is seen and what is read may not match."
+    }
+  },
+  {
+    "id": "css-data-theme-bridge",
+    "tech": "css",
+    "topic": "variables",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un botón cambia un signal `theme` en Angular. ¿Por qué hace falta un atributo como `data-theme` en `<html>`?",
+      "options": [
+        "El CSS no lee signals, pero sí selecciona por atributo",
+        "Porque Angular no permite cambiar ningún estilo desde el código de TypeScript",
+        "Porque los signals no funcionan en el navegador si no existe ese atributo",
+        "Porque `data-theme` es un atributo obligatorio en HTML5 para cambiar de tema"
+      ],
+      "explanation": "El atributo es el puente entre Angular y el CSS: un `effect` lo escribe, y el CSS lo selecciona (`:root[data-theme='light']`) para redefinir las variables de color. Para evitar el parpadeo al cargar, un script en `index.html` lo aplica antes de pintar."
+    },
+    "en": {
+      "prompt": "A button changes a `theme` signal in Angular. Why is an attribute like `data-theme` needed on `<html>`?",
+      "options": [
+        "CSS cannot read signals, but it can select by attribute",
+        "Because Angular does not allow changing any style from TypeScript code",
+        "Because signals do not work in the browser unless that attribute exists",
+        "Because `data-theme` is a mandatory HTML5 attribute for switching themes"
+      ],
+      "explanation": "The attribute is the bridge between Angular and CSS: an `effect` writes it, and CSS selects it (`:root[data-theme='light']`) to redefine the color variables. To avoid a flash on load, a script in `index.html` applies it before painting."
+    }
+  },
+  {
+    "id": "html-semantic",
+    "tech": "html",
+    "topic": "semantics",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué es el HTML semántico?",
+      "options": [
+        "HTML escrito deliberadamente sin etiquetas de cierre para que cargue antes",
+        "HTML que usa únicamente `<div>` con clases con nombres descriptivos",
+        "Usar etiquetas que describen el significado del contenido",
+        "HTML que genera de forma automática un framework a partir de plantillas"
+      ],
+      "explanation": "Etiquetas como `header`, `nav`, `main`, `section`, `footer` o `button` dicen qué es cada cosa, no solo cómo se ve. Lectores de pantalla y buscadores se apoyan en ellas para entender la estructura. Con `<div>` todo se ve igual, pero no comunica nada."
+    },
+    "en": {
+      "prompt": "What is semantic HTML?",
+      "options": [
+        "HTML deliberately written without closing tags so it loads sooner",
+        "HTML that uses only `<div>` with descriptively named classes",
+        "Using tags that describe the meaning of the content",
+        "HTML that a framework generates automatically from templates"
+      ],
+      "explanation": "Tags like `header`, `nav`, `main`, `section`, `footer` or `button` say what each thing is, not just how it looks. Screen readers and search engines rely on them to understand the structure. With `<div>` everything looks the same, but nothing is communicated."
+    }
+  },
+  {
+    "id": "html-main-element",
+    "tech": "html",
+    "topic": "semantics",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Para qué sirve la etiqueta `<main>`?",
+      "options": [
+        "Para definir el menú principal de navegación de toda la aplicación web",
+        "Para marcar el contenido principal, al que un lector de pantalla puede saltar",
+        "Para cargar el fichero de JavaScript principal con el que arranca la aplicación",
+        "Para centrar el contenido de la página en el medio de la pantalla"
+      ],
+      "explanation": "`<main>` no cambia el aspecto: marca el contenido principal, distinto de la cabecera, el menú o el pie. Los lectores de pantalla tienen un atajo para saltar a él. Debe haber uno solo visible por página."
+    },
+    "en": {
+      "prompt": "What is the `<main>` tag for?",
+      "options": [
+        "To define the main navigation menu of the entire web application",
+        "To mark the main content, which a screen reader can jump to",
+        "To load the main JavaScript file that the application starts with",
+        "To center the page's content in the middle of the screen"
+      ],
+      "explanation": "`<main>` does not change the look: it marks the main content, as distinct from the header, menu or footer. Screen readers have a shortcut to jump to it. There should be only one visible per page."
+    }
+  },
+  {
+    "id": "html-button-vs-div",
+    "tech": "html",
+    "topic": "accessibility",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Por qué una opción que se puede pulsar debe ser un `<button>` y no un `<div (click)>`?",
+      "options": [
+        "Porque un `<div>` no admite eventos de clic en ningún navegador moderno",
+        "Porque `<button>` se pinta más rápido que un `<div>` en el navegador",
+        "No hay ninguna diferencia práctica entre usar uno u otro elemento",
+        "Porque `<button>` ya funciona con teclado y lectores de pantalla"
+      ],
+      "explanation": "Un `<button>` se puede enfocar con Tab, se activa con Enter o espacio y un lector de pantalla lo anuncia como botón. Con un `<div>` habría que añadir todo eso a mano (`tabindex`, `role`, eventos de teclado)."
+    },
+    "en": {
+      "prompt": "Why should something clickable be a `<button>` and not a `<div (click)>`?",
+      "options": [
+        "Because a `<div>` does not support click events in any modern browser",
+        "Because `<button>` is painted faster than a `<div>` in the browser",
+        "There is no practical difference between using one element or the other",
+        "Because `<button>` already works with keyboards and screen readers"
+      ],
+      "explanation": "A `<button>` can be focused with Tab, is activated with Enter or space and a screen reader announces it as a button. With a `<div>` you would have to add all that by hand (`tabindex`, `role`, keyboard events)."
+    }
+  },
+  {
+    "id": "web-og-tags",
+    "tech": "web",
+    "topic": "seo",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué son las etiquetas Open Graph (`og:title`, `og:image`)?",
+      "options": [
+        "Etiquetas propias de Angular que sirven para pintar imágenes optimizadas",
+        "Cabeceras HTTP de seguridad que el servidor envía junto a cada respuesta",
+        "Metadatos del `<head>` que indican a las redes cómo mostrar un enlace",
+        "Atributos que mejoran la accesibilidad de las imágenes de la página"
+      ],
+      "explanation": "Open Graph es un protocolo (creado por Facebook) que usan LinkedIn, WhatsApp, Slack o X. Al compartir un enlace, leen `og:title`, `og:description` y `og:image` para montar la tarjeta de vista previa. La imagen debe ser una URL absoluta y pública."
+    },
+    "en": {
+      "prompt": "What are Open Graph tags (`og:title`, `og:image`)?",
+      "options": [
+        "Angular-specific tags used to render optimized images",
+        "Security HTTP headers the server sends along with every response",
+        "`<head>` metadata that tells social networks how to show a link",
+        "Attributes that improve the accessibility of the page's images"
+      ],
+      "explanation": "Open Graph is a protocol (created by Facebook) used by LinkedIn, WhatsApp, Slack or X. When a link is shared, they read `og:title`, `og:description` and `og:image` to build the preview card. The image must be an absolute, public URL."
+    }
+  },
+  {
+    "id": "web-og-static-html",
+    "tech": "web",
+    "topic": "seo",
+    "difficulty": "hard",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En una SPA de Angular, ¿por qué las etiquetas Open Graph deben estar en el `index.html` estático?",
+      "options": [
+        "Los rastreadores sociales no ejecutan JavaScript y leen el HTML inicial",
+        "Porque Angular no permite modificar el `<head>` desde el código de la aplicación",
+        "Porque solo se leen una única vez, en el momento de compilar el proyecto",
+        "Porque el `<title>` es lo único del `<head>` que se puede cambiar con TypeScript"
+      ],
+      "explanation": "El rastreador de LinkedIn pide la página y lee el HTML tal cual, sin ejecutar Angular, que es quien pinta el resto. Las etiquetas puestas con TypeScript no las vería. Para personalizarlas por ruta haría falta SSR o prerenderizado."
+    },
+    "en": {
+      "prompt": "In an Angular SPA, why must Open Graph tags be in the static `index.html`?",
+      "options": [
+        "Social crawlers do not run JavaScript and read the initial HTML",
+        "Because Angular does not allow modifying the `<head>` from application code",
+        "Because they are only read once, at the moment the project is compiled",
+        "Because the `<title>` is the only part of `<head>` that TypeScript can change"
+      ],
+      "explanation": "LinkedIn's crawler requests the page and reads the HTML as is, without running Angular, which is what paints the rest. Tags set with TypeScript would not be seen. Customizing them per route would need SSR or prerendering."
+    }
+  },
+  {
+    "id": "web-canonical-domain",
+    "tech": "web",
+    "topic": "seo",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Por qué conviene una sola dirección canónica, por ejemplo redirigir `mockinter.dev` a `www.mockinter.dev`?",
+      "options": [
+        "Porque HTTPS solo funciona cuando la dirección lleva `www` delante del dominio",
+        "Evita contenido duplicado y sesiones repartidas en orígenes distintos",
+        "Porque Vercel no permite servir dos dominios distintos a la vez en un proyecto",
+        "Porque así las imágenes y el resto de recursos de la web cargan más rápido"
+      ],
+      "explanation": "Para el navegador son dos orígenes distintos. Los buscadores verían contenido duplicado, y el `localStorage` (donde Supabase guarda la sesión) es por origen: iniciar sesión en uno no vale en el otro. Se resuelve con una redirección permanente."
+    },
+    "en": {
+      "prompt": "Why is a single canonical address preferable, for example redirecting `mockinter.dev` to `www.mockinter.dev`?",
+      "options": [
+        "Because HTTPS only works when the address has `www` in front of the domain",
+        "It avoids duplicate content and sessions split across origins",
+        "Because Vercel does not allow serving two different domains in one project",
+        "Because that way images and the rest of the site's resources load faster"
+      ],
+      "explanation": "To the browser they are two different origins. Search engines would see duplicate content, and `localStorage` (where Supabase stores the session) is per origin: logging in on one does not carry over to the other. A permanent redirect solves it."
+    }
+  },
+  {
+    "id": "web-301-vs-302",
+    "tech": "web",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre una redirección 301 y una 302?",
+      "options": [
+        "La 301 es más lenta, porque el navegador tiene que validarla dos veces",
+        "La 301 es una redirección temporal y la 302 es una permanente",
+        "La 301 es permanente y la 302 temporal, y eso afecta al SEO",
+        "Ninguna: son sinónimos y los navegadores las tratan exactamente igual"
+      ],
+      "explanation": "Una 301 dice que el recurso se ha mudado para siempre: los buscadores trasladan la reputación a la nueva URL y los navegadores pueden cachear la redirección. Una 302 es temporal, así que los buscadores mantienen la URL original."
+    },
+    "en": {
+      "prompt": "What is the difference between a 301 and a 302 redirect?",
+      "options": [
+        "A 301 is slower, because the browser has to validate it twice",
+        "A 301 is a temporary redirect and a 302 is a permanent one",
+        "A 301 is permanent and a 302 temporary, and that affects SEO",
+        "None: they are synonyms and browsers treat them exactly the same"
+      ],
+      "explanation": "A 301 says the resource has moved for good: search engines transfer ranking to the new URL and browsers may cache the redirect. A 302 is temporary, so search engines keep the original URL."
+    }
+  },
+  {
+    "id": "web-x-frame-options",
+    "tech": "web",
+    "topic": "security",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué ataque ayuda a evitar la cabecera `X-Frame-Options: DENY`?",
+      "options": [
+        "Clickjacking: otra web te carga en un `<iframe>` para engañar al usuario",
+        "Inyección SQL en los formularios que envían datos a la base de datos",
+        "Robo de la cookie de sesión del usuario mediante código XSS inyectado",
+        "Fuerza bruta contra la pantalla de login para adivinar contraseñas"
+      ],
+      "explanation": "En un clickjacking, otra web mete la tuya en un `<iframe>` invisible y engaña al usuario para que pulse tus botones sin saberlo. `X-Frame-Options: DENY` hace que el navegador se niegue a cargar tu web dentro de un marco."
+    },
+    "en": {
+      "prompt": "Which attack does the `X-Frame-Options: DENY` header help prevent?",
+      "options": [
+        "Clickjacking: another site loads you in an `<iframe>` to trick the user",
+        "SQL injection in forms that send data to the database",
+        "Theft of the user's session cookie through injected XSS code",
+        "Brute force against the login screen to guess passwords"
+      ],
+      "explanation": "In clickjacking, another site embeds yours in an invisible `<iframe>` and tricks the user into pressing your buttons without knowing. `X-Frame-Options: DENY` makes the browser refuse to load your site inside a frame."
+    }
+  },
+  {
+    "id": "web-spa-refresh-404",
+    "tech": "web",
+    "topic": "deployment",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Una SPA desplegada sin configuración da 404 al recargar `/lesson/angular`. ¿Por qué?",
+      "options": [
+        "Porque el router de Angular no funciona cuando la aplicación está en producción",
+        "Porque Vercel bloquea de forma predeterminada las rutas que contienen barras",
+        "Porque falta un certificado HTTPS válido en el dominio de la aplicación",
+        "Porque solo hay un `index.html` y el servidor busca un fichero para la ruta"
+      ],
+      "explanation": "El navegador pide `/lesson/angular` al servidor, y ese fichero no existe: solo hay un `index.html`. La solución es una regla de reescritura que sirva `index.html` para cualquier ruta sin fichero, y el router de Angular muestra la pantalla correcta."
+    },
+    "en": {
+      "prompt": "An SPA deployed without configuration gives a 404 when reloading `/lesson/angular`. Why?",
+      "options": [
+        "Because Angular's router does not work when the application is in production",
+        "Because Vercel blocks routes containing slashes by default",
+        "Because a valid HTTPS certificate is missing on the application's domain",
+        "Because only one `index.html` exists and the server looks for a file"
+      ],
+      "explanation": "The browser asks the server for `/lesson/angular`, and that file does not exist: there is only an `index.html`. The fix is a rewrite rule that serves `index.html` for any path without a file, and Angular's router shows the right screen."
+    }
+  },
+  {
+    "id": "web-open-redirect",
+    "tech": "web",
+    "topic": "security",
+    "difficulty": "hard",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Por qué Supabase exige declarar la lista de URLs de redirección permitidas?",
+      "options": [
+        "Para que el inicio de sesión resulte algo más rápido para el usuario final",
+        "Para evitar redirecciones abiertas hacia sitios maliciosos tras el login",
+        "Porque Google lo obliga a todos los proveedores que usan el protocolo OAuth",
+        "Para que Supabase pueda enviar los correos de confirmación al usuario"
+      ],
+      "explanation": "Sin esa lista, un atacante podría construir un enlace de login legítimo que, al terminar, lleve al usuario a una web falsa (*open redirect*). Solo se redirige a direcciones que has autorizado, con comodines para las rutas."
+    },
+    "en": {
+      "prompt": "Why does Supabase require declaring a list of allowed redirect URLs?",
+      "options": [
+        "To make signing in somewhat faster for the end user",
+        "To prevent open redirects to malicious sites after login",
+        "Because Google forces every provider that uses the OAuth protocol to do it",
+        "So that Supabase can send confirmation emails to the user"
+      ],
+      "explanation": "Without that list, an attacker could craft a legitimate login link that, when finished, takes the user to a fake site (*open redirect*). It only redirects to addresses you authorized, with wildcards for paths."
+    }
+  },
+  {
+    "id": "web-secrets-in-frontend",
+    "tech": "web",
+    "topic": "security",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Por qué la clave de una API de pago no puede ir en el código de una app Angular?",
+      "options": [
+        "Porque Angular no admite variables de entorno en el código de la aplicación",
+        "Porque ralentiza notablemente el arranque de la aplicación en el navegador",
+        "Porque el front lo descarga el usuario y cualquiera puede leerla",
+        "Porque los navegadores bloquean las claves que son demasiado largas"
+      ],
+      "explanation": "Todo lo que va en el front, incluido lo de `environment.ts`, llega al navegador y se puede ver con F12. Un secreto debe vivir en código de servidor (una Edge Function, por ejemplo). La clave `publishable` de Supabase es la excepción: es pública por diseño y la protegen las reglas RLS."
+    },
+    "en": {
+      "prompt": "Why can a payment API key not go in an Angular app's code?",
+      "options": [
+        "Because Angular does not support environment variables in application code",
+        "Because it noticeably slows down the application's startup in the browser",
+        "Because the front end is downloaded by the user and anyone can read it",
+        "Because browsers block keys that are too long"
+      ],
+      "explanation": "Everything in the front end, including `environment.ts`, reaches the browser and can be seen with F12. A secret must live in server code (an Edge Function, for example). Supabase's `publishable` key is the exception: it is public by design and RLS rules protect the data."
+    }
+  }
+]

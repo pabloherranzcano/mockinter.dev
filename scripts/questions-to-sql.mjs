@@ -55,8 +55,11 @@ if (questions.length >= 10) {
     const lengths = q.es.options.map((option) => option.length);
     return lengths[q.correctIndex] === Math.max(...lengths);
   }).length;
-  if (longest / questions.length > 0.5) {
-    console.error(`AVISO: la opción correcta es la más larga en ${longest} de ${questions.length} preguntas (ES).`);
+  if (longest / questions.length > 0.4) {
+    errors.push(
+      `sesgo de longitud: la opción correcta es la más larga en ${longest} de ${questions.length} preguntas (ES). ` +
+        'Alarga los distractores o acorta la correcta (lo esperable es ~25 %).',
+    );
   }
 }
 
