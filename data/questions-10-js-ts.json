@@ -1,0 +1,870 @@
+[
+  {
+    "id": "js-var-let-closure",
+    "tech": "javascript",
+    "topic": "scope",
+    "difficulty": "medium",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
+      "options": [
+        "`0`, `1` y `2`, un valor por cada vuelta del bucle que se ejecuta",
+        "`3`, `3` y `3`: `var` comparte una sola variable entre todas las vueltas",
+        "`undefined` tres veces, porque `i` ya no existe cuando se ejecutan los timeouts",
+        "Nada, porque `setTimeout` con 0 milisegundos nunca llega a ejecutarse"
+      ],
+      "explanation": "`var` tiene ámbito de **función**: hay una única `i`, y cuando los timeouts se ejecutan el bucle ya ha terminado y `i` vale 3. Con `let`, cada vuelta crea su propia `i` (ámbito de bloque) y saldría `0`, `1`, `2`."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nfor (var i = 0; i < 3; i++) {\n  setTimeout(() => console.log(i), 0);\n}\n```",
+      "options": [
+        "`0`, `1` and `2`, one value for each loop iteration that runs",
+        "`3`, `3` and `3`: `var` shares a single variable across all iterations",
+        "`undefined` three times, because `i` no longer exists when the timeouts run",
+        "Nothing, because `setTimeout` with 0 milliseconds never gets to run"
+      ],
+      "explanation": "`var` is **function**-scoped: there is a single `i`, and when the timeouts run the loop has finished and `i` is 3. With `let`, each iteration creates its own `i` (block scope) and it would print `0`, `1`, `2`."
+    }
+  },
+  {
+    "id": "js-event-loop-order",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿En qué orden se imprimen los números?\n\n```ts\nconsole.log('1');\nsetTimeout(() => console.log('4'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('2');\n```",
+      "options": [
+        "`1`, `4`, `3`, `2`: los temporizadores se ejecutan antes que las promesas",
+        "`1`, `3`, `2`, `4`: las promesas se ejecutan en cuanto se crean",
+        "`1`, `2`, `3`, `4`: primero lo síncrono, luego las promesas, luego los temporizadores",
+        "`1`, `2`, `4`, `3`: lo síncrono, luego los temporizadores y al final las promesas"
+      ],
+      "explanation": "Primero el código **síncrono** (`1`, `2`). Después la cola de **microtareas** (callbacks de promesas: `3`). Y por último la cola de **macrotareas** (`setTimeout`: `4`), aunque el retardo sea 0. Es el orden del *event loop*."
+    },
+    "en": {
+      "prompt": "In what order are the numbers printed?\n\n```ts\nconsole.log('1');\nsetTimeout(() => console.log('4'), 0);\nPromise.resolve().then(() => console.log('3'));\nconsole.log('2');\n```",
+      "options": [
+        "`1`, `4`, `3`, `2`: timers run before promises",
+        "`1`, `3`, `2`, `4`: promises run as soon as they are created",
+        "`1`, `2`, `3`, `4`: first synchronous code, then promises, then timers",
+        "`1`, `2`, `4`, `3`: synchronous code, then timers and finally promises"
+      ],
+      "explanation": "First the **synchronous** code (`1`, `2`). Then the **microtask** queue (promise callbacks: `3`). And finally the **macrotask** queue (`setTimeout`: `4`), even with a 0 delay. That is the *event loop* order."
+    }
+  },
+  {
+    "id": "js-async-await-order",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "correctIndex": 0,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nasync function f() {\n  console.log('a');\n  await null;\n  console.log('b');\n}\n\nf();\nconsole.log('c');\n```",
+      "options": [
+        "`a`, `c` y `b`: tras el `await`, la función se reanuda más tarde",
+        "`a`, `b` y `c`: `await null` no espera nada, así que continúa a la vez",
+        "`c`, `a` y `b`: las funciones `async` siempre se ejecutan después de lo síncrono",
+        "`a` y `c`, porque lo que va tras el `await` solo se ejecuta con una `Promise` real"
+      ],
+      "explanation": "Una función `async` se ejecuta **de forma síncrona hasta el primer `await`** (`a`). Al llegar al `await`, cede el control y el resto (`b`) se reanuda como microtarea, después del código síncrono que sigue (`c`)."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nasync function f() {\n  console.log('a');\n  await null;\n  console.log('b');\n}\n\nf();\nconsole.log('c');\n```",
+      "options": [
+        "`a`, `c` and `b`: after the `await`, the function resumes later",
+        "`a`, `b` and `c`: `await null` waits for nothing, so it continues at once",
+        "`c`, `a` and `b`: `async` functions always run after synchronous code",
+        "`a` and `c`, because what follows the `await` only runs with a real `Promise`"
+      ],
+      "explanation": "An `async` function runs **synchronously up to the first `await`** (`a`). On reaching the `await`, it yields control and the rest (`b`) resumes as a microtask, after the synchronous code that follows (`c`)."
+    }
+  },
+  {
+    "id": "js-loose-equality",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 3,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Cuál de estas comparaciones da `true`?",
+      "options": [
+        "`0 === ''`: el número y la cadena vacía son estrictamente iguales",
+        "`null === undefined`: las dos significan \"sin valor\", así que coinciden",
+        "`NaN === NaN`: un valor siempre es igual a sí mismo en JavaScript",
+        "`null == undefined`: la igualdad laxa los trata como equivalentes"
+      ],
+      "explanation": "`null == undefined` es `true` (la igualdad laxa `==` convierte tipos), pero `null === undefined` es `false`. `0 == ''` también es `true`, pero con `===` no. `NaN === NaN` es `false`: se usa `Number.isNaN`. Por eso se recomienda `===`."
+    },
+    "en": {
+      "prompt": "Which of these comparisons gives `true`?",
+      "options": [
+        "`0 === ''`: the number and the empty string are strictly equal",
+        "`null === undefined`: both mean \"no value\", so they match",
+        "`NaN === NaN`: a value is always equal to itself in JavaScript",
+        "`null == undefined`: loose equality treats them as equivalent"
+      ],
+      "explanation": "`null == undefined` is `true` (loose equality `==` converts types), but `null === undefined` is `false`. `0 == ''` is also `true`, but not with `===`. `NaN === NaN` is `false`: use `Number.isNaN`. That is why `===` is recommended."
+    }
+  },
+  {
+    "id": "js-typeof-null",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "hard",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué devuelve `typeof null`?",
+      "options": [
+        "`\"null\"`, porque `null` es un tipo primitivo propio de JavaScript",
+        "`\"object\"`, un error histórico que se mantiene por compatibilidad",
+        "`\"undefined\"`, porque `null` significa que no hay ningún valor definido",
+        "`\"boolean\"`, porque `null` se comporta como `false` en las condiciones"
+      ],
+      "explanation": "`typeof null` es `\"object\"`: un fallo de las primeras versiones de JavaScript que no se corrigió para no romper webs existentes. Para comprobar `null` se usa `valor === null`."
+    },
+    "en": {
+      "prompt": "What does `typeof null` return?",
+      "options": [
+        "`\"null\"`, because `null` is a primitive type of its own in JavaScript",
+        "`\"object\"`, a historical bug of the language kept for compatibility",
+        "`\"undefined\"`, because `null` means no value is defined",
+        "`\"boolean\"`, because `null` behaves like `false` in conditions"
+      ],
+      "explanation": "`typeof null` is `\"object\"`: a bug from the early versions of JavaScript that was not fixed so as not to break existing sites. To check for `null` you use `value === null`."
+    }
+  },
+  {
+    "id": "js-nan",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "hard",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Cómo se comprueba correctamente si un valor es `NaN`?",
+      "options": [
+        "`valor === NaN`, igual que con cualquier otro valor",
+        "`valor == NaN`, que es más permisivo con los tipos",
+        "`Number.isNaN(valor)`: `NaN` no es igual ni a sí mismo",
+        "`typeof valor === 'NaN'`, porque tiene un tipo propio"
+      ],
+      "explanation": "`NaN` es el único valor de JavaScript que **no es igual a sí mismo** (`NaN === NaN` es `false`). Se comprueba con `Number.isNaN(valor)`. Su `typeof` es `\"number\"`."
+    },
+    "en": {
+      "prompt": "How do you correctly check whether a value is `NaN`?",
+      "options": [
+        "`value === NaN`, just like with any other value",
+        "`value == NaN`, which is more permissive with types",
+        "`Number.isNaN(value)`: `NaN` is not equal to itself",
+        "`typeof value === 'NaN'`, because it has a type of its own"
+      ],
+      "explanation": "`NaN` is the only JavaScript value that is **not equal to itself** (`NaN === NaN` is `false`). It is checked with `Number.isNaN(value)`. Its `typeof` is `\"number\"`."
+    }
+  },
+  {
+    "id": "js-truthy",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 3,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Cuál de estos valores es *truthy* (se comporta como verdadero en un `if`)?",
+      "options": [
+        "`0`, porque es un número y los números siempre son verdaderos",
+        "`''`, porque una cadena existe aunque no tenga ningún carácter",
+        "`NaN`, porque es un valor numérico válido dentro del lenguaje",
+        "`[]`: un array vacío es un objeto, y los objetos son verdaderos"
+      ],
+      "explanation": "Los valores *falsy* son `false`, `0`, `-0`, `0n`, `''`, `null`, `undefined` y `NaN`. Todo lo demás es *truthy*, incluidos `[]`, `{}` y `'0'`. Por eso `if (lista)` no sirve para comprobar si una lista está vacía: hay que mirar `lista.length`."
+    },
+    "en": {
+      "prompt": "Which of these values is *truthy* (behaves as true in an `if`)?",
+      "options": [
+        "`0`, because it is a number and numbers are always true",
+        "`''`, because a string exists even if it has no characters",
+        "`NaN`, because it is a valid numeric value within the language",
+        "`[]`, because empty arrays are objects and objects are true"
+      ],
+      "explanation": "The *falsy* values are `false`, `0`, `-0`, `0n`, `''`, `null`, `undefined` and `NaN`. Everything else is *truthy*, including `[]`, `{}` and `'0'`. That is why `if (list)` does not tell whether a list is empty: you must check `list.length`."
+    }
+  },
+  {
+    "id": "js-float-precision",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué da `0.1 + 0.2 === 0.3` en JavaScript?",
+      "options": [
+        "`true`, porque la suma de esos decimales es exactamente 0,3",
+        "`false`, por la imprecisión de los números en coma flotante",
+        "Un error, porque no se pueden sumar números con decimales",
+        "`undefined`, porque la comparación de decimales no está definida"
+      ],
+      "explanation": "Los números de JavaScript son *floats* de 64 bits y `0.1 + 0.2` da `0.30000000000000004`. Para comparar decimales se usa una tolerancia, o se trabaja con enteros (por ejemplo, céntimos en vez de euros)."
+    },
+    "en": {
+      "prompt": "What does `0.1 + 0.2 === 0.3` give in JavaScript?",
+      "options": [
+        "`true`, because the sum of those decimals is exactly 0.3",
+        "`false`, due to the imprecision of floating-point numbers",
+        "An error, because numbers with decimals cannot be added",
+        "`undefined`, because comparing decimals is not defined"
+      ],
+      "explanation": "JavaScript numbers are 64-bit *floats* and `0.1 + 0.2` gives `0.30000000000000004`. To compare decimals you use a tolerance, or work with integers (for example, cents instead of euros)."
+    }
+  },
+  {
+    "id": "js-coercion-plus-minus",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué valen `'5' + 3` y `'5' - 3`?",
+      "options": [
+        "`8` y `2`, porque JavaScript convierte siempre las cadenas a números",
+        "`'53'` y `'53'`, porque con una cadena todo se concatena como texto",
+        "`'53'` y `2`: `+` concatena si hay una cadena; `-` convierte a número",
+        "Un error en las dos operaciones, porque no se mezclan cadenas y números"
+      ],
+      "explanation": "Con una cadena, `+` **concatena** (`'53'`). `-` solo existe para números, así que convierte la cadena (`5 - 3 = 2`). Es *coerción* implícita de tipos, fuente de muchos errores: convierte los valores a propósito (`Number(x)`)."
+    },
+    "en": {
+      "prompt": "What are `'5' + 3` and `'5' - 3`?",
+      "options": [
+        "`8` and `2`, because JavaScript always converts strings to numbers",
+        "`'53'` and `'53'`, because with a string everything concatenates as text",
+        "`'53'` and `2`: `+` concatenates with a string; `-` converts",
+        "An error in both operations, because strings and numbers are not mixed"
+      ],
+      "explanation": "With a string, `+` **concatenates** (`'53'`). `-` only exists for numbers, so it converts the string (`5 - 3 = 2`). It is implicit type *coercion*, the source of many bugs: convert values on purpose (`Number(x)`)."
+    }
+  },
+  {
+    "id": "js-sort-default",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "hard",
+    "correctIndex": 0,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué devuelve `[10, 9, 1].sort()`?",
+      "options": [
+        "`[1, 10, 9]`: sin comparador ordena como cadenas de texto",
+        "`[1, 9, 10]`: ordena los números de menor a mayor por defecto",
+        "`[10, 9, 1]`: sin comparador deja el array en el orden original",
+        "`[10, 9, 1]` ordenado de mayor a menor, porque es lo que hace `sort`"
+      ],
+      "explanation": "Sin función comparadora, `sort()` convierte los elementos a **texto** y los ordena alfabéticamente: `\"1\" < \"10\" < \"9\"`. Para números hay que pasar un comparador: `sort((a, b) => a - b)`. Además, `sort` **modifica** el array original."
+    },
+    "en": {
+      "prompt": "What does `[10, 9, 1].sort()` return?",
+      "options": [
+        "`[1, 10, 9]`: without a comparator it sorts as text strings",
+        "`[1, 9, 10]`: it sorts numbers from smallest to largest by default",
+        "`[10, 9, 1]`: without a comparator it leaves the array in its original order",
+        "`[10, 9, 1]` sorted from largest to smallest, because that is what `sort` does"
+      ],
+      "explanation": "Without a comparator function, `sort()` converts the elements to **text** and sorts them alphabetically: `\"1\" < \"10\" < \"9\"`. For numbers you must pass a comparator: `sort((a, b) => a - b)`. Also, `sort` **mutates** the original array."
+    }
+  },
+  {
+    "id": "js-map-parseint",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "hard",
+    "correctIndex": 3,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué devuelve este código?\n\n```ts\n['1', '2', '3'].map(parseInt);\n```",
+      "options": [
+        "`[1, 2, 3]`, que es el resultado que se espera de convertir cada texto",
+        "`['1', '2', '3']`, porque `parseInt` no cambia el tipo dentro de `map`",
+        "Un error, porque `parseInt` no se puede pasar directamente a `map`",
+        "`[1, NaN, NaN]`: `map` pasa el índice, que `parseInt` usa como base"
+      ],
+      "explanation": "`map` llama a la función con **tres argumentos** (valor, índice, array). `parseInt(valor, base)` recibe el índice como base: `parseInt('2', 1)` y `parseInt('3', 2)` dan `NaN`. La forma segura es `map(Number)` o `map((s) => parseInt(s, 10))`."
+    },
+    "en": {
+      "prompt": "What does this code return?\n\n```ts\n['1', '2', '3'].map(parseInt);\n```",
+      "options": [
+        "`[1, 2, 3]`, which is the expected result of converting each text",
+        "`['1', '2', '3']`, because `parseInt` does not change the type inside `map`",
+        "An error, because `parseInt` cannot be passed directly to `map`",
+        "`[1, NaN, NaN]`: `map` also passes the index, which `parseInt` uses as the radix"
+      ],
+      "explanation": "`map` calls the function with **three arguments** (value, index, array). `parseInt(value, radix)` receives the index as radix: `parseInt('2', 1)` and `parseInt('3', 2)` give `NaN`. The safe way is `map(Number)` or `map((s) => parseInt(s, 10))`."
+    }
+  },
+  {
+    "id": "js-spread-shallow",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "medium",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué valor tiene `p.b.c` después de ejecutar este código?\n\n```ts\nconst p = { a: 1, b: { c: 2 } };\nconst q = { ...p };\nq.b.c = 99;\n```",
+      "options": [
+        "`2`, porque `q` es una copia completa e independiente de `p`",
+        "`99`: el spread copia el primer nivel y `b` es el mismo objeto",
+        "`undefined`, porque el spread elimina las propiedades anidadas",
+        "Un error, porque no se puede modificar la copia de un objeto"
+      ],
+      "explanation": "El operador spread hace una copia **superficial** (*shallow*): copia las propiedades de primer nivel, pero los objetos anidados se comparten por referencia. Para una copia profunda se usa `structuredClone(p)`."
+    },
+    "en": {
+      "prompt": "What value does `p.b.c` have after running this code?\n\n```ts\nconst p = { a: 1, b: { c: 2 } };\nconst q = { ...p };\nq.b.c = 99;\n```",
+      "options": [
+        "`2`, because `q` is a full, independent copy of `p`",
+        "`99`: spread copies the first level, and `b` is the same object",
+        "`undefined`, because spread removes nested properties",
+        "An error, because a copy of an object cannot be modified"
+      ],
+      "explanation": "The spread operator makes a **shallow** copy: it copies first-level properties, but nested objects are shared by reference. For a deep copy use `structuredClone(p)`."
+    }
+  },
+  {
+    "id": "js-array-reference",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "easy",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Cuál es el contenido de `a` después de este código?\n\n```ts\nconst a = [1, 2];\nconst b = a;\nb.push(3);\n```",
+      "options": [
+        "`[1, 2]`, porque `b` es una copia y no afecta al original",
+        "`[1, 2, 3, 3]`, porque `push` se aplica a las dos variables",
+        "`[1, 2, 3]`: `b` apunta al mismo array que `a`",
+        "Un error, porque `const` no permite modificar el contenido"
+      ],
+      "explanation": "Los arrays y objetos se asignan **por referencia**: `b = a` no copia, apunta al mismo array. `const` impide **reasignar** la variable, no modificar el contenido. Para copiar, `[...a]` o `a.slice()`."
+    },
+    "en": {
+      "prompt": "What are the contents of `a` after this code?\n\n```ts\nconst a = [1, 2];\nconst b = a;\nb.push(3);\n```",
+      "options": [
+        "`[1, 2]`, because `b` is a copy and does not affect the original",
+        "`[1, 2, 3, 3]`, because `push` applies to both variables",
+        "`[1, 2, 3]`: `b` points to the same array as `a`",
+        "An error, because `const` does not allow modifying the contents"
+      ],
+      "explanation": "Arrays and objects are assigned **by reference**: `b = a` does not copy, it points to the same array. `const` prevents **reassigning** the variable, not modifying the contents. To copy, `[...a]` or `a.slice()`."
+    }
+  },
+  {
+    "id": "js-set-dedupe",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "easy",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué ventaja tiene un `Set` para guardar valores únicos?",
+      "options": [
+        "Guarda los valores ordenados de menor a mayor de forma automática",
+        "Descarta repetidos y comprueba si existe un valor sin recorrer la lista",
+        "Permite guardar pares de clave y valor, igual que un objeto normal",
+        "Es más rápido que un array para recorrer todos sus elementos uno a uno"
+      ],
+      "explanation": "Un `Set` no admite duplicados (`[...new Set([1, 1, 2])]` es `[1, 2]`) y `has(valor)` es muy rápido (no recorre todos los elementos, como hace `array.includes`). Por eso se usa para \"¿ya lo vi?\", como en el cálculo de la racha."
+    },
+    "en": {
+      "prompt": "What advantage does a `Set` have for storing unique values?",
+      "options": [
+        "It keeps values sorted from smallest to largest automatically",
+        "It discards duplicates and checks existence without walking the list",
+        "It lets you store key and value pairs, just like a normal object",
+        "It is faster than an array for walking through all its elements one by one"
+      ],
+      "explanation": "A `Set` does not allow duplicates (`[...new Set([1, 1, 2])]` is `[1, 2]`) and `has(value)` is very fast (it does not walk all elements, as `array.includes` does). That is why it is used for \"have I seen it?\", as in the streak calculation."
+    }
+  },
+  {
+    "id": "js-rest-destructuring",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "medium",
+    "correctIndex": 3,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué valen `x` y `resto` después de este código?\n\n```ts\nconst o = { x: 1, y: 2, z: 3 };\nconst { x, ...resto } = o;\n```",
+      "options": [
+        "`x` vale `1` y `resto` vale `{ x: 1, y: 2, z: 3 }`, con todas las propiedades",
+        "`x` vale `1` y `resto` vale `[2, 3]`, un array con los valores restantes",
+        "`x` vale `undefined`, porque el operador `...` se lleva todas las propiedades",
+        "`x` vale `1` y `resto` vale `{ y: 2, z: 3 }`, el objeto sin `x`"
+      ],
+      "explanation": "Al desestructurar, `...resto` recoge **el resto** de propiedades en un objeto nuevo, sin las que ya extrajiste. Es la forma de \"quitar\" propiedades de un objeto sin modificarlo. Con arrays, `...resto` recoge los elementos restantes en un array."
+    },
+    "en": {
+      "prompt": "What are `x` and `rest` after this code?\n\n```ts\nconst o = { x: 1, y: 2, z: 3 };\nconst { x, ...rest } = o;\n```",
+      "options": [
+        "`x` is `1` and `rest` is `{ x: 1, y: 2, z: 3 }`, with all the properties",
+        "`x` is `1` and `rest` is `[2, 3]`, an array with the remaining values",
+        "`x` is `undefined`, because the `...` operator takes all the properties",
+        "`x` is `1` and `rest` is `{ y: 2, z: 3 }`, the object without `x`"
+      ],
+      "explanation": "When destructuring, `...rest` collects **the rest** of the properties into a new object, without the ones you already extracted. It is the way to \"remove\" properties from an object without mutating it. With arrays, `...rest` collects the remaining elements into an array."
+    }
+  },
+  {
+    "id": "js-closure-counter",
+    "tech": "javascript",
+    "topic": "scope",
+    "difficulty": "medium",
+    "correctIndex": 0,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué devuelve la tercera llamada?\n\n```ts\nconst contador = () => {\n  let n = 0;\n  return () => ++n;\n};\n\nconst c = contador();\nc();\nc();\nconsole.log(c());\n```",
+      "options": [
+        "`3`: la función interna recuerda la variable `n` de su ámbito (*closure*)",
+        "`1`: cada llamada a `c()` empieza de nuevo con `n` igual a 0",
+        "`undefined`, porque `n` desaparece cuando termina de ejecutarse `contador()`",
+        "Un error, porque la función interna no puede leer ni modificar `n`"
+      ],
+      "explanation": "Una **closure** es una función que conserva acceso a las variables del ámbito donde se creó, aunque este haya terminado. `c` sigue viendo la misma `n`, que va 1, 2, 3. Es la base de patrones como los *factories* y el estado privado."
+    },
+    "en": {
+      "prompt": "What does the third call return?\n\n```ts\nconst counter = () => {\n  let n = 0;\n  return () => ++n;\n};\n\nconst c = counter();\nc();\nc();\nconsole.log(c());\n```",
+      "options": [
+        "`3`: the inner function remembers `n` from its scope (*closure*)",
+        "`1`: each call to `c()` starts again with `n` equal to 0",
+        "`undefined`, because `n` disappears when `counter()` finishes running",
+        "An error, because the inner function can neither read nor modify `n`"
+      ],
+      "explanation": "A **closure** is a function that keeps access to the variables of the scope where it was created, even after that has finished. `c` keeps seeing the same `n`, which goes 1, 2, 3. It is the basis of patterns such as factories and private state."
+    }
+  },
+  {
+    "id": "js-date-utc-vs-local",
+    "tech": "javascript",
+    "topic": "dates",
+    "difficulty": "hard",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "Un instante es `2026-10-22T23:30:00Z`. En Madrid (UTC+2), ¿qué día dan estas dos expresiones?\n\n```ts\nconst d = new Date('2026-10-22T23:30:00Z');\n\nd.toISOString().slice(0, 10);\nd.toLocaleDateString('en-CA');\n```",
+      "options": [
+        "`2026-10-22` las dos, porque representan el mismo instante",
+        "`2026-10-23` las dos, porque Madrid va por delante de UTC",
+        "`2026-10-22` la primera y `2026-10-23` la segunda, que usa la hora local",
+        "`2026-10-23` la primera y `2026-10-22` la segunda, porque ISO usa siempre la hora local"
+      ],
+      "explanation": "`toISOString()` da siempre la hora **UTC** (`2026-10-22`). `toLocaleDateString('en-CA')` usa la **zona horaria del usuario**: en Madrid ya es la 01:30 del día 23. `en-CA` se elige solo por el formato `AAAA-MM-DD`. Para contar rachas, el día debe ser el del usuario."
+    },
+    "en": {
+      "prompt": "An instant is `2026-10-22T23:30:00Z`. In Madrid (UTC+2), what day do these two expressions give?\n\n```ts\nconst d = new Date('2026-10-22T23:30:00Z');\n\nd.toISOString().slice(0, 10);\nd.toLocaleDateString('en-CA');\n```",
+      "options": [
+        "`2026-10-22` both, because they represent the same instant",
+        "`2026-10-23` both, because Madrid is ahead of UTC",
+        "`2026-10-22` the first and `2026-10-23` the second, which uses local time",
+        "`2026-10-23` the first and `2026-10-22` the second, because ISO always uses local time"
+      ],
+      "explanation": "`toISOString()` always gives **UTC** time (`2026-10-22`). `toLocaleDateString('en-CA')` uses the **user's time zone**: in Madrid it is already 01:30 on the 23rd. `en-CA` is chosen only for the `YYYY-MM-DD` format. To count streaks, the day must be the user's."
+    }
+  },
+  {
+    "id": "js-optional-chaining",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "easy",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué devuelve `usuario?.direccion?.ciudad` si `usuario.direccion` es `null`?",
+      "options": [
+        "Un error `TypeError`, porque no se puede leer una propiedad de `null`",
+        "`undefined`: el encadenamiento opcional corta y no lanza ningún error",
+        "`null`, el mismo valor que tiene la propiedad que está antes",
+        "Una cadena vacía, que es el valor por defecto de una ciudad sin dato"
+      ],
+      "explanation": "El **encadenamiento opcional** (`?.`) corta la expresión y devuelve `undefined` si lo que hay antes es `null` o `undefined`, en vez de lanzar un `TypeError`. Se combina con `??` para dar un valor por defecto: `usuario?.direccion?.ciudad ?? '—'`."
+    },
+    "en": {
+      "prompt": "What does `user?.address?.city` return if `user.address` is `null`?",
+      "options": [
+        "A `TypeError`, because a property of `null` cannot be read",
+        "`undefined`: optional chaining short-circuits and throws no error",
+        "`null`, the same value as the property that comes before",
+        "An empty string, which is the default value for a city with no data"
+      ],
+      "explanation": "**Optional chaining** (`?.`) short-circuits the expression and returns `undefined` if what comes before is `null` or `undefined`, instead of throwing a `TypeError`. It combines with `??` to give a default value: `user?.address?.city ?? '—'`."
+    }
+  },
+  {
+    "id": "js-promise-all-vs-allsettled",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "medium",
+    "correctIndex": 2,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `Promise.all` y `Promise.allSettled`?",
+      "options": [
+        "`Promise.all` las ejecuta en serie y `allSettled` las ejecuta todas en paralelo",
+        "Ninguna: son dos nombres del mismo método en versiones distintas de JavaScript",
+        "`all` falla en cuanto una falla; `allSettled` espera a todas",
+        "`allSettled` falla en cuanto una falla; `all` espera siempre a que terminen todas"
+      ],
+      "explanation": "`Promise.all` se **rechaza en cuanto una** promesa falla (pierdes el resto de resultados). `Promise.allSettled` espera a **todas** y devuelve un array con `{ status: 'fulfilled' | 'rejected', ... }` de cada una. Las dos ejecutan en paralelo."
+    },
+    "en": {
+      "prompt": "What is the difference between `Promise.all` and `Promise.allSettled`?",
+      "options": [
+        "`Promise.all` runs them in series and `allSettled` runs them all in parallel",
+        "None: they are two names for the same method in different JavaScript versions",
+        "`all` fails when one fails; `allSettled` waits for all of them",
+        "`allSettled` fails as soon as one fails; `all` always waits for all to finish"
+      ],
+      "explanation": "`Promise.all` **rejects as soon as one** promise fails (you lose the other results). `Promise.allSettled` waits for **all** of them and returns an array with `{ status: 'fulfilled' | 'rejected', ... }` for each. Both run in parallel."
+    }
+  },
+  {
+    "id": "js-const-mutation",
+    "tech": "javascript",
+    "topic": "scope",
+    "difficulty": "medium",
+    "correctIndex": 1,
+    "refVersion": "es2022",
+    "es": {
+      "prompt": "¿Qué hace `const` exactamente?",
+      "options": [
+        "Hace que el valor sea inmutable: ni el contenido de un objeto puede cambiar",
+        "Impide reasignar la variable, pero un objeto o array puede modificarse por dentro",
+        "Declara una constante global que cualquier fichero de la aplicación puede leer",
+        "Hace que la variable se calcule una sola vez y se guarde en caché siempre"
+      ],
+      "explanation": "`const` impide **reasignar** la variable (`x = otro`), no mutar su contenido: `const o = {}; o.a = 1;` es válido. Para impedir cambios en un objeto se usa `Object.freeze` (superficial) o se trabaja de forma inmutable."
+    },
+    "en": {
+      "prompt": "What exactly does `const` do?",
+      "options": [
+        "It makes the value immutable: not even an object's contents can change",
+        "It prevents reassigning the variable, but objects can change inside",
+        "It declares a global constant that any file in the application can read",
+        "It makes the variable be computed once and always cached"
+      ],
+      "explanation": "`const` prevents **reassigning** the variable (`x = other`), not mutating its contents: `const o = {}; o.a = 1;` is valid. To prevent changes to an object you use `Object.freeze` (shallow) or work immutably."
+    }
+  },
+  {
+    "id": "ts-as-vs-nonnull",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 0,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `valor as number` y `valor!`?",
+      "options": [
+        "`as` fuerza un tipo que afirmas; `!` solo afirma que no es `null`",
+        "`as` comprueba el tipo en tiempo de ejecución y `!` lo comprueba al compilar",
+        "Ninguna: las dos convierten el valor al tipo correcto en tiempo de ejecución",
+        "`!` convierte cualquier valor en `number` y `as` solo quita el `null`"
+      ],
+      "explanation": "Ninguna de las dos hace nada **en ejecución**: son afirmaciones al compilador. `valor as number` le dice \"trátalo como número\"; `valor!` le dice \"no es `null`/`undefined`\". Si te equivocas, el error aparece al ejecutar. Es mejor estrechar el tipo con una comprobación."
+    },
+    "en": {
+      "prompt": "What is the difference between `value as number` and `value!`?",
+      "options": [
+        "`as` forces a type you assert; `!` only asserts it is not `null`",
+        "`as` checks the type at runtime and `!` checks it at compile time",
+        "None: both convert the value to the right type at runtime",
+        "`!` converts any value to `number` and `as` only removes the `null`"
+      ],
+      "explanation": "Neither does anything **at runtime**: they are assertions to the compiler. `value as number` tells it \"treat it as a number\"; `value!` tells it \"it is not `null`/`undefined`\". If you are wrong, the error appears when running. It is better to narrow the type with a check."
+    }
+  },
+  {
+    "id": "ts-unknown-vs-any",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 2,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Por qué se prefiere `unknown` a `any` para un valor de tipo desconocido?",
+      "options": [
+        "Porque `unknown` es más rápido en ejecución que `any` en cualquier caso",
+        "Porque `any` ya no existe en las versiones recientes de TypeScript",
+        "`unknown` obliga a comprobar el tipo antes de usarlo; `any` no comprueba",
+        "Porque `unknown` convierte el valor automáticamente al tipo que se necesite"
+      ],
+      "explanation": "`any` **desactiva** la comprobación de tipos: puedes hacer cualquier cosa con el valor, y los errores aparecen al ejecutar. `unknown` es el tipo seguro: no puedes usar el valor hasta **estrecharlo** (`typeof x === 'string'`, `instanceof`...)."
+    },
+    "en": {
+      "prompt": "Why is `unknown` preferred over `any` for a value of unknown type?",
+      "options": [
+        "Because `unknown` is faster at runtime than `any` in every case",
+        "Because `any` no longer exists in recent TypeScript versions",
+        "`unknown` forces a type check before use; `any` turns checking off",
+        "Because `unknown` automatically converts the value to whatever type is needed"
+      ],
+      "explanation": "`any` **turns off** type checking: you can do anything with the value, and errors show up at runtime. `unknown` is the safe type: you cannot use the value until you **narrow** it (`typeof x === 'string'`, `instanceof`...)."
+    }
+  },
+  {
+    "id": "ts-type-vs-value",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 3,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Por qué `state: OptionState` da error en este objeto?\n\n```ts\ntype OptionState = 'selected' | 'correct' | '';\n\nconst view = {\n  text: 'hola',\n  state: OptionState,\n};\n```",
+      "options": [
+        "Porque `OptionState` es una cadena y debería escribirse entre comillas",
+        "Porque los tipos de unión no se pueden usar dentro de objetos literales",
+        "Porque `OptionState` solo puede usarse dentro de una clase de Angular",
+        "Porque `OptionState` es un tipo, y ahí se espera un valor"
+      ],
+      "explanation": "En TypeScript hay dos mundos: los **tipos** (`type`, `interface`) y los **valores** (variables, literales). Un tipo no existe en ejecución, así que no puede usarse donde se espera un valor. Se usa en anotaciones (`state: OptionState`) o genéricos, y el valor es `'selected'`."
+    },
+    "en": {
+      "prompt": "Why does `state: OptionState` give an error in this object?\n\n```ts\ntype OptionState = 'selected' | 'correct' | '';\n\nconst view = {\n  text: 'hola',\n  state: OptionState,\n};\n```",
+      "options": [
+        "Because `OptionState` is a string and should be written in quotes",
+        "Because union types cannot be used inside object literals",
+        "Because `OptionState` can only be used inside an Angular class",
+        "Because `OptionState` is a type, and a value is expected there"
+      ],
+      "explanation": "In TypeScript there are two worlds: **types** (`type`, `interface`) and **values** (variables, literals). A type does not exist at runtime, so it cannot be used where a value is expected. It is used in annotations (`state: OptionState`) or generics, and the value is `'selected'`."
+    }
+  },
+  {
+    "id": "ts-union-literal",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "easy",
+    "correctIndex": 1,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué significa `type Lang = 'es' | 'en';`?",
+      "options": [
+        "Que `Lang` es un texto cualquiera que puede contener `es` o `en` dentro",
+        "Que una variable de tipo `Lang` solo puede valer exactamente `'es'` o `'en'`",
+        "Que `Lang` es un array que contiene las dos cadenas `es` y `en`",
+        "Que `Lang` es una función que devuelve `es` o `en` según el navegador"
+      ],
+      "explanation": "Es una **unión de tipos literales**: solo valen esos dos valores. TypeScript marca error si asignas `'fr'` y permite que `Record<Lang, ...>` exija una clave por idioma. Es más seguro que `string` y se borra al compilar."
+    },
+    "en": {
+      "prompt": "What does `type Lang = 'es' | 'en';` mean?",
+      "options": [
+        "That `Lang` is any text that can contain `es` or `en` inside",
+        "That a variable of type `Lang` can only be exactly `'es'` or `'en'`",
+        "That `Lang` is an array containing the two strings `es` and `en`",
+        "That `Lang` is a function that returns `es` or `en` depending on the browser"
+      ],
+      "explanation": "It is a **union of literal types**: only those two values are allowed. TypeScript errors if you assign `'fr'` and lets `Record<Lang, ...>` require one key per language. It is safer than `string` and is erased on compile."
+    }
+  },
+  {
+    "id": "ts-record-utility",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "easy",
+    "correctIndex": 0,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué describe `Record<Lang, string>` si `Lang` es `'es' | 'en'`?",
+      "options": [
+        "Un objeto con las claves `es` y `en`, y un `string` en cada una",
+        "Un array de textos con un elemento para cada idioma disponible",
+        "Un objeto con cualquier cantidad de claves de texto, sin límite",
+        "Una función que recibe un idioma y devuelve un texto de ese idioma"
+      ],
+      "explanation": "`Record<K, V>` es un objeto cuyas claves son `K` y cuyos valores son `V`. Con `K` como unión de literales, **exige todas las claves**: si añades `'fr'` a `Lang`, TypeScript marca error en cada objeto al que le falte."
+    },
+    "en": {
+      "prompt": "What does `Record<Lang, string>` describe if `Lang` is `'es' | 'en'`?",
+      "options": [
+        "An object with the keys `es` and `en`, and a `string` in each",
+        "An array of texts with one element for each available language",
+        "An object with any number of text keys, with no limit",
+        "A function that receives a language and returns a text in that language"
+      ],
+      "explanation": "`Record<K, V>` is an object whose keys are `K` and whose values are `V`. With `K` as a union of literals, it **requires every key**: if you add `'fr'` to `Lang`, TypeScript errors on every object missing it."
+    }
+  },
+  {
+    "id": "ts-interface-vs-type",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 2,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Cuándo usarías `type` y no `interface`?",
+      "options": [
+        "Nunca: `type` es una versión obsoleta que ya no se recomienda usar",
+        "Solo para clases de Angular, porque `interface` no se admite en ellas",
+        "Para uniones, tuplas o alias de otros tipos, que `interface` no expresa",
+        "Siempre que el objeto vaya a tener más de cinco propiedades distintas"
+      ],
+      "explanation": "`interface` solo describe la **forma de objetos** y se puede ampliar (`extends`, y fusionar declaraciones). `type` puede dar nombre a **cualquier tipo**: uniones (`'es' | 'en'`), tuplas, tipos condicionales. Para objetos simples, los dos valen."
+    },
+    "en": {
+      "prompt": "When would you use `type` instead of `interface`?",
+      "options": [
+        "Never: `type` is an obsolete version that is no longer recommended",
+        "Only for Angular classes, because `interface` is not supported on them",
+        "For unions, tuples or aliases, which `interface` cannot express",
+        "Whenever the object will have more than five distinct properties"
+      ],
+      "explanation": "`interface` only describes the **shape of objects** and can be extended (`extends`, and declaration merging). `type` can name **any type**: unions (`'es' | 'en'`), tuples, conditional types. For simple objects, both work."
+    }
+  },
+  {
+    "id": "ts-narrowing",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 1,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué tipo tiene `valor` dentro del `if`?\n\n```ts\nfunction f(valor: string | number) {\n  if (typeof valor === 'string') {\n    // aquí, ¿de qué tipo es valor?\n  }\n}\n```",
+      "options": [
+        "`string | number`: el `if` no cambia el tipo que declara la función",
+        "`string`: TypeScript lo **estrecha** (*narrowing*) dentro del `if`",
+        "`number`, porque el `if` se cumple cuando el valor no es de tipo texto",
+        "`unknown`, porque tras una comprobación de tipo se pierde la información"
+      ],
+      "explanation": "TypeScript analiza el flujo de control y **estrecha** el tipo tras comprobaciones como `typeof`, `instanceof`, `in` o igualdades. Dentro del `if`, `valor` es `string`; en el `else`, `number`. Es lo que permite usar `unknown` de forma segura."
+    },
+    "en": {
+      "prompt": "What type does `value` have inside the `if`?\n\n```ts\nfunction f(value: string | number) {\n  if (typeof value === 'string') {\n    // here, what type is value?\n  }\n}\n```",
+      "options": [
+        "`string | number`: the `if` does not change the type the function declares",
+        "`string`: TypeScript **narrows** it inside the `if`",
+        "`number`, because the `if` holds when the value is not of text type",
+        "`unknown`, because after a type check the information is lost"
+      ],
+      "explanation": "TypeScript analyzes control flow and **narrows** the type after checks such as `typeof`, `instanceof`, `in` or equalities. Inside the `if`, `value` is `string`; in the `else`, `number`. It is what lets you use `unknown` safely."
+    }
+  },
+  {
+    "id": "ts-generics",
+    "tech": "typescript",
+    "topic": "generics",
+    "difficulty": "medium",
+    "correctIndex": 3,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué aporta el genérico `<T>` en esta función?\n\n```ts\nfunction primero<T>(lista: T[]): T {\n  return lista[0];\n}\n```",
+      "options": [
+        "Que la función solo acepte listas de texto y devuelva siempre un texto",
+        "Que `T` se convierta automáticamente en `any` cuando no se indique ningún tipo",
+        "Que el tipo de `T` se compruebe mientras la aplicación se está ejecutando",
+        "Que el resultado dependa de la lista: `primero([1, 2])` es `number`"
+      ],
+      "explanation": "Un genérico es un **parámetro de tipo**: `T` se infiere en cada llamada, así que `primero([1, 2])` devuelve `number` y `primero(['a'])` devuelve `string`, sin perder tipado ni usar `any`. Los genéricos se borran al compilar."
+    },
+    "en": {
+      "prompt": "What does the generic `<T>` provide in this function?\n\n```ts\nfunction first<T>(list: T[]): T {\n  return list[0];\n}\n```",
+      "options": [
+        "That the function only accepts lists of text and always returns text",
+        "That `T` automatically becomes `any` when no type is given",
+        "That `T`'s type is checked while the application is running",
+        "That the result depends on the list: `first([1, 2])` is `number`"
+      ],
+      "explanation": "A generic is a **type parameter**: `T` is inferred at each call, so `first([1, 2])` returns `number` and `first(['a'])` returns `string`, without losing typing or using `any`. Generics are erased on compile."
+    }
+  },
+  {
+    "id": "ts-utility-partial-pick",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "medium",
+    "correctIndex": 0,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué hacen `Partial<User>` y `Pick<User, 'id' | 'name'>`?",
+      "options": [
+        "`Partial` hace opcionales todas las propiedades; `Pick` se queda solo con las indicadas",
+        "`Partial` elimina las propiedades opcionales; `Pick` las convierte todas en obligatorias",
+        "`Partial` copia el objeto en ejecución; `Pick` elige una propiedad al azar para usarla",
+        "Las dos hacen lo mismo con distinto nombre: crear un tipo con menos propiedades"
+      ],
+      "explanation": "Son **utility types**: `Partial<T>` convierte todas las propiedades en opcionales (útil para `patch`), `Pick<T, K>` selecciona un subconjunto de propiedades y `Omit<T, K>` hace lo contrario (las quita). Operan solo sobre tipos, no sobre valores."
+    },
+    "en": {
+      "prompt": "What do `Partial<User>` and `Pick<User, 'id' | 'name'>` do?",
+      "options": [
+        "`Partial` makes all properties optional; `Pick` keeps only the given ones",
+        "`Partial` removes optional properties; `Pick` makes them all required",
+        "`Partial` copies the object at runtime; `Pick` picks a random property to use",
+        "Both do the same with a different name: create a type with fewer properties"
+      ],
+      "explanation": "They are **utility types**: `Partial<T>` makes all properties optional (useful for `patch`), `Pick<T, K>` selects a subset of properties and `Omit<T, K>` does the opposite (removes them). They operate on types only, not on values."
+    }
+  },
+  {
+    "id": "ts-types-erased",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "hard",
+    "correctIndex": 1,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "Los datos de una API tienen el tipo `User[]` en TypeScript. ¿Garantiza eso que la respuesta real cumple ese tipo?",
+      "options": [
+        "Sí: TypeScript comprueba cada respuesta de la red al ejecutar la aplicación",
+        "No: los tipos se borran al compilar y no comprueban nada en ejecución",
+        "Sí, pero solo cuando la respuesta viene de `HttpClient` y no de `fetch`",
+        "No, salvo que el tipo se haya declarado con `interface` en lugar de con `type`"
+      ],
+      "explanation": "Los tipos de TypeScript **no existen en ejecución**: `http.get<User[]>(...)` solo le dice al compilador qué esperas. Si el servidor devuelve otra cosa, el error aparece más tarde. Para datos externos se **valida en ejecución** (Zod, Valibot...) o se confía en un esquema controlado."
+    },
+    "en": {
+      "prompt": "API data has the type `User[]` in TypeScript. Does that guarantee the real response meets that type?",
+      "options": [
+        "Yes: TypeScript checks every network response when the application runs",
+        "No: types are erased on compile and check nothing of what arrives at runtime",
+        "Yes, but only when the response comes from `HttpClient` and not from `fetch`",
+        "No, unless the type was declared with `interface` instead of `type`"
+      ],
+      "explanation": "TypeScript types **do not exist at runtime**: `http.get<User[]>(...)` only tells the compiler what you expect. If the server returns something else, the error appears later. For external data you **validate at runtime** (Zod, Valibot...) or rely on a controlled schema."
+    }
+  },
+  {
+    "id": "ts-readonly",
+    "tech": "typescript",
+    "topic": "types",
+    "difficulty": "easy",
+    "correctIndex": 2,
+    "refVersion": "typescript@5",
+    "es": {
+      "prompt": "¿Qué hace `readonly` en `readonly lang = signal('es');`?",
+      "options": [
+        "Hace que el signal sea inmutable y no se pueda llamar nunca a `set()` sobre él",
+        "Hace que el signal se guarde en el almacenamiento del navegador de solo lectura",
+        "Impide reasignar la propiedad `lang`, aunque el signal por dentro sí pueda cambiar",
+        "Hace que la propiedad solo se pueda leer desde la plantilla del componente"
+      ],
+      "explanation": "`readonly` impide **reasignar la propiedad** (`this.lang = otro`) y solo existe en tiempo de compilación. El signal sigue siendo escribible (`lang.set(...)`). Para exponerlo de solo lectura se usa `asReadonly()`."
+    },
+    "en": {
+      "prompt": "What does `readonly` do in `readonly lang = signal('es');`?",
+      "options": [
+        "It makes the signal immutable and `set()` can never be called on it",
+        "It makes the signal be stored in the browser's read-only storage",
+        "It prevents reassigning `lang`, though the signal inside can change",
+        "It makes the property readable only from the component's template"
+      ],
+      "explanation": "`readonly` prevents **reassigning the property** (`this.lang = other`) and only exists at compile time. The signal is still writable (`lang.set(...)`). To expose it read-only you use `asReadonly()`."
+    }
+  }
+]
