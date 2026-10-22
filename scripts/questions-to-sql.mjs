@@ -55,17 +55,19 @@ for (const file of process.argv.slice(2)) {
   });
 }
 
-// Aviso de calidad: si la opción correcta es casi siempre la más larga, se puede acertar sin saber
+// Calidad: si la opción correcta es casi siempre la más larga, se puede acertar sin saber
 if (questions.length >= 10) {
-  const longest = questions.filter((q) => {
-    const lengths = q.es.options.map((option) => option.length);
-    return lengths[q.correctIndex] === Math.max(...lengths);
-  }).length;
-  if (longest / questions.length > 0.4) {
-    errors.push(
-      `sesgo de longitud: la opción correcta es la más larga en ${longest} de ${questions.length} preguntas (ES). ` +
-        'Alarga los distractores o acorta la correcta (lo esperable es ~25 %).',
-    );
+  for (const lang of LANGS) {
+    const longest = questions.filter((q) => {
+      const lengths = q[lang].options.map((option) => option.length);
+      return lengths[q.correctIndex] === Math.max(...lengths);
+    }).length;
+    if (longest / questions.length > 0.4) {
+      errors.push(
+        `sesgo de longitud (${lang}): la opción correcta es la más larga en ${longest} de ${questions.length} preguntas. ` +
+          'Alarga los distractores o acorta la correcta (lo esperable es ~25 %).',
+      );
+    }
   }
 }
 
