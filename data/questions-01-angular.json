@@ -1,0 +1,702 @@
+[
+  {
+    "id": "ng-computed-vs-effect",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Cuándo usarías un `computed` y cuándo un `effect`?",
+      "options": [
+        "`computed` para guardar datos en `localStorage` y `effect` para derivar valores nuevos",
+        "`computed` para derivar un valor de otros signals; `effect` para ejecutar una acción",
+        "Son equivalentes: la única diferencia es que `effect` se ejecuta más rápido",
+        "`computed` solo dentro de componentes y `effect` solo dentro de servicios"
+      ],
+      "explanation": "Un `computed` calcula un valor derivado: es de solo lectura y se recalcula únicamente cuando cambian sus dependencias. Un `effect` ejecuta una acción (guardar en `localStorage`, llamar a algo externo) cuando cambian los signals que lee. Regla práctica: si el resultado es un valor que vas a usar, `computed`; si es una acción, `effect`."
+    },
+    "en": {
+      "prompt": "When would you use a `computed` and when an `effect`?",
+      "options": [
+        "`computed` to save data in `localStorage` and `effect` to derive new values",
+        "`computed` to derive a value from other signals; `effect` to run an action",
+        "They are equivalent: the only difference is that `effect` runs faster",
+        "`computed` only inside components and `effect` only inside services"
+      ],
+      "explanation": "A `computed` calculates a derived value: it is read-only and only recalculates when its dependencies change. An `effect` runs an action (saving to `localStorage`, calling something external) when the signals it reads change. Rule of thumb: if the result is a value you will use, `computed`; if it is an action, `effect`."
+    }
+  },
+  {
+    "id": "ng-computed-memoized",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ventaja tiene un `computed` frente a un getter que hace el mismo cálculo y se llama desde la plantilla?",
+      "options": [
+        "El getter no puede leer signals, así que no se puede usar con ellos",
+        "El `computed` se ejecuta en cada detección de cambios, como cualquier función",
+        "No hay ninguna diferencia de rendimiento entre los dos en una plantilla",
+        "Guarda el resultado y solo recalcula cuando cambian sus dependencias"
+      ],
+      "explanation": "El `computed` está memoizado: guarda el resultado y lo reutiliza mientras sus dependencias no cambien, y es perezoso (no calcula hasta que alguien lo lee). Un getter llamado desde la plantilla se ejecuta en cada ciclo de detección de cambios, haya cambiado algo o no."
+    },
+    "en": {
+      "prompt": "What advantage does a `computed` have over a getter doing the same calculation and called from the template?",
+      "options": [
+        "The getter cannot read signals, so it cannot be used with them",
+        "The `computed` runs on every change detection, like any function",
+        "There is no performance difference between the two in a template",
+        "It caches the result and only recalculates when its dependencies change"
+      ],
+      "explanation": "A `computed` is memoized: it stores the result and reuses it while its dependencies do not change, and it is lazy (it does not calculate until someone reads it). A getter called from the template runs on every change detection cycle, whether or not anything changed."
+    }
+  },
+  {
+    "id": "ng-zoneless-settimeout",
+    "tech": "angular",
+    "topic": "zoneless",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "En una app zoneless cambias una propiedad normal (no un signal) dentro de un `setTimeout` y la muestras en la plantilla. ¿Qué pasa?",
+      "options": [
+        "Se actualiza sola, porque Angular sigue parcheando `setTimeout` aunque no haya Zone.js",
+        "No se actualiza: nadie avisa a Angular de que hay que repintar",
+        "Angular lanza un error de compilación porque la propiedad no es un signal",
+        "Se actualiza únicamente si el componente usa la estrategia `OnPush`"
+      ],
+      "explanation": "Sin Zone.js, Angular no parchea las APIs asíncronas. Se entera de que hay que repintar por signals que la plantilla lee, eventos enlazados en la plantilla, `markForCheck()`, la pipe `async` o cambios de `input()`. Un `setTimeout` no avisa, así que en zoneless lo que se muestra en pantalla debe ir en signals."
+    },
+    "en": {
+      "prompt": "In a zoneless app you change a plain property (not a signal) inside a `setTimeout` and display it in the template. What happens?",
+      "options": [
+        "It updates by itself, because Angular still patches `setTimeout` even without Zone.js",
+        "It does not update: nothing tells Angular to re-render",
+        "Angular throws a compile error because the property is not a signal",
+        "It only updates if the component uses the `OnPush` strategy"
+      ],
+      "explanation": "Without Zone.js, Angular does not patch async APIs. It learns that it must re-render from signals read in the template, events bound in the template, `markForCheck()`, the `async` pipe or `input()` changes. A `setTimeout` does not notify it, so in zoneless apps whatever is shown on screen should live in signals."
+    }
+  },
+  {
+    "id": "ng-zoneless-triggers",
+    "tech": "angular",
+    "topic": "zoneless",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "En una app zoneless, ¿cuál de estas cosas hace que Angular repinte una plantilla?",
+      "options": [
+        "Cambiar el valor de una propiedad normal dentro de un `setTimeout`",
+        "Que haya pasado un segundo desde la última vez que se pintó la plantilla",
+        "Que cambie un signal que la plantilla lee",
+        "Modificar una variable global de la ventana del navegador"
+      ],
+      "explanation": "Un signal leído en la plantilla avisa a Angular exactamente de qué ha cambiado. También repintan los eventos enlazados en la plantilla (`(click)`), `markForCheck()`, la pipe `async` y los cambios de `input()`. Zone.js avisaba de que *algo* podía haber cambiado; los signals avisan de *qué* ha cambiado."
+    },
+    "en": {
+      "prompt": "In a zoneless app, which of these makes Angular re-render a template?",
+      "options": [
+        "Changing the value of a plain property inside a `setTimeout`",
+        "One second having passed since the template was last painted",
+        "A signal read by the template changing",
+        "Modifying a global variable on the browser window"
+      ],
+      "explanation": "A signal read in the template tells Angular exactly what changed. Events bound in the template (`(click)`), `markForCheck()`, the `async` pipe and `input()` changes also trigger a render. Zone.js signalled that *something* might have changed; signals signal *what* changed."
+    }
+  },
+  {
+    "id": "ng-onpush-vs-signals",
+    "tech": "angular",
+    "topic": "zoneless",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué relación hay entre `OnPush` y los signals en una app zoneless?",
+      "options": [
+        "`OnPush` limita qué componentes se revisan, pero quien avisa de los cambios son los signals",
+        "`OnPush` sustituye a los signals y es lo que dispara el repintado sin Zone.js",
+        "`OnPush` vuelve a activar Zone.js solo para los componentes que lo usan",
+        "Con `OnPush`, las propiedades normales se repintan solas aunque no haya Zone.js"
+      ],
+      "explanation": "`OnPush` es una estrategia de detección de cambios: limita qué componentes se revisan cuando Angular ya está comprobando. No es lo que dispara la comprobación. Sin Zone.js, esa señal la dan los signals leídos en la plantilla, los eventos, `markForCheck()` y la pipe `async`."
+    },
+    "en": {
+      "prompt": "What is the relationship between `OnPush` and signals in a zoneless app?",
+      "options": [
+        "`OnPush` limits which components are checked, but signals are what announce changes",
+        "`OnPush` replaces signals and is what triggers re-rendering without Zone.js",
+        "`OnPush` turns Zone.js back on only for the components that use it",
+        "With `OnPush`, plain properties re-render by themselves even without Zone.js"
+      ],
+      "explanation": "`OnPush` is a change detection strategy: it limits which components are checked once Angular is already checking. It is not what triggers the check. Without Zone.js, that signal comes from signals read in the template, events, `markForCheck()` and the `async` pipe."
+    }
+  },
+  {
+    "id": "ng-route-input-binding",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Cómo recibe un componente el parámetro `:tech` de su ruta sin usar `ActivatedRoute`?",
+      "options": [
+        "Con `inject(Params)`, que devuelve un objeto con todos los parámetros",
+        "Con `withComponentInputBinding()` y un `input()` que se llame igual que el parámetro",
+        "Leyendo `window.location` en el constructor y separando la URL a mano",
+        "Con una propiedad normal `tech`, que Angular rellena sola por reflexión"
+      ],
+      "explanation": "Con `provideRouter(routes, withComponentInputBinding())`, el router rellena los `input()` cuyo nombre coincide con un parámetro de la ruta, y también con los de la query y los `data` de la ruta. Evitas el `subscribe` y obtienes un signal que puedes usar en un `computed`."
+    },
+    "en": {
+      "prompt": "How does a component receive its route's `:tech` parameter without using `ActivatedRoute`?",
+      "options": [
+        "With `inject(Params)`, which returns an object with every parameter",
+        "With `withComponentInputBinding()` and an `input()` named like the parameter",
+        "By reading `window.location` in the constructor and splitting the URL by hand",
+        "With a plain `tech` property, which Angular fills by itself through reflection"
+      ],
+      "explanation": "With `provideRouter(routes, withComponentInputBinding())`, the router fills `input()`s whose name matches a route parameter, and also query parameters and route `data`. You avoid `subscribe` and get a signal you can use in a `computed`."
+    }
+  },
+  {
+    "id": "ng-providers-component",
+    "tech": "angular",
+    "topic": "dependency-injection",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un servicio tiene `providedIn: 'root'` y además lo listas en `providers` de un componente. ¿Qué ocurre?",
+      "options": [
+        "Ese componente y sus hijos reciben una instancia nueva, distinta de la compartida",
+        "Se reutiliza la misma instancia global, porque `root` siempre tiene prioridad",
+        "Angular lanza un error de compilación porque el servicio está registrado dos veces",
+        "El servicio se destruye en cuanto el componente se carga por primera vez"
+      ],
+      "explanation": "`providers` en un componente crea una instancia nueva para ese componente y su subárbol. Es útil cuando quieres un estado por pantalla (un store de lección) y un fallo cuando solo querías compartir el servicio global: por ejemplo, el idioma dejaría de sincronizarse."
+    },
+    "en": {
+      "prompt": "A service has `providedIn: 'root'` and you also list it in a component's `providers`. What happens?",
+      "options": [
+        "That component and its children get a new instance, separate from the shared one",
+        "The same global instance is reused, because `root` always takes priority",
+        "Angular throws a compile error because the service is registered twice",
+        "The service is destroyed as soon as the component loads for the first time"
+      ],
+      "explanation": "`providers` on a component creates a new instance for that component and its subtree. It is useful when you want per-screen state (a lesson store) and a bug when you only wanted the global service: the language, for example, would stop being in sync."
+    }
+  },
+  {
+    "id": "ng-providers-children",
+    "tech": "angular",
+    "topic": "dependency-injection",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "El componente `Lesson` registra `LessonStore` en `providers` y su hijo `<app-question />` lo inyecta sin registrarlo. ¿Qué instancia recibe el hijo?",
+      "options": [
+        "Una instancia nueva, creada solo para el hijo, sin relación con la del padre",
+        "La instancia global de `root`, porque los hijos nunca usan los `providers` del padre",
+        "Ninguna: Angular da error porque el hijo no registra el servicio",
+        "La misma que creó `Lesson`, porque Angular sube por el árbol buscando el proveedor"
+      ],
+      "explanation": "Inyectar no crea nada: pide. Angular busca el proveedor subiendo por el árbol y le da al hijo la instancia registrada por el padre. Solo si el hijo vuelve a listar el servicio en sus `providers` obtiene su propia copia."
+    },
+    "en": {
+      "prompt": "The `Lesson` component registers `LessonStore` in `providers` and its child `<app-question />` injects it without registering it. Which instance does the child get?",
+      "options": [
+        "A new instance, created just for the child, unrelated to the parent's",
+        "The global `root` instance, because children never use the parent's `providers`",
+        "None: Angular throws an error because the child does not register the service",
+        "The same one `Lesson` created, because Angular goes up the tree looking for the provider"
+      ],
+      "explanation": "Injecting does not create anything: it asks. Angular looks for the provider going up the tree and gives the child the instance registered by the parent. Only if the child lists the service in its own `providers` does it get its own copy."
+    }
+  },
+  {
+    "id": "ng-inject-context",
+    "tech": "angular",
+    "topic": "dependency-injection",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Por qué `inject()` falla si lo llamas dentro de un método que se ejecuta al hacer clic?",
+      "options": [
+        "Porque `inject()` solo funciona con servicios que son `providedIn: 'root'`",
+        "Porque los métodos de un componente no pueden ser `async`",
+        "Porque solo se puede llamar mientras Angular construye la clase",
+        "Porque `inject()` está obsoleta desde que existen los signals"
+      ],
+      "explanation": "`inject()` solo se puede llamar mientras Angular crea la clase (inicializadores de propiedad, constructor, funciones de guard o factory). Fuera de ahí lanza el error NG0203. La solución es inyectar una vez arriba, como propiedad, y usar esa propiedad en los métodos."
+    },
+    "en": {
+      "prompt": "Why does `inject()` fail if you call it inside a method that runs on click?",
+      "options": [
+        "Because `inject()` only works with services that are `providedIn: 'root'`",
+        "Because component methods cannot be `async`",
+        "Because it can only be called while Angular is constructing the class",
+        "Because `inject()` has been deprecated since signals were introduced"
+      ],
+      "explanation": "`inject()` can only be called while Angular creates the class (property initializers, constructor, guard or factory functions). Outside that it throws error NG0203. The fix is to inject once at the top, as a property, and use that property in methods."
+    }
+  },
+  {
+    "id": "ng-inject-vs-constructor",
+    "tech": "angular",
+    "topic": "dependency-injection",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ventaja tiene `inject()` sobre la inyección por constructor?",
+      "options": [
+        "Es la única forma de poder usar servicios registrados en `root`",
+        "Menos código, vale en inicializadores y funciona también en guards funcionales",
+        "Es notablemente más rápido que el constructor cuando la app arranca",
+        "Permite crear el servicio con `new` sin pasar por el sistema de inyección"
+      ],
+      "explanation": "Con `inject()` declaras la dependencia en una línea, sin constructor, puedes usarla al declarar otras propiedades, las clases hijas no tienen que reenviar parámetros con `super`, y es la única forma de inyectar en guards, resolvers e interceptors que son funciones."
+    },
+    "en": {
+      "prompt": "What advantage does `inject()` have over constructor injection?",
+      "options": [
+        "It is the only way to use services registered in `root`",
+        "Less code, works in initializers and also works in functional guards",
+        "It is noticeably faster than the constructor when the app starts",
+        "It lets you create the service with `new` without going through injection"
+      ],
+      "explanation": "With `inject()` you declare the dependency in one line, without a constructor, you can use it when declaring other properties, subclasses do not forward parameters with `super`, and it is the only way to inject in guards, resolvers and interceptors that are functions."
+    }
+  },
+  {
+    "id": "ts-protected-template",
+    "tech": "typescript",
+    "topic": "classes",
+    "difficulty": "easy",
+    "refVersion": "typescript@5",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Una propiedad de un componente solo la lee su plantilla. ¿Qué modificador de visibilidad conviene?",
+      "options": [
+        "`private`, porque así ningún otro código externo puede tocarla",
+        "`protected`: la plantilla la lee y no queda en la API pública",
+        "`public`, en todos los casos, para que la plantilla siempre pueda leerla",
+        "`readonly`, que ya sustituye a cualquier modificador de visibilidad"
+      ],
+      "explanation": "La plantilla se compila como código que accede a la clase, así que una propiedad `private` da error de compilación al usarla en el HTML. `protected` permite a la plantilla (y a las subclases) leerla sin exponerla como API pública del componente."
+    },
+    "en": {
+      "prompt": "A component property is only read by its own template. Which visibility modifier fits best?",
+      "options": [
+        "`private`, so that no other outside code can touch it",
+        "`protected`: the template reads it and it stays out of the public API",
+        "`public`, in every case, so the template can always read it",
+        "`readonly`, which already replaces any visibility modifier"
+      ],
+      "explanation": "The template is compiled as code that accesses the class, so a `private` property causes a compile error when used in the HTML. `protected` lets the template (and subclasses) read it without exposing it as the component's public API."
+    }
+  },
+  {
+    "id": "ts-default-public",
+    "tech": "typescript",
+    "topic": "classes",
+    "difficulty": "easy",
+    "refVersion": "typescript@5",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En una clase de TypeScript, ¿qué visibilidad tiene un miembro declarado sin modificador?",
+      "options": [
+        "`public`",
+        "`private`",
+        "`protected`",
+        "Depende de si es `readonly`"
+      ],
+      "explanation": "Por defecto los miembros son `public`, por eso no se suele escribir. En Angular, un `input()` o un `output()` se declara sin modificador porque forma parte de la API pública del componente."
+    },
+    "en": {
+      "prompt": "In a TypeScript class, what visibility does a member declared without a modifier have?",
+      "options": [
+        "`public`",
+        "`private`",
+        "`protected`",
+        "It depends on whether it is `readonly`"
+      ],
+      "explanation": "Members are `public` by default, which is why it is usually omitted. In Angular, an `input()` or an `output()` is declared without a modifier because it is part of the component's public API."
+    }
+  },
+  {
+    "id": "ts-private-vs-hash",
+    "tech": "typescript",
+    "topic": "classes",
+    "difficulty": "hard",
+    "refVersion": "typescript@5",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `private x` y `#x` en una clase una vez compilada a JavaScript?",
+      "options": [
+        "Ninguna: son dos sintaxis equivalentes que producen el mismo JavaScript",
+        "`private` es privado también en ejecución y `#x` solo para el compilador",
+        "`private x` solo lo comprueba el compilador; `#x` es privado también al ejecutar",
+        "`#x` solo se puede usar dentro de componentes de Angular"
+      ],
+      "explanation": "El modificador `private` de TypeScript desaparece al compilar: en el JavaScript final la propiedad es accesible. `#x` es una característica de JavaScript que impide el acceso desde fuera de la clase también en ejecución."
+    },
+    "en": {
+      "prompt": "What is the difference between `private x` and `#x` in a class once compiled to JavaScript?",
+      "options": [
+        "None: they are two equivalent syntaxes that produce the same JavaScript",
+        "`private` is also private at runtime and `#x` only for the compiler",
+        "`private x` is only checked by the compiler; `#x` is also private at runtime",
+        "`#x` can only be used inside Angular components"
+      ],
+      "explanation": "TypeScript's `private` modifier disappears on compile: in the final JavaScript the property is accessible. `#x` is a JavaScript feature that prevents access from outside the class at runtime too."
+    }
+  },
+  {
+    "id": "ng-for-track",
+    "tech": "angular",
+    "topic": "templates",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Para qué sirve `track` en un bloque `@for`?",
+      "options": [
+        "Para ordenar los elementos de la lista según una propiedad",
+        "Para filtrar los elementos repetidos antes de pintarlos",
+        "Es un parámetro opcional que no cambia nada en el resultado",
+        "Para identificar cada elemento y reutilizar el DOM al cambiar la lista"
+      ],
+      "explanation": "`track` le dice a Angular qué elemento es cuál, así reutiliza los nodos del DOM en vez de borrarlos y crearlos de nuevo cuando la lista cambia. En `@for` es obligatorio; en el antiguo `*ngFor`, `trackBy` era opcional."
+    },
+    "en": {
+      "prompt": "What is `track` for in a `@for` block?",
+      "options": [
+        "To sort the list items according to a property",
+        "To filter out repeated items before rendering them",
+        "It is an optional parameter that changes nothing in the result",
+        "To identify each item and reuse the DOM when the list changes"
+      ],
+      "explanation": "`track` tells Angular which item is which, so it reuses DOM nodes instead of deleting and recreating them when the list changes. In `@for` it is required; in the old `*ngFor`, `trackBy` was optional."
+    }
+  },
+  {
+    "id": "ng-httpresource-signals",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué tres signals principales expone un `httpResource`?",
+      "options": [
+        "`data`, `isPending` y `failure`",
+        "`value`, `isLoading` y `error`",
+        "`next`, `error` y `complete`",
+        "`result`, `status` y `finished`"
+      ],
+      "explanation": "`value()`, `isLoading()` y `error()` te dan el estado de la petición ya hecho, sin gestionarlo a mano con `subscribe`. Además, cancela la petición anterior si cambian los signals de los que depende."
+    },
+    "en": {
+      "prompt": "Which three main signals does an `httpResource` expose?",
+      "options": [
+        "`data`, `isPending` and `failure`",
+        "`value`, `isLoading` and `error`",
+        "`next`, `error` and `complete`",
+        "`result`, `status` and `finished`"
+      ],
+      "explanation": "`value()`, `isLoading()` and `error()` give you the request state ready-made, with no manual `subscribe`. It also cancels the previous request if the signals it depends on change."
+    }
+  },
+  {
+    "id": "ng-resource-value-throws",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En Angular 22, ¿qué ocurre al leer `resource.value()` cuando el recurso está en estado de error?",
+      "options": [
+        "Lanza una excepción, así que hay que mirar antes `hasValue()`",
+        "Devuelve `null` para que puedas comprobarlo con un `if`",
+        "Devuelve el último valor válido que hubiera tenido el recurso",
+        "Devuelve un array vacío, igual que cuando está cargando"
+      ],
+      "explanation": "`value()` lanza un error si el recurso está en estado de error. Por eso, un `computed` que dependa de él debe leerlo solo si `hasValue()` es verdadero (por ejemplo `hasValue() ? value() : []`), o la excepción romperá a quien lo use."
+    },
+    "en": {
+      "prompt": "In Angular 22, what happens when you read `resource.value()` while the resource is in an error state?",
+      "options": [
+        "It throws an exception, so you must check `hasValue()` first",
+        "It returns `null` so you can check it with an `if`",
+        "It returns the last valid value the resource ever had",
+        "It returns an empty array, just like while it is loading"
+      ],
+      "explanation": "`value()` throws if the resource is in an error state. So a `computed` depending on it should only read it when `hasValue()` is true (for example `hasValue() ? value() : []`), or the exception will break whoever uses it."
+    }
+  },
+  {
+    "id": "ng-ui-states-order",
+    "tech": "angular",
+    "topic": "templates",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "En una plantilla con estados de carga, error y lista vacía, ¿por qué se comprueba antes carga y error que la lista vacía?",
+      "options": [
+        "Porque comprobarlas primero es más rápido para el motor de plantillas",
+        "Porque Angular obliga a ese orden y, si no, da un error de compilación",
+        "Porque al cargar o fallar la lista también está vacía y engañaría al usuario",
+        "Porque una lista vacía en realidad nunca se produce con una petición HTTP"
+      ],
+      "explanation": "Mientras la petición carga, o si falla, los datos son una lista vacía. Si se comprobara primero `length === 0`, el usuario vería 'no hay datos' en lugar de 'cargando' o del mensaje de error. El orden correcto es: cargando, error, vacío y, por último, los datos."
+    },
+    "en": {
+      "prompt": "In a template with loading, error and empty-list states, why are loading and error checked before the empty list?",
+      "options": [
+        "Because checking them first is faster for the template engine",
+        "Because Angular forces that order and otherwise gives a compile error",
+        "Because while loading or failing the list is also empty and would mislead the user",
+        "Because an empty list never actually happens with an HTTP request"
+      ],
+      "explanation": "While the request loads, or if it fails, the data is an empty list. If `length === 0` were checked first, the user would see 'no data' instead of 'loading' or the error message. The right order is: loading, error, empty and finally the data."
+    }
+  },
+  {
+    "id": "ng-untracked",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Para qué sirve `untracked()` dentro de un `effect`?",
+      "options": [
+        "Para que el `effect` se ejecute una única vez al crearse y no más",
+        "Para ejecutar código sin que sus lecturas cuenten como dependencias",
+        "Para que TypeScript no se queje de los tipos de los signals leídos",
+        "Para cancelar el `effect` cuando el componente ya no se necesita"
+      ],
+      "explanation": "Un `effect` se vuelve a ejecutar cuando cambia cualquier signal que lea. Con `untracked(() => ...)` las lecturas de ese código no cuentan como dependencias, así el `effect` solo reacciona a los signals que tú quieres y no a los que se lean de rebote en las funciones que llamas."
+    },
+    "en": {
+      "prompt": "What is `untracked()` for inside an `effect`?",
+      "options": [
+        "To make the `effect` run only once when created and never again",
+        "To run code without its reads counting as dependencies",
+        "So TypeScript does not complain about the types of the signals read",
+        "To cancel the `effect` when the component is no longer needed"
+      ],
+      "explanation": "An `effect` re-runs when any signal it reads changes. With `untracked(() => ...)` the reads in that code do not count as dependencies, so the `effect` only reacts to the signals you want and not to ones read incidentally by the functions you call."
+    }
+  },
+  {
+    "id": "ng-effect-signal-writes",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Desde Angular 19, ¿se pueden escribir signals dentro de un `effect`?",
+      "options": [
+        "No, hacerlo lanza siempre un error en ejecución",
+        "Solo si se activa la opción `allowSignalWrites: true`",
+        "Solo si el código se envuelve dentro de `untracked`",
+        "Sí, está permitido por defecto, pero conviene usarlo con cuidado"
+      ],
+      "explanation": "Antes había que activar `allowSignalWrites`. Desde Angular 19 está permitido por defecto. Aun así, escribir signals en un `effect` puede crear dependencias o bucles difíciles de seguir, y si el valor es derivable, es mejor un `computed`."
+    },
+    "en": {
+      "prompt": "Since Angular 19, can you write signals inside an `effect`?",
+      "options": [
+        "No, doing so always throws a runtime error",
+        "Only if the `allowSignalWrites: true` option is enabled",
+        "Only if the code is wrapped inside `untracked`",
+        "Yes, it is allowed by default, but should be used with care"
+      ],
+      "explanation": "You used to have to enable `allowSignalWrites`. Since Angular 19 it is allowed by default. Even so, writing signals in an `effect` can create dependencies or loops that are hard to follow, and if the value can be derived, a `computed` is better."
+    }
+  },
+  {
+    "id": "ng-state-in-url",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué ventaja tiene guardar un filtro en la URL (`/lesson/angular`) en lugar de en un signal de un servicio?",
+      "options": [
+        "Sobrevive a recargar, funciona con el botón atrás y se puede compartir",
+        "Se lee más rápido porque no hace falta pasar por ningún signal ni servicio",
+        "Permite guardar objetos grandes y privados sin que el usuario los vea",
+        "Evita tener que usar el router de Angular en toda la aplicación"
+      ],
+      "explanation": "La URL es una única fuente de verdad que sobrevive a un F5, entra en el historial del navegador y se puede compartir. El inconveniente: solo caben datos simples y son visibles y editables por el usuario. Lo temporal e interno va mejor en un signal."
+    },
+    "en": {
+      "prompt": "What advantage does storing a filter in the URL (`/lesson/angular`) have over a signal in a service?",
+      "options": [
+        "It survives a reload, works with the back button and can be shared",
+        "It reads faster because it does not go through any signal or service",
+        "It lets you store large, private objects without the user seeing them",
+        "It avoids having to use the Angular router across the whole application"
+      ],
+      "explanation": "The URL is a single source of truth that survives a refresh, enters the browser history and can be shared. The downside: only simple data fits and it is visible and editable by the user. Temporary, internal state is better in a signal."
+    }
+  },
+  {
+    "id": "ng-standalone-imports",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué ventaja tiene que cada componente standalone declare sus propios `imports`?",
+      "options": [
+        "Ninguna ventaja real: es solo un cambio de sintaxis sin efecto práctico",
+        "Que las pipes ya no hace falta importarlas en ningún componente",
+        "El compilador sabe qué usa cada componente y descarta lo que sobra",
+        "Que se pueden seguir usando los NgModules con más facilidad que antes"
+      ],
+      "explanation": "Con NgModules, un módulo declaraba todo lo que sus componentes podían usar. En standalone, cada componente lista solo lo que necesita (componentes, pipes, directivas). Es autosuficiente, se entiende sin mirar un módulo aparte, y el compilador descarta lo que nadie importa."
+    },
+    "en": {
+      "prompt": "What advantage does having each standalone component declare its own `imports` give?",
+      "options": [
+        "No real advantage: it is just a syntax change with no practical effect",
+        "That pipes no longer need to be imported in any component",
+        "The compiler knows what each component uses and drops what is left over",
+        "That NgModules can still be used more easily than before"
+      ],
+      "explanation": "With NgModules, a module declared everything its components could use. In standalone, each component lists only what it needs (components, pipes, directives). It is self-contained, understandable without a separate module, and the compiler drops whatever nobody imports."
+    }
+  },
+  {
+    "id": "ng-pipe-not-found",
+    "tech": "angular",
+    "topic": "components",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Usas `| json` en la plantilla de un componente standalone y el compilador dice `No pipe found with name 'json'`. ¿Qué falta?",
+      "options": [
+        "Instalar un paquete de npm que incluya las pipes comunes de Angular",
+        "Importar `JsonPipe` en el array `imports` del componente",
+        "Declarar la pipe dentro de un NgModule que importe el componente",
+        "Poner `CommonModule` dentro de `app.config.ts` para toda la app"
+      ],
+      "explanation": "En standalone, cada pipe, directiva o componente que uses en la plantilla debe estar en el array `imports` de ese componente. No hay un módulo común que las ponga todas a disposición."
+    },
+    "en": {
+      "prompt": "You use `| json` in a standalone component's template and the compiler says `No pipe found with name 'json'`. What is missing?",
+      "options": [
+        "Installing an npm package that includes Angular's common pipes",
+        "Importing `JsonPipe` in the component's `imports` array",
+        "Declaring the pipe inside an NgModule that imports the component",
+        "Putting `CommonModule` inside `app.config.ts` for the whole app"
+      ],
+      "explanation": "In standalone, every pipe, directive or component you use in the template must be in that component's `imports` array. There is no shared module making them all available."
+    }
+  },
+  {
+    "id": "ng-store-definition",
+    "tech": "angular",
+    "topic": "architecture",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué es un 'store' en una aplicación Angular?",
+      "options": [
+        "Un decorador oficial que Angular incluye para guardar datos",
+        "Una base de datos que vive dentro del navegador del usuario",
+        "Un servicio que centraliza el estado y los métodos para cambiarlo",
+        "Un tipo especial de componente que no tiene plantilla propia"
+      ],
+      "explanation": "'Store' no es una palabra reservada de Angular: es un servicio normal (`@Injectable`) que guarda estado (signals), expone valores derivados (`computed`) y métodos para cambiarlo. Así el componente solo pinta y la lógica se puede probar sin pantalla."
+    },
+    "en": {
+      "prompt": "What is a 'store' in an Angular application?",
+      "options": [
+        "An official decorator Angular includes to store data",
+        "A database that lives inside the user's browser",
+        "A service that centralizes state and the methods to change it",
+        "A special kind of component that has no template of its own"
+      ],
+      "explanation": "'Store' is not a reserved Angular word: it is a normal service (`@Injectable`) that holds state (signals), exposes derived values (`computed`) and methods to change it. That way the component only renders and the logic can be tested without a screen."
+    }
+  },
+  {
+    "id": "ng-signalforms-field-vs-state",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "En Signal Forms, ¿qué diferencia hay entre `loginForm.email` y `loginForm.email()`?",
+      "options": [
+        "Ninguna: son dos maneras equivalentes de escribir exactamente lo mismo",
+        "El primero es el campo que se enlaza al input; el segundo, su estado",
+        "El segundo crea un campo nuevo cada vez que se llama desde la plantilla",
+        "El primero solo existe dentro de las plantillas y no en el código"
+      ],
+      "explanation": "El campo (sin paréntesis) es lo que enlazas con `[formField]`. Al llamarlo, obtienes su estado, cuyas propiedades son signals: `value()`, `touched()`, `invalid()`, `errors()`... Es la misma convención que en los signals normales."
+    },
+    "en": {
+      "prompt": "In Signal Forms, what is the difference between `loginForm.email` and `loginForm.email()`?",
+      "options": [
+        "None: they are two equivalent ways of writing exactly the same thing",
+        "The first is the field bound to the input; the second is its state",
+        "The second creates a new field every time it is called from the template",
+        "The first only exists inside templates and not in code"
+      ],
+      "explanation": "The field (no parentheses) is what you bind with `[formField]`. Calling it returns its state, whose properties are signals: `value()`, `touched()`, `invalid()`, `errors()`... It is the same convention as ordinary signals."
+    }
+  },
+  {
+    "id": "ng-signalforms-model",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En Signal Forms, ¿cuál es la fuente de verdad de los datos del formulario?",
+      "options": [
+        "El modelo: un signal propio del que se deriva el formulario",
+        "Un `FormGroup` interno que Angular mantiene escondido",
+        "El propio DOM, leyendo el valor de cada input",
+        "El `localStorage`, que guarda lo escrito en cada campo"
+      ],
+      "explanation": "Defines un modelo como un signal (`signal({ email: '', password: '' })`) y `form()` crea el formulario a partir de él. Lo que el usuario escribe actualiza tu modelo, y si cambias el modelo desde código, los campos se actualizan. No hay un objeto de formulario aparte que mantener sincronizado."
+    },
+    "en": {
+      "prompt": "In Signal Forms, what is the source of truth for the form data?",
+      "options": [
+        "The model: a signal of your own from which the form is derived",
+        "An internal `FormGroup` that Angular keeps hidden",
+        "The DOM itself, reading each input's value",
+        "`localStorage`, which stores what was typed in each field"
+      ],
+      "explanation": "You define a model as a signal (`signal({ email: '', password: '' })`) and `form()` creates the form from it. What the user types updates your model, and if you change the model from code, the fields update. There is no separate form object to keep in sync."
+    }
+  }
+]
