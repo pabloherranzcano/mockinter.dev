@@ -34,7 +34,9 @@
       <span [style.width.%]="store.progress()"></span>
     </div>
 
-    <h2 class="prompt">{{ store.prompt() }}</h2>
+    <div class="prompt" role="heading" aria-level="2">
+      <app-rich-text [text]="store.prompt()" />
+    </div>
 
     <div class="options">
       @for (option of store.optionViews(); track option.index; let i = $index) {
@@ -45,7 +47,7 @@
           (click)="store.select(i)"
           [disabled]="store.checked()">
           <span class="key">{{ i + 1 }}</span>
-          <span class="text">{{ option.text }}</span>
+          <span class="text"><app-rich-text [text]="option.text" inline /></span>
         </button>
       }
     </div>
@@ -53,7 +55,7 @@
     @if (store.checked()) {
       <div class="feedback" [class.ok]="store.isCorrect()" [class.bad]="!store.isCorrect()">
         <strong>{{ store.isCorrect() ? t().lesson.correct : t().lesson.wrong }}</strong>
-        <p>{{ store.explanation() }}</p>
+        <div class="explanation"><app-rich-text [text]="store.explanation()" /></div>
       </div>
       <button type="button" class="btn" (click)="store.next()">{{ t().lesson.next }}</button>
     } @else {

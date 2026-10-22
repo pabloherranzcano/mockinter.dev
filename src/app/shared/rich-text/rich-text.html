@@ -1,0 +1,21 @@
+<ng-template #parts let-parts>
+  @for (part of parts; track $index) {
+    @if (part.code) {
+      <code>{{ part.value }}</code>
+    } @else {
+      <span>{{ part.value }}</span>
+    }
+  }
+</ng-template>
+
+@for (block of blocks(); track $index) {
+  @if (block.kind === 'code') {
+    <pre class="code"><code>{{ block.code }}</code></pre>
+  } @else if (inline()) {
+    <ng-container [ngTemplateOutlet]="parts" [ngTemplateOutletContext]="{ $implicit: block.parts }" />
+  } @else {
+    <p>
+      <ng-container [ngTemplateOutlet]="parts" [ngTemplateOutletContext]="{ $implicit: block.parts }" />
+    </p>
+  }
+}

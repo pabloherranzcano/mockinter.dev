@@ -1,0 +1,40 @@
+// El componente no añade caja propia: sus párrafos y bloques se colocan en el contenedor que lo use
+:host {
+  display: contents;
+}
+
+p {
+  margin: 0 0 0.75rem;
+  white-space: pre-line;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+pre.code {
+  margin: 0.75rem 0;
+  padding: 0.85rem 1rem;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--sunk);
+  color: var(--ink);
+  font: 500 0.85rem/1.55 var(--font-mono);
+  tab-size: 2;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  // Dentro del bloque, el estilo de <code> en línea no debe aplicarse
+  code {
+    padding: 0;
+    background: none;
+    font: inherit;
+  }
+}

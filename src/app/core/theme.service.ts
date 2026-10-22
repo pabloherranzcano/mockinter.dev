@@ -27,6 +27,7 @@ export class ThemeService {
     if (theme === 'light' || theme === 'dark') {
       return theme;
     }
-    return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    // matchMedia puede no existir (por ejemplo en los tests); entonces, oscuro por defecto
+    return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
   }
 }

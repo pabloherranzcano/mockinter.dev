@@ -3,9 +3,10 @@ import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../core/language.service';
 import { LessonStore } from '../../core/lesson/lesson.store';
 import { QuestionsService } from '../../core/questions/questions.service';
+import { RichText } from '../../shared/rich-text/rich-text';
 
 @Component({
-  imports: [RouterLink],
+  imports: [RouterLink, RichText],
   providers: [LessonStore],
   selector: 'app-lesson',
   styleUrl: './lesson.scss',

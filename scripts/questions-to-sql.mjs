@@ -37,6 +37,12 @@ for (const file of process.argv.slice(2)) {
         fail(`falta la traducción ${lang}`);
         continue;
       }
+      // Comillas inversas sin pareja (código en línea o bloques ``` sin cerrar)
+      const backticks = (value) => (String(value).match(/`/g) ?? []).length;
+      const strings = [text.prompt, text.explanation, ...(Array.isArray(text.options) ? text.options : [])];
+      if (strings.some((value) => backticks(value) % 2 !== 0)) {
+        fail(`${lang}: hay comillas inversas sin cerrar`);
+      }
       if (!text.prompt?.trim()) fail(`${lang}: falta prompt`);
       if (!text.explanation?.trim()) fail(`${lang}: falta explanation`);
       if (!Array.isArray(text.options) || text.options.length !== OPTIONS_PER_QUESTION) {
