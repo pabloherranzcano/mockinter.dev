@@ -27,7 +27,21 @@
   font: 500 0.75rem/1 var(--font-mono);
 }
 
+// La barra y el contador (12 / 188) en la misma fila
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.counter {
+  color: var(--muted);
+  font: 500 0.75rem/1 var(--font-mono);
+  white-space: nowrap;
+}
+
 .progress {
+  flex: 1;
   height: 0.5rem;
   border-radius: 999px;
   background: var(--sunk);

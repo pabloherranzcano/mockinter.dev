@@ -37,6 +37,16 @@ export class ProgressService {
     return count;
   });
 
+  /**
+   * Los ids de las preguntas que tengo falladas: aquellas cuyo ÚLTIMO intento fue 'wrong'.
+   * Si fallas una pregunta y luego la aciertas, deja de estar en fallos.
+   *
+   * TODO (Pablo): `attempts` viene del más reciente al más antiguo. Recorre la lista, quédate
+   * con el primer intento de cada question_id y devuelve los ids de los que sean 'wrong'.
+   * Pista: un Set con los ids ya vistos evita mirar dos veces la misma pregunta.
+   */
+  readonly wrongIds = computed<string[]>(() => []);
+
   constructor() {
     effect(() => {
       this.userId();

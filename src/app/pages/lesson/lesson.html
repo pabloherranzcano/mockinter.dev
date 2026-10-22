@@ -24,14 +24,17 @@
   <main class="lesson">
     <p class="topic">// {{ store.current()?.tech }} · {{ store.current()?.topic }}</p>
 
-    <div
-      class="progress"
-      role="progressbar"
-      aria-valuemin="0"
-      aria-valuemax="100"
-      [attr.aria-valuenow]="store.progress()"
-    >
-      <span [style.width.%]="store.progress()"></span>
+    <div class="progress-row">
+      <div
+        class="progress"
+        role="progressbar"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        [attr.aria-valuenow]="store.progress()"
+      >
+        <span [style.width.%]="store.progress()"></span>
+      </div>
+      <span class="counter">{{ store.position() }} / {{ store.total() }}</span>
     </div>
 
     <div class="prompt" role="heading" aria-level="2">

@@ -26,6 +26,8 @@ export class LessonStore {
   readonly correctCount = signal(0);
 
   readonly current = computed(() => this.queue()[0] ?? null);
+  /** El número de la pregunta que se está viendo: la 1ª, la 2ª... (de `total`). */
+  readonly position = computed(() => this.total() - this.queue().length + 1);
   readonly finished = computed(() => this.total() > 0 && this.queue().length === 0);
   readonly progress = computed(() =>
     this.total() ? Math.round((100 * (this.total() - this.queue().length)) / this.total()) : 0,
