@@ -9,7 +9,7 @@
     "es": {
       "prompt": "¿Para qué sirve `TestBed` en Angular?",
       "options": [
-        "Para ejecutar los tests en varios navegadores a la vez",
+        "Para ejecutar los tests en varios navegadores a la vez, repartiendo cada fichero entre ellos",
         "Para montar un módulo de pruebas y crear componentes con su inyector",
         "Para generar datos falsos aleatorios que usar en los tests",
         "Para medir la cobertura de código de los tests"
@@ -19,7 +19,7 @@
     "en": {
       "prompt": "What is `TestBed` for in Angular?",
       "options": [
-        "To run the tests in several browsers at once",
+        "To run the tests in several browsers at once, distributing each file among them",
         "To set up a testing module and create components with their injector",
         "To generate random fake data to use in the tests",
         "To measure the code coverage of the tests"
@@ -38,7 +38,7 @@
       "prompt": "¿Cómo se sustituye un servicio real por uno falso en un test?",
       "options": [
         "`providers: [{ provide: Api, useValue: falso }]` en `configureTestingModule`",
-        "Renombrando el fichero del servicio real para que no se encuentre",
+        "Renombrando el fichero del servicio real para que Angular no lo encuentre y use el falso del test",
         "Escribiendo `if (test)` dentro del servicio de producción",
         "No se puede: los servicios `providedIn: 'root'` no son sustituibles"
       ],
@@ -48,7 +48,7 @@
       "prompt": "How is a real service replaced with a fake one in a test?",
       "options": [
         "`providers: [{ provide: Api, useValue: fake }]` in `configureTestingModule`",
-        "By renaming the real service file so it is not found",
+        "By renaming the real service file so Angular does not find it and uses the test fake instead",
         "By writing `if (test)` inside the production service",
         "It cannot be done: `providedIn: 'root'` services cannot be replaced"
       ],
@@ -66,7 +66,7 @@
       "prompt": "En Vitest, ¿qué es `vi.fn()`?",
       "options": [
         "Una función real que ejecuta el código de producción más rápido",
-        "Una utilidad para esperar a que acabe una petición HTTP",
+        "Una utilidad para esperar a que acabe una petición HTTP antes de seguir con el test",
         "Una función simulada que registra cuántas veces y con qué se la llamó",
         "Un decorador que marca un test para que se salte"
       ],
@@ -76,7 +76,7 @@
       "prompt": "In Vitest, what is `vi.fn()`?",
       "options": [
         "A real function that runs production code faster",
-        "A utility to wait until an HTTP request finishes",
+        "A utility to wait until an HTTP request finishes before continuing with the test",
         "A mock function that records how many times and with what it was called",
         "A decorator that marks a test to be skipped"
       ],
@@ -121,7 +121,7 @@
     "es": {
       "prompt": "Un componente tiene `title = input('t')`. ¿Cómo se cambia su valor desde un test?",
       "options": [
-        "`fixture.componentInstance.title.set('nuevo')`",
+        "`fixture.componentInstance.title.set('nuevo')`, igual que con cualquier signal escribible",
         "`fixture.componentRef.setInput('title', 'nuevo')` y `detectChanges()`",
         "`fixture.componentInstance.title = 'nuevo'`",
         "`TestBed.inject(title).set('nuevo')`"
@@ -131,7 +131,7 @@
     "en": {
       "prompt": "A component has `title = input('t')`. How is its value changed from a test?",
       "options": [
-        "`fixture.componentInstance.title.set('new')`",
+        "`fixture.componentInstance.title.set('new')`, just like with any writable signal",
         "`fixture.componentRef.setInput('title', 'new')` and `detectChanges()`",
         "`fixture.componentInstance.title = 'new'`",
         "`TestBed.inject(title).set('new')`"
@@ -149,8 +149,8 @@
     "es": {
       "prompt": "¿Cómo se comprueba en un test que un `output()` ha emitido?",
       "options": [
-        "Leyendo `output.value`, que guarda el último valor emitido",
-        "Mirando el DOM, porque los outputs siempre cambian el HTML",
+        "Leyendo `output.value`, que guarda el último valor emitido por el componente hijo",
+        "Mirando el DOM, porque los outputs siempre cambian el HTML del componente y se puede consultar ahí",
         "Suscribiéndose con `componentInstance.saved.subscribe(...)` y guardando lo recibido",
         "No se puede comprobar: los outputs son internos de Angular"
       ],
@@ -159,8 +159,8 @@
     "en": {
       "prompt": "How do you check in a test that an `output()` has emitted?",
       "options": [
-        "By reading `output.value`, which stores the last emitted value",
-        "By looking at the DOM, because outputs always change the HTML",
+        "By reading `output.value`, which stores the last value emitted by the child component",
+        "By looking at the DOM, because outputs always change the HTML of the component and it can be checked there",
         "By subscribing with `componentInstance.saved.subscribe(...)` and storing what is received",
         "It cannot be checked: outputs are internal to Angular"
       ],
@@ -178,7 +178,7 @@
       "prompt": "Hago `click` en un botón en un test, pero el DOM no se actualiza. ¿Qué suele faltar?",
       "options": [
         "Llamar a `fixture.detectChanges()` para que se vuelva a pintar",
-        "Esperar siempre un segundo con `setTimeout`",
+        "Esperar siempre un segundo con `setTimeout` para que a Angular le dé tiempo a repintar",
         "Reiniciar el navegador entre test y test",
         "Escribir el test en JavaScript en lugar de TypeScript"
       ],
@@ -188,7 +188,7 @@
       "prompt": "I click a button in a test, but the DOM does not update. What is usually missing?",
       "options": [
         "Calling `fixture.detectChanges()` so it is rendered again",
-        "Always waiting a second with `setTimeout`",
+        "Always waiting a second with `setTimeout` so Angular has time to re-render",
         "Restarting the browser between tests",
         "Writing the test in JavaScript instead of TypeScript"
       ],
@@ -205,7 +205,7 @@
     "es": {
       "prompt": "¿Para qué sirven los \"fake timers\" de Vitest (`vi.useFakeTimers()`)?",
       "options": [
-        "Para que los tests tarden más y detecten fallos de rendimiento",
+        "Para que los tests tarden más y detecten así posibles fallos de rendimiento en el código",
         "Para generar fechas aleatorias en los datos de prueba",
         "Para ejecutar los tests en paralelo sin que se pisen",
         "Para controlar `setTimeout`/`setInterval` y avanzar el tiempo sin esperar"
@@ -215,7 +215,7 @@
     "en": {
       "prompt": "What are Vitest \"fake timers\" (`vi.useFakeTimers()`) for?",
       "options": [
-        "To make tests take longer and detect performance problems",
+        "To make tests take longer and so detect possible performance failures in the code",
         "To generate random dates in the test data",
         "To run tests in parallel without them interfering",
         "To control `setTimeout`/`setInterval` and advance time without waiting"
@@ -233,7 +233,7 @@
     "es": {
       "prompt": "¿Cómo se prueba un servicio que usa `HttpClient` sin hacer peticiones reales?",
       "options": [
-        "Apuntando la app a una base de datos de pruebas en internet",
+        "Apuntando la app a una base de datos de pruebas que esté disponible en internet para todo el equipo",
         "Con `provideHttpClientTesting()` y `HttpTestingController` para responder a mano",
         "Haciendo la petición de verdad y comparando después la respuesta",
         "Cambiando `HttpClient` por `fetch` dentro del test"
@@ -243,7 +243,7 @@
     "en": {
       "prompt": "How do you test a service that uses `HttpClient` without making real requests?",
       "options": [
-        "By pointing the app to a test database on the internet",
+        "By pointing the app to a test database that is available on the internet for the whole team",
         "With `provideHttpClientTesting()` and `HttpTestingController` to respond by hand",
         "By making the real request and comparing the response afterwards",
         "By replacing `HttpClient` with `fetch` inside the test"
@@ -261,7 +261,7 @@
     "es": {
       "prompt": "¿Qué es el patrón \"Arrange, Act, Assert\" en un test?",
       "options": [
-        "Un orden para escribir los ficheros de test dentro de la carpeta",
+        "Un orden recomendado para colocar los ficheros de test dentro de cada carpeta del proyecto",
         "Una librería que genera tests automáticamente",
         "Preparar el escenario, ejecutar la acción y comprobar el resultado",
         "Un sistema para ejecutar los tests en tres navegadores"
@@ -271,7 +271,7 @@
     "en": {
       "prompt": "What is the \"Arrange, Act, Assert\" pattern in a test?",
       "options": [
-        "An order for writing test files inside the folder",
+        "A recommended order for placing the test files inside each folder of the project",
         "A library that generates tests automatically",
         "Prepare the scenario, run the action and check the result",
         "A system to run the tests in three browsers"
@@ -290,7 +290,7 @@
       "prompt": "¿Por qué se recomienda probar el comportamiento y no los detalles internos de un componente?",
       "options": [
         "Porque los tests no se rompen al refactorizar si el resultado visible es el mismo",
-        "Porque probar métodos privados está prohibido por Angular",
+        "Porque probar métodos privados está prohibido por Angular y el compilador lo rechaza siempre",
         "Porque así hacen falta menos tests en total, de cualquier tipo",
         "Porque los detalles internos nunca cambian durante la vida del proyecto"
       ],
@@ -300,7 +300,7 @@
       "prompt": "Why is it recommended to test behavior and not the internal details of a component?",
       "options": [
         "Because tests do not break when refactoring if the visible result is the same",
-        "Because testing private methods is forbidden by Angular",
+        "Because testing private methods is forbidden by Angular and the compiler always rejects it",
         "Because fewer tests are needed overall, of any kind",
         "Because internal details never change during the life of the project"
       ],
@@ -317,8 +317,8 @@
     "es": {
       "prompt": "En una app zoneless, ¿por qué un test puede quedarse con el DOM antiguo aunque cambie el estado?",
       "options": [
-        "Porque Vitest no soporta aplicaciones zoneless",
-        "Porque los signals no pueden usarse en tests",
+        "Porque Vitest no soporta todavía aplicaciones sin Zone.js y no repinta los componentes",
+        "Porque los signals no se pueden usar dentro de los tests y siempre devuelven su valor inicial sin cambios",
         "Porque el DOM de los tests se borra y se recrea cada segundo",
         "Porque nada avisa a Angular de repintar hasta que se llama a `detectChanges()` o se estabiliza"
       ],
@@ -327,8 +327,8 @@
     "en": {
       "prompt": "In a zoneless app, why can a test keep the old DOM even though the state changes?",
       "options": [
-        "Because Vitest does not support zoneless applications",
-        "Because signals cannot be used in tests",
+        "Because Vitest does not yet support applications without Zone.js and does not re-render components",
+        "Because signals cannot be used inside tests and always return their initial value unchanged",
         "Because the test DOM is deleted and recreated every second",
         "Because nothing tells Angular to re-render until `detectChanges()` is called or it stabilizes"
       ],
@@ -345,7 +345,7 @@
     "es": {
       "prompt": "¿Para qué sirve `RouterTestingHarness`?",
       "options": [
-        "Para sustituir el router real por una función vacía en los tests",
+        "Para sustituir el router real por una función vacía y no depender de las rutas de la app",
         "Para grabar la navegación del usuario en producción",
         "Para navegar con el router real en un test y comprobar el componente que se muestra",
         "Para comprobar el estilo CSS de los enlaces del menú"
@@ -355,7 +355,7 @@
     "en": {
       "prompt": "What is `RouterTestingHarness` for?",
       "options": [
-        "To replace the real router with an empty function in tests",
+        "To replace the real router with an empty function and not depend on the app routes",
         "To record user navigation in production",
         "To navigate with the real router in a test and check the component shown",
         "To check the CSS style of the menu links"
