@@ -1,0 +1,730 @@
+[
+  {
+    "id": "ng-forms-reactive-vs-template",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Cuál es la diferencia principal entre formularios reactivos y formularios de plantilla (*template-driven*)?",
+      "options": [
+        "Los reactivos no admiten validación y los de plantilla sí la incluyen de serie",
+        "En los reactivos el modelo se define en la clase; en los de plantilla, con directivas en el HTML",
+        "Los reactivos solo funcionan con signals y los de plantilla solo funcionan con RxJS",
+        "No hay ninguna diferencia: son dos nombres para el mismo sistema de formularios"
+      ],
+      "explanation": "En los **reactivos** (`FormGroup`, `FormControl`) construyes el modelo explícitamente en TypeScript, lo que da más control y facilita probarlo. En los de **plantilla** (`ngModel`) Angular deduce el modelo de las directivas del HTML: más simple, pero con menos control."
+    },
+    "en": {
+      "prompt": "What is the main difference between reactive forms and template-driven forms?",
+      "options": [
+        "Reactive ones do not support validation and template-driven ones include it by default",
+        "In reactive forms the model is defined in the class; in template-driven, with directives in the HTML",
+        "Reactive ones only work with signals and template-driven ones only work with RxJS",
+        "There is no difference: they are two names for the same forms system"
+      ],
+      "explanation": "In **reactive** forms (`FormGroup`, `FormControl`) you build the model explicitly in TypeScript, which gives more control and makes testing easier. In **template-driven** forms (`ngModel`) Angular infers the model from the HTML directives: simpler, but with less control."
+    }
+  },
+  {
+    "id": "ng-forms-imports",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué necesita importar un componente standalone para usar `[formGroup]` y `formControlName`?",
+      "options": [
+        "`FormsModule`, que contiene todas las directivas de formularios de Angular",
+        "`HttpClientModule`, porque los formularios envían siempre datos al servidor",
+        "`ReactiveFormsModule`, que incluye `FormGroupDirective` y `FormControlName`",
+        "Nada: las directivas de formularios están disponibles en todos los componentes"
+      ],
+      "explanation": "`ReactiveFormsModule` trae las directivas de los formularios reactivos (`[formGroup]`, `formControlName`, `[formControl]`). `FormsModule` trae `ngModel`, para los de plantilla."
+    },
+    "en": {
+      "prompt": "What does a standalone component need to import to use `[formGroup]` and `formControlName`?",
+      "options": [
+        "`FormsModule`, which contains all of Angular's form directives",
+        "`HttpClientModule`, because forms always send data to the server",
+        "`ReactiveFormsModule`, which includes `FormGroupDirective` and `FormControlName`",
+        "Nothing: form directives are available in every component"
+      ],
+      "explanation": "`ReactiveFormsModule` brings the reactive forms directives (`[formGroup]`, `formControlName`, `[formControl]`). `FormsModule` brings `ngModel`, for template-driven forms."
+    }
+  },
+  {
+    "id": "ng-forms-reset-null",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst name = new FormControl('Ana');\nname.setValue('Luis');\nname.reset();\nconsole.log(name.value);\n```",
+      "options": [
+        "`null`: `reset()` vuelve a `null`, no al valor con el que se creó",
+        "`'Ana'`, el valor inicial con el que se creó el control",
+        "`'Luis'`, porque `reset()` solo limpia el estado y no el valor",
+        "`undefined`, porque el control queda sin inicializar tras el reinicio"
+      ],
+      "explanation": "Por defecto, `reset()` deja el valor en **`null`**, no en el inicial. Por eso el tipo es `FormControl<string | null>`. Con `{ nonNullable: true }`, `reset()` restaura el valor inicial (`'Ana'`)."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst name = new FormControl('Ana');\nname.setValue('Luis');\nname.reset();\nconsole.log(name.value);\n```",
+      "options": [
+        "`null`: `reset()` goes back to `null`, not to the value it was created with",
+        "`'Ana'`, the initial value the control was created with",
+        "`'Luis'`, because `reset()` only clears the state and not the value",
+        "`undefined`, because the control is left uninitialized after the reset"
+      ],
+      "explanation": "By default, `reset()` leaves the value as **`null`**, not the initial one. That is why the type is `FormControl<string | null>`. With `{ nonNullable: true }`, `reset()` restores the initial value (`'Ana'`)."
+    }
+  },
+  {
+    "id": "ng-forms-nonnullable",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué cambia con `new FormControl('Ana', { nonNullable: true })`?",
+      "options": [
+        "El control no se puede dejar vacío y la validación `required` se activa sola",
+        "El control deja de emitir `valueChanges` cuando se escribe un valor vacío",
+        "El control se deshabilita automáticamente cuando su valor llega a ser `null`",
+        "`reset()` restaura el valor inicial y el tipo pasa a ser `string`"
+      ],
+      "explanation": "Con `nonNullable: true`, el control nunca es `null`: `reset()` vuelve al valor inicial y el tipo es `FormControl<string>` (sin `| null`). Con `fb.nonNullable.group(...)` se aplica a todos los controles del grupo."
+    },
+    "en": {
+      "prompt": "What changes with `new FormControl('Ana', { nonNullable: true })`?",
+      "options": [
+        "The control cannot be left empty and `required` validation turns on by itself",
+        "The control stops emitting `valueChanges` when an empty value is typed",
+        "The control is automatically disabled when its value becomes `null`",
+        "`reset()` restores the initial value and the type becomes `string`"
+      ],
+      "explanation": "With `nonNullable: true`, the control is never `null`: `reset()` goes back to the initial value and the type is `FormControl<string>` (without `| null`). With `fb.nonNullable.group(...)` it applies to every control in the group."
+    }
+  },
+  {
+    "id": "ng-forms-required-state",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst c = new FormControl('', Validators.required);\nconsole.log(c.valid, c.errors);\n```",
+      "options": [
+        "`true null`, porque el usuario todavía no ha tocado el control",
+        "`false { required: true }`: la validación se ejecuta desde que se crea",
+        "`false null`, porque los errores solo existen después de enviar el formulario",
+        "`true { required: false }`, porque `required` solo se comprueba al perder el foco"
+      ],
+      "explanation": "La validación se calcula **desde que se crea el control**: un valor vacío con `required` es inválido y `errors` es `{ required: true }`. Que el usuario lo haya tocado o no solo decide **cuándo mostrar** el error en pantalla."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst c = new FormControl('', Validators.required);\nconsole.log(c.valid, c.errors);\n```",
+      "options": [
+        "`true null`, because the user has not touched the control yet",
+        "`false { required: true }`: validation runs from the moment it is created",
+        "`false null`, because errors only exist after submitting the form",
+        "`true { required: false }`, because `required` is only checked on blur"
+      ],
+      "explanation": "Validation is computed **from the moment the control is created**: an empty value with `required` is invalid and `errors` is `{ required: true }`. Whether the user has touched it only decides **when to show** the error on screen."
+    }
+  },
+  {
+    "id": "ng-forms-setvalue-vs-patchvalue",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué ocurre con cada llamada?\n\n```ts\nconst form = new FormGroup({\n  name: new FormControl(''),\n  age: new FormControl(0),\n});\n\nform.patchValue({ name: 'Ana' });\nform.setValue({ name: 'Ana' });\n```",
+      "options": [
+        "Las dos actualizan solo `name` y dejan `age` exactamente como estaba",
+        "`patchValue` lanza un error y `setValue` actualiza solo `name`",
+        "`patchValue` actualiza `name`; `setValue` lanza un error porque falta `age`",
+        "Las dos lanzan un error, porque `age` no se ha indicado en el objeto"
+      ],
+      "explanation": "`patchValue` acepta un objeto **parcial** y actualiza solo lo indicado. `setValue` exige **todos** los controles del grupo y lanza un error si falta alguno. Usa `patchValue` para rellenar parte del formulario."
+    },
+    "en": {
+      "prompt": "What happens with each call?\n\n```ts\nconst form = new FormGroup({\n  name: new FormControl(''),\n  age: new FormControl(0),\n});\n\nform.patchValue({ name: 'Ana' });\nform.setValue({ name: 'Ana' });\n```",
+      "options": [
+        "Both update only `name` and leave `age` exactly as it was",
+        "`patchValue` throws an error and `setValue` updates only `name`",
+        "`patchValue` updates `name`; `setValue` throws an error because `age` is missing",
+        "Both throw an error, because `age` is not specified in the object"
+      ],
+      "explanation": "`patchValue` accepts a **partial** object and updates only what is given. `setValue` requires **every** control in the group and throws if one is missing. Use `patchValue` to fill part of the form."
+    }
+  },
+  {
+    "id": "ng-forms-dirty-touched",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Cambias el valor de un control con `control.setValue('x')` desde el código. ¿Qué valen `dirty` y `touched`?",
+      "options": [
+        "Los dos pasan a `true`, igual que si lo hiciera el usuario escribiendo",
+        "`dirty` pasa a `true` y `touched` sigue en `false`",
+        "`touched` pasa a `true` y `dirty` sigue en `false`",
+        "Los dos siguen en `false`: solo cambian con la interacción del usuario"
+      ],
+      "explanation": "`dirty` y `touched` reflejan lo que hace **el usuario** (escribir, salir del campo). Un `setValue` desde el código no los modifica. Si los necesitas, se activan con `markAsDirty()` y `markAsTouched()`."
+    },
+    "en": {
+      "prompt": "You change a control's value with `control.setValue('x')` from code. What are `dirty` and `touched`?",
+      "options": [
+        "Both become `true`, just as if the user had typed",
+        "`dirty` becomes `true` and `touched` stays `false`",
+        "`touched` becomes `true` and `dirty` stays `false`",
+        "Both stay `false`: they only change with user interaction"
+      ],
+      "explanation": "`dirty` and `touched` reflect what **the user** does (typing, leaving the field). A `setValue` from code does not change them. If you need them, you set them with `markAsDirty()` and `markAsTouched()`."
+    }
+  },
+  {
+    "id": "ng-forms-emitevent-false",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst c = new FormControl('');\nc.valueChanges.subscribe((v) => console.log(v));\n\nc.setValue('a');\nc.setValue('b', { emitEvent: false });\nc.setValue('c');\n```",
+      "options": [
+        "`a`, `b` y `c`: `emitEvent` no afecta a lo que emite `valueChanges`",
+        "`a` y `c`: con `emitEvent: false` ese cambio no se emite",
+        "Solo `c`, porque `valueChanges` ignora todo salvo el último valor",
+        "`a`, `b` y `c`, y además un error por usar `emitEvent: false`"
+      ],
+      "explanation": "Con `{ emitEvent: false }`, el valor cambia pero **no se emite** `valueChanges`. Es útil para evitar bucles al actualizar un campo desde un `subscribe` de otro, aunque conviene usarlo con cuidado."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst c = new FormControl('');\nc.valueChanges.subscribe((v) => console.log(v));\n\nc.setValue('a');\nc.setValue('b', { emitEvent: false });\nc.setValue('c');\n```",
+      "options": [
+        "`a`, `b` and `c`: `emitEvent` does not affect what `valueChanges` emits",
+        "`a` and `c`: with `emitEvent: false` that change is not emitted",
+        "Only `c`, because `valueChanges` ignores everything but the last value",
+        "`a`, `b` and `c`, plus an error for using `emitEvent: false`"
+      ],
+      "explanation": "With `{ emitEvent: false }`, the value changes but `valueChanges` is **not emitted**. It is useful to avoid loops when updating one field from another's `subscribe`, though it should be used with care."
+    }
+  },
+  {
+    "id": "ng-forms-custom-validator",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué debe devolver un validador síncrono cuando el valor es válido?\n\n```ts\nfunction noSpaces(control: AbstractControl): ValidationErrors | null {\n  return control.value?.includes(' ') ? { noSpaces: true } : null;\n}\n```",
+      "options": [
+        "`null`, que representa la ausencia de errores",
+        "`true`, para indicar que la validación ha pasado",
+        "`undefined`, igual que una función sin ningún `return`",
+        "`false`, porque `true` se reserva para los errores"
+      ],
+      "explanation": "Un validador síncrono devuelve `null` si es válido, o un **objeto de errores** (`{ noSpaces: true }`) si no lo es. La clave del objeto es el nombre del error, que se lee con `control.errors` o `hasError('noSpaces')`."
+    },
+    "en": {
+      "prompt": "What must a synchronous validator return when the value is valid?\n\n```ts\nfunction noSpaces(control: AbstractControl): ValidationErrors | null {\n  return control.value?.includes(' ') ? { noSpaces: true } : null;\n}\n```",
+      "options": [
+        "`null`, which represents the absence of errors",
+        "`true`, to indicate that validation passed",
+        "`undefined`, like a function with no `return` at all",
+        "`false`, because `true` is reserved for errors"
+      ],
+      "explanation": "A synchronous validator returns `null` if valid, or an **errors object** (`{ noSpaces: true }`) if not. The object key is the error name, read with `control.errors` or `hasError('noSpaces')`."
+    }
+  },
+  {
+    "id": "ng-forms-validator-factory",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Por qué `forbiddenName` devuelve una función en lugar de devolver directamente los errores?\n\n```ts\nfunction forbiddenName(name: string): ValidatorFn {\n  return (control) => (control.value === name ? { forbiddenName: true } : null);\n}\n\nnew FormControl('', forbiddenName('admin'));\n```",
+      "options": [
+        "Porque Angular exige que todas las funciones de validación sean asíncronas",
+        "Porque así el validador se ejecuta una sola vez, cuando se crea el control",
+        "Es una *factory*: recibe el parámetro y devuelve el `ValidatorFn` que usa el control",
+        "Porque las funciones normales no pueden devolver `null` dentro de un validador"
+      ],
+      "explanation": "Un `ValidatorFn` solo recibe el control. Para pasarle datos propios (el nombre prohibido) se usa una *factory*: una función que recibe los parámetros y **devuelve** el validador. Así funcionan también `Validators.minLength(3)` o `Validators.pattern(...)`."
+    },
+    "en": {
+      "prompt": "Why does `forbiddenName` return a function instead of returning the errors directly?\n\n```ts\nfunction forbiddenName(name: string): ValidatorFn {\n  return (control) => (control.value === name ? { forbiddenName: true } : null);\n}\n\nnew FormControl('', forbiddenName('admin'));\n```",
+      "options": [
+        "Because Angular requires every validation function to be asynchronous",
+        "Because that way the validator runs only once, when the control is created",
+        "It is a *factory*: it takes the parameter and returns the `ValidatorFn` the control uses",
+        "Because normal functions cannot return `null` inside a validator"
+      ],
+      "explanation": "A `ValidatorFn` only receives the control. To pass it your own data (the forbidden name) you use a *factory*: a function that takes the parameters and **returns** the validator. `Validators.minLength(3)` or `Validators.pattern(...)` work the same way."
+    }
+  },
+  {
+    "id": "ng-forms-minlength-empty",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Un control vacío tiene `Validators.required` y `Validators.minLength(3)`. ¿Qué errores tiene?\n\n```ts\nconst c = new FormControl('', [Validators.required, Validators.minLength(3)]);\nconsole.log(c.errors);\n```",
+      "options": [
+        "`required` y `minlength`, porque una cadena vacía tiene menos de 3 caracteres",
+        "Solo `required`: `minLength` no valida los valores vacíos",
+        "Solo `minlength`, porque `required` se omite si hay otro validador",
+        "Ninguno, porque el control todavía no ha sido tocado por el usuario"
+      ],
+      "explanation": "`minLength`, `maxLength`, `pattern` o `email` **ignoran los valores vacíos**: dejan esa decisión a `required`. Así el usuario ve un único mensaje (\"obligatorio\") en vez de dos a la vez."
+    },
+    "en": {
+      "prompt": "An empty control has `Validators.required` and `Validators.minLength(3)`. What errors does it have?\n\n```ts\nconst c = new FormControl('', [Validators.required, Validators.minLength(3)]);\nconsole.log(c.errors);\n```",
+      "options": [
+        "`required` and `minlength`, because an empty string has fewer than 3 characters",
+        "Only `required`: `minLength` does not validate empty values",
+        "Only `minlength`, because `required` is skipped if there is another validator",
+        "None, because the user has not touched the control yet"
+      ],
+      "explanation": "`minLength`, `maxLength`, `pattern` or `email` **ignore empty values**: they leave that decision to `required`. That way the user sees a single message (\"required\") instead of two at once."
+    }
+  },
+  {
+    "id": "ng-forms-crossfield-validator",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Dónde aparece el error `mismatch`?\n\n```ts\nconst form = new FormGroup(\n  { pass: new FormControl('1'), repeat: new FormControl('2') },\n  {\n    validators: (group) =>\n      group.get('pass')?.value === group.get('repeat')?.value ? null : { mismatch: true },\n  },\n);\n```",
+      "options": [
+        "En `form.errors`: en el grupo, no en un control concreto",
+        "En `form.get('pass')?.errors`, el primer control del grupo",
+        "En `form.get('repeat')?.errors`, el último control que se compara",
+        "En ningún sitio: los validadores de grupo no pueden devolver errores"
+      ],
+      "explanation": "Un validador de **grupo** se aplica al `FormGroup` y su error aparece en `form.errors`. Es la forma de validar campos que dependen entre sí (contraseña y repetición). Los controles hijos siguen siendo válidos."
+    },
+    "en": {
+      "prompt": "Where does the `mismatch` error appear?\n\n```ts\nconst form = new FormGroup(\n  { pass: new FormControl('1'), repeat: new FormControl('2') },\n  {\n    validators: (group) =>\n      group.get('pass')?.value === group.get('repeat')?.value ? null : { mismatch: true },\n  },\n);\n```",
+      "options": [
+        "In `form.errors`: on the group, not on a specific control",
+        "In `form.get('pass')?.errors`, the first control in the group",
+        "In `form.get('repeat')?.errors`, the last control being compared",
+        "Nowhere: group validators cannot return errors"
+      ],
+      "explanation": "A **group** validator is applied to the `FormGroup` and its error appears in `form.errors`. It is the way to validate fields that depend on each other (password and repeat). The child controls remain valid."
+    }
+  },
+  {
+    "id": "ng-forms-async-validator-pending",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué `status` tiene el control mientras se espera la respuesta del validador asíncrono?\n\n```ts\nconst username = new FormControl('ana', null, () =>\n  timer(300).pipe(map(() => ({ taken: true }))),\n);\n```",
+      "options": [
+        "`VALID`, porque aún no se ha detectado ningún error",
+        "`INVALID`, porque el validador todavía no ha respondido",
+        "`DISABLED`, porque el control espera a que termine la comprobación",
+        "`PENDING`, hasta que el validador asíncrono responde"
+      ],
+      "explanation": "Mientras un validador asíncrono no ha terminado, el estado es **`PENDING`**. Después pasa a `VALID` o `INVALID`. Los validadores asíncronos solo se ejecutan si los síncronos pasan, para evitar peticiones inútiles."
+    },
+    "en": {
+      "prompt": "What `status` does the control have while waiting for the async validator's response?\n\n```ts\nconst username = new FormControl('ana', null, () =>\n  timer(300).pipe(map(() => ({ taken: true }))),\n);\n```",
+      "options": [
+        "`VALID`, because no error has been detected yet",
+        "`INVALID`, because the validator has not responded yet",
+        "`DISABLED`, because the control waits for the check to finish",
+        "`PENDING`, until the async validator responds"
+      ],
+      "explanation": "While an async validator has not finished, the status is **`PENDING`**. It then becomes `VALID` or `INVALID`. Async validators only run if the sync ones pass, to avoid pointless requests."
+    }
+  },
+  {
+    "id": "ng-forms-formarray",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst tags = new FormArray([new FormControl('a'), new FormControl('b')]);\ntags.push(new FormControl('c'));\ntags.removeAt(0);\nconsole.log(tags.value);\n```",
+      "options": [
+        "`['a', 'b', 'c']`, porque `removeAt` solo marca el elemento como borrado",
+        "`['b', 'c']`: se añade `c` y se elimina el elemento de la posición 0",
+        "`['a', 'c']`, porque `removeAt(0)` borra el segundo elemento de la lista",
+        "`['c']`, porque `removeAt` elimina todos los elementos anteriores a `c`"
+      ],
+      "explanation": "`FormArray` es una lista dinámica de controles: `push` añade al final y `removeAt(i)` elimina por posición. Su `value` es un array con los valores de sus controles. Es lo que se usa para listas que crecen o encogen (teléfonos, etiquetas)."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst tags = new FormArray([new FormControl('a'), new FormControl('b')]);\ntags.push(new FormControl('c'));\ntags.removeAt(0);\nconsole.log(tags.value);\n```",
+      "options": [
+        "`['a', 'b', 'c']`, because `removeAt` only marks the item as deleted",
+        "`['b', 'c']`: `c` is added and the item at position 0 is removed",
+        "`['a', 'c']`, because `removeAt(0)` deletes the second item in the list",
+        "`['c']`, because `removeAt` removes all the items before `c`"
+      ],
+      "explanation": "`FormArray` is a dynamic list of controls: `push` adds at the end and `removeAt(i)` removes by position. Its `value` is an array with its controls' values. It is what you use for lists that grow or shrink (phones, tags)."
+    }
+  },
+  {
+    "id": "ng-forms-disabled-rawvalue",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué devuelven `form.value` y `form.getRawValue()` si el control `b` está deshabilitado?\n\n```ts\nconst form = new FormGroup({\n  a: new FormControl('1'),\n  b: new FormControl('2'),\n});\nform.get('b')?.disable();\n```",
+      "options": [
+        "Los dos devuelven `{ a: '1', b: '2' }`, porque el valor no depende del estado",
+        "`value` devuelve `{ a: '1', b: '2' }` y `getRawValue()` devuelve `{ a: '1' }`",
+        "`value` omite el control deshabilitado y `getRawValue()` lo incluye",
+        "Los dos omiten `b`, porque un control deshabilitado deja de tener valor"
+      ],
+      "explanation": "`form.value` **excluye** los controles deshabilitados (`{ a: '1' }`). `getRawValue()` los incluye (`{ a: '1', b: '2' }`). Es una sorpresa típica: al enviar el formulario puede faltar un campo deshabilitado."
+    },
+    "en": {
+      "prompt": "What do `form.value` and `form.getRawValue()` return if control `b` is disabled?\n\n```ts\nconst form = new FormGroup({\n  a: new FormControl('1'),\n  b: new FormControl('2'),\n});\nform.get('b')?.disable();\n```",
+      "options": [
+        "Both return `{ a: '1', b: '2' }`, because the value does not depend on the state",
+        "`value` returns `{ a: '1', b: '2' }` and `getRawValue()` returns `{ a: '1' }`",
+        "`value` omits the disabled control and `getRawValue()` includes it",
+        "Both omit `b`, because a disabled control no longer has a value"
+      ],
+      "explanation": "`form.value` **excludes** disabled controls (`{ a: '1' }`). `getRawValue()` includes them (`{ a: '1', b: '2' }`). It is a classic surprise: when submitting the form a disabled field may be missing."
+    }
+  },
+  {
+    "id": "ng-forms-markalltouched",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Al enviar un formulario inválido, ¿qué método hace que se muestren los errores de todos los campos si los mensajes dependen de `touched`?",
+      "options": [
+        "`markAllAsTouched()` sobre el grupo, para que todos cuenten como tocados",
+        "`reset()` sobre el grupo, porque limpia los mensajes de error pendientes",
+        "`disable()` sobre el grupo, que fuerza la validación de cada campo",
+        "`setValue({})` sobre el grupo, que recalcula todos los errores de golpe"
+      ],
+      "explanation": "Si el mensaje de error solo sale cuando el campo está `touched`, un usuario que pulsa \"Enviar\" sin tocar nada no vería ninguno. `form.markAllAsTouched()` marca todos como tocados y los errores aparecen."
+    },
+    "en": {
+      "prompt": "When submitting an invalid form, which method makes the errors of every field appear if messages depend on `touched`?",
+      "options": [
+        "`markAllAsTouched()` on the group, so all of them count as touched",
+        "`reset()` on the group, because it clears pending error messages",
+        "`disable()` on the group, which forces validation of each field",
+        "`setValue({})` on the group, which recalculates all errors at once"
+      ],
+      "explanation": "If the error message only shows when the field is `touched`, a user who presses \"Submit\" without touching anything would see none. `form.markAllAsTouched()` marks them all as touched and the errors appear."
+    }
+  },
+  {
+    "id": "ng-forms-template-name",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "En un formulario de plantilla, ¿qué atributo necesita un `<input [(ngModel)]>` dentro de un `<form>`?",
+      "options": [
+        "`id`, porque `ngModel` registra los controles por su identificador",
+        "`type`, para indicar al formulario qué clase de valor guarda",
+        "`formControlName`, que es la directiva que conecta cada campo",
+        "`name`, con el que el control se registra dentro del formulario"
+      ],
+      "explanation": "Dentro de un `<form>`, `ngModel` registra el control con el valor de su atributo **`name`**. Sin él, Angular lanza un error (salvo que uses `[ngModelOptions]=\"{ standalone: true }\"`)."
+    },
+    "en": {
+      "prompt": "In a template-driven form, which attribute does an `<input [(ngModel)]>` need inside a `<form>`?",
+      "options": [
+        "`id`, because `ngModel` registers controls by their identifier",
+        "`type`, to tell the form what kind of value it holds",
+        "`formControlName`, which is the directive that connects each field",
+        "`name`, with which the control registers itself inside the form"
+      ],
+      "explanation": "Inside a `<form>`, `ngModel` registers the control using the value of its **`name`** attribute. Without it, Angular throws an error (unless you use `[ngModelOptions]=\"{ standalone: true }\"`)."
+    }
+  },
+  {
+    "id": "ng-forms-formcontrol-vs-name",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Cuándo usas `[formControl]` y cuándo `formControlName`?",
+      "options": [
+        "`[formControl]` dentro de un `FormGroup` y `formControlName` solo fuera de él",
+        "`[formControl]` enlaza un control suelto; `formControlName` lo busca por nombre dentro de `[formGroup]`",
+        "Son sinónimos: se pueden intercambiar en cualquier plantilla sin cambiar nada",
+        "`[formControl]` es para componentes standalone y `formControlName` para NgModules"
+      ],
+      "explanation": "`[formControl]=\"miControl\"` enlaza directamente un `FormControl` que tienes en la clase. `formControlName=\"email\"` busca el control por su nombre dentro del `FormGroup` que enlaza `[formGroup]` en un elemento padre."
+    },
+    "en": {
+      "prompt": "When do you use `[formControl]` and when `formControlName`?",
+      "options": [
+        "`[formControl]` inside a `FormGroup` and `formControlName` only outside it",
+        "`[formControl]` binds a standalone control; `formControlName` looks it up by name inside `[formGroup]`",
+        "They are synonyms: they can be swapped in any template without changing anything",
+        "`[formControl]` is for standalone components and `formControlName` for NgModules"
+      ],
+      "explanation": "`[formControl]=\"myControl\"` directly binds a `FormControl` you hold in the class. `formControlName=\"email\"` looks up the control by name inside the `FormGroup` that `[formGroup]` binds on a parent element."
+    }
+  },
+  {
+    "id": "ng-forms-updateon-blur",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué efecto tiene `updateOn: 'blur'` en un `FormControl`?",
+      "options": [
+        "El valor y la validez se actualizan cuando el campo pierde el foco, no con cada tecla",
+        "El control se actualiza solo cuando el usuario pulsa el botón de enviar el formulario",
+        "El campo se desactiva automáticamente al perder el foco, hasta que se vuelve a pulsar",
+        "El control emite `valueChanges` una vez por segundo mientras mantiene el foco"
+      ],
+      "explanation": "Por defecto un control se actualiza en cada `input` (`updateOn: 'change'`). Con `'blur'` el valor del modelo y la validación se actualizan al salir del campo, y con `'submit'`, al enviar. Reduce validaciones mientras el usuario aún escribe."
+    },
+    "en": {
+      "prompt": "What effect does `updateOn: 'blur'` have on a `FormControl`?",
+      "options": [
+        "The value and validity update when the field loses focus, not on every keystroke",
+        "The control updates only when the user presses the form's submit button",
+        "The field is automatically disabled on losing focus, until it is clicked again",
+        "The control emits `valueChanges` once per second while it keeps focus"
+      ],
+      "explanation": "By default a control updates on every `input` (`updateOn: 'change'`). With `'blur'` the model value and validation update when leaving the field, and with `'submit'`, on submit. It reduces validations while the user is still typing."
+    }
+  },
+  {
+    "id": "ng-forms-controlvalueaccessor",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué sirve implementar `ControlValueAccessor` en un componente?",
+      "options": [
+        "Para que el componente pueda hacer peticiones HTTP con los datos del formulario",
+        "Para guardar automáticamente el valor del campo en `localStorage` al cambiar",
+        "Para que un componente propio funcione como campo con `ngModel` o `formControl`",
+        "Para validar el valor del campo de forma asíncrona sin escribir un validador"
+      ],
+      "explanation": "`ControlValueAccessor` es el puente entre Angular Forms y un componente propio (un selector de fechas, un rating...). Define `writeValue`, `registerOnChange`, `registerOnTouched` y `setDisabledState`, y se registra con `NG_VALUE_ACCESSOR`."
+    },
+    "en": {
+      "prompt": "What is implementing `ControlValueAccessor` in a component for?",
+      "options": [
+        "So the component can make HTTP requests with the form data",
+        "To automatically save the field value in `localStorage` on change",
+        "So a custom component works as a field with `ngModel` or `formControl`",
+        "To validate the field value asynchronously without writing a validator"
+      ],
+      "explanation": "`ControlValueAccessor` is the bridge between Angular Forms and a custom component (a date picker, a rating...). It defines `writeValue`, `registerOnChange`, `registerOnTouched` and `setDisabledState`, and is registered with `NG_VALUE_ACCESSOR`."
+    }
+  },
+  {
+    "id": "ng-forms-typed-nullable",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Por qué el tipo de `new FormControl('')` es `FormControl<string | null>`?",
+      "options": [
+        "Porque los formularios de Angular no admiten cadenas vacías como valor válido",
+        "Porque `reset()` puede dejar el valor en `null`",
+        "Porque TypeScript no sabe inferir el tipo del valor inicial de un control",
+        "Porque `null` es el valor por defecto de todos los `input` de HTML"
+      ],
+      "explanation": "Desde los formularios tipados (Angular 14), el tipo refleja que `reset()` puede devolver `null`. Si quieres evitarlo, `new FormControl('', { nonNullable: true })` da `FormControl<string>`."
+    },
+    "en": {
+      "prompt": "Why is the type of `new FormControl('')` `FormControl<string | null>`?",
+      "options": [
+        "Because Angular forms do not support empty strings as a valid value",
+        "Because `reset()` can leave the value as `null`",
+        "Because TypeScript cannot infer the type of a control's initial value",
+        "Because `null` is the default value of every HTML `input`"
+      ],
+      "explanation": "Since typed forms (Angular 14), the type reflects that `reset()` can return `null`. To avoid it, `new FormControl('', { nonNullable: true })` gives `FormControl<string>`."
+    }
+  },
+  {
+    "id": "ng-forms-status-values",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué valores puede tomar la propiedad `status` de un control o grupo?",
+      "options": [
+        "`OK`, `ERROR` y `LOADING`",
+        "`TRUE`, `FALSE` y `UNKNOWN`",
+        "`PRISTINE`, `DIRTY` y `TOUCHED`",
+        "`VALID`, `INVALID`, `PENDING` y `DISABLED`"
+      ],
+      "explanation": "`status` es uno de `VALID`, `INVALID`, `PENDING` (validador asíncrono en marcha) o `DISABLED`. `pristine`/`dirty` y `touched`/`untouched` son otro conjunto de propiedades, sobre la interacción del usuario."
+    },
+    "en": {
+      "prompt": "Which values can the `status` property of a control or group take?",
+      "options": [
+        "`OK`, `ERROR` and `LOADING`",
+        "`TRUE`, `FALSE` and `UNKNOWN`",
+        "`PRISTINE`, `DIRTY` and `TOUCHED`",
+        "`VALID`, `INVALID`, `PENDING` and `DISABLED`"
+      ],
+      "explanation": "`status` is one of `VALID`, `INVALID`, `PENDING` (async validator running) or `DISABLED`. `pristine`/`dirty` and `touched`/`untouched` are a different set of properties, about user interaction."
+    }
+  },
+  {
+    "id": "ng-forms-haserror",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué comprueba `form.get('email')?.hasError('required')`?",
+      "options": [
+        "Si el campo tiene el atributo HTML `required` escrito en su plantilla",
+        "Si el campo ha sido tocado y está vacío en ese preciso momento",
+        "Si el control tiene un error con la clave `required` en su `errors`",
+        "Si el formulario entero es inválido porque falta algún campo"
+      ],
+      "explanation": "`hasError('required')` devuelve `true` si `errors` contiene la clave `required`. Suele combinarse con `touched` para mostrar el mensaje: `control.touched && control.hasError('required')`."
+    },
+    "en": {
+      "prompt": "What does `form.get('email')?.hasError('required')` check?",
+      "options": [
+        "Whether the field has the HTML `required` attribute written in its template",
+        "Whether the field has been touched and is empty at that very moment",
+        "Whether the control has an error with the key `required` in its `errors`",
+        "Whether the whole form is invalid because some field is missing"
+      ],
+      "explanation": "`hasError('required')` returns `true` if `errors` contains the key `required`. It is usually combined with `touched` to show the message: `control.touched && control.hasError('required')`."
+    }
+  },
+  {
+    "id": "ng-signalforms-schema",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "En Signal Forms, ¿dónde se declaran las reglas de validación?",
+      "options": [
+        "En una función que recibe `path` y se pasa a `form()`, junto al modelo",
+        "En un array de `Validators` que se pasa a cada `FormControl` al crearlo",
+        "En atributos HTML como `required` y `minlength`, que Angular lee del DOM",
+        "En un NgModule de validaciones que se importa en el componente raíz"
+      ],
+      "explanation": "Se pasan como segundo argumento de `form(modelo, (path) => { required(path.email); email(path.email); })`. `path` apunta a los campos del modelo y las funciones (`required`, `email`, `minLength`...) declaran las reglas."
+    },
+    "en": {
+      "prompt": "In Signal Forms, where are validation rules declared?",
+      "options": [
+        "In a function that receives `path` and is passed to `form()`, next to the model",
+        "In an array of `Validators` passed to each `FormControl` when creating it",
+        "In HTML attributes such as `required` and `minlength`, which Angular reads from the DOM",
+        "In a validations NgModule imported in the root component"
+      ],
+      "explanation": "They are passed as the second argument of `form(model, (path) => { required(path.email); email(path.email); })`. `path` points to the model's fields and the functions (`required`, `email`, `minLength`...) declare the rules."
+    }
+  },
+  {
+    "id": "ng-forms-valuechanges-search",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ventaja tiene este patrón en un campo de búsqueda?\n\n```ts\nthis.search.valueChanges\n  .pipe(debounceTime(300), distinctUntilChanged())\n  .subscribe((term) => this.load(term));\n```",
+      "options": [
+        "Hace que el campo ignore las teclas que no sean letras o números",
+        "Evita cargar por cada tecla y repetir la carga con un texto igual al anterior",
+        "Cancela automáticamente la petición anterior cuando el usuario sigue escribiendo",
+        "Guarda en caché los resultados de cada término buscado durante la sesión"
+      ],
+      "explanation": "`debounceTime(300)` espera a que el usuario pare de escribir y `distinctUntilChanged()` descarta un valor igual al anterior. Para **cancelar** la petición en curso se añadiría `switchMap`."
+    },
+    "en": {
+      "prompt": "What advantage does this pattern have in a search box?\n\n```ts\nthis.search.valueChanges\n  .pipe(debounceTime(300), distinctUntilChanged())\n  .subscribe((term) => this.load(term));\n```",
+      "options": [
+        "It makes the field ignore keys that are not letters or numbers",
+        "It avoids loading on every keystroke and repeating the load with the same text as before",
+        "It automatically cancels the previous request while the user keeps typing",
+        "It caches the results of each searched term during the session"
+      ],
+      "explanation": "`debounceTime(300)` waits for the user to stop typing and `distinctUntilChanged()` discards a value equal to the previous one. To **cancel** the in-flight request you would add `switchMap`."
+    }
+  },
+  {
+    "id": "ng-forms-formbuilder",
+    "tech": "angular",
+    "topic": "forms",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué ventaja ofrece `FormBuilder`?",
+      "options": [
+        "Una sintaxis más corta para crear grupos, arrays y controles, como `fb.group({ ... })`",
+        "Que los formularios creados con él se validan en el servidor en lugar del cliente",
+        "Que convierte automáticamente un formulario de plantilla en uno reactivo",
+        "Que permite crear formularios sin tener que importar ningún módulo de formularios"
+      ],
+      "explanation": "`FormBuilder` es un atajo: `fb.group({ name: [''], email: ['', Validators.email] })` en vez de escribir `new FormGroup({ name: new FormControl(''), ... })`. Se inyecta con `inject(FormBuilder)`. No cambia lo que hace el formulario."
+    },
+    "en": {
+      "prompt": "What advantage does `FormBuilder` offer?",
+      "options": [
+        "A shorter syntax to create groups, arrays and controls, such as `fb.group({ ... })`",
+        "That forms created with it are validated on the server instead of the client",
+        "That it automatically turns a template-driven form into a reactive one",
+        "That it lets you create forms without importing any forms module"
+      ],
+      "explanation": "`FormBuilder` is a shortcut: `fb.group({ name: [''], email: ['', Validators.email] })` instead of writing `new FormGroup({ name: new FormControl(''), ... })`. It is injected with `inject(FormBuilder)`. It does not change what the form does."
+    }
+  }
+]

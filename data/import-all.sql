@@ -96,7 +96,58 @@ insert into public.questions (id, tech, topic, difficulty, type, correct_index, 
   ('rx-nested-subscribe-antipattern', 'rxjs', 'operators', 'medium', 'test', 3, 'draft', 'rxjs@7'),
   ('rx-observable-to-promise', 'rxjs', 'interop', 'medium', 'test', 2, 'draft', 'rxjs@7'),
   ('rx-tosignal', 'rxjs', 'interop', 'medium', 'test', 0, 'draft', 'rxjs@7'),
-  ('rx-toobservable-async', 'rxjs', 'interop', 'hard', 'test', 3, 'draft', 'rxjs@7')
+  ('rx-toobservable-async', 'rxjs', 'interop', 'hard', 'test', 3, 'draft', 'rxjs@7'),
+  ('ng-provide-httpclient', 'angular', 'http', 'easy', 'test', 2, 'draft', 'angular@22'),
+  ('ng-httpclient-returns-observable', 'angular', 'http', 'easy', 'test', 1, 'draft', 'angular@22'),
+  ('ng-httpparams-immutable', 'angular', 'http', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-httpparams-append-vs-set', 'angular', 'http', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-httpheaders-immutable', 'angular', 'http', 'medium', 'test', 3, 'draft', 'angular@22'),
+  ('ng-http-error-status-zero', 'angular', 'http', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-http-observe-response', 'angular', 'http', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-http-json-default', 'angular', 'http', 'easy', 'test', 2, 'draft', 'angular@22'),
+  ('ng-http-cancel-unsubscribe', 'angular', 'http', 'medium', 'test', 3, 'draft', 'angular@22'),
+  ('ng-interceptor-clone', 'angular', 'interceptors', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-interceptor-register', 'angular', 'interceptors', 'easy', 'test', 0, 'draft', 'angular@22'),
+  ('ng-interceptor-inject-context', 'angular', 'interceptors', 'medium', 'test', 2, 'draft', 'angular@22'),
+  ('ng-interceptor-order', 'angular', 'interceptors', 'hard', 'test', 1, 'draft', 'angular@22'),
+  ('ng-interceptor-use-case', 'angular', 'interceptors', 'easy', 'test', 3, 'draft', 'angular@22'),
+  ('ng-interceptor-rethrow', 'angular', 'interceptors', 'hard', 'test', 0, 'draft', 'angular@22'),
+  ('ng-http-withfetch', 'angular', 'http', 'medium', 'test', 2, 'draft', 'angular@22'),
+  ('ng-proxy-purpose', 'angular', 'tooling', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-proxy-dev-only', 'angular', 'tooling', 'hard', 'test', 3, 'draft', 'angular@22'),
+  ('web-cors-who-enforces', 'web', 'cors', 'medium', 'test', 0, 'draft', 'evergreen'),
+  ('web-cors-allow-origin', 'web', 'cors', 'medium', 'test', 2, 'draft', 'evergreen'),
+  ('web-cors-preflight', 'web', 'cors', 'hard', 'test', 1, 'draft', 'evergreen'),
+  ('web-401-vs-403', 'web', 'http', 'easy', 'test', 2, 'draft', 'evergreen'),
+  ('web-http-idempotent', 'web', 'http', 'hard', 'test', 3, 'draft', 'evergreen'),
+  ('ng-httpresource-vs-httpclient', 'angular', 'http', 'hard', 'test', 0, 'draft', 'angular@22'),
+  ('ng-http-testing', 'angular', 'testing', 'medium', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-reactive-vs-template', 'angular', 'forms', 'easy', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-imports', 'angular', 'forms', 'easy', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-reset-null', 'angular', 'forms', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-nonnullable', 'angular', 'forms', 'hard', 'test', 3, 'draft', 'angular@22'),
+  ('ng-forms-required-state', 'angular', 'forms', 'easy', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-setvalue-vs-patchvalue', 'angular', 'forms', 'medium', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-dirty-touched', 'angular', 'forms', 'medium', 'test', 3, 'draft', 'angular@22'),
+  ('ng-forms-emitevent-false', 'angular', 'forms', 'hard', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-custom-validator', 'angular', 'forms', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-validator-factory', 'angular', 'forms', 'hard', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-minlength-empty', 'angular', 'forms', 'hard', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-crossfield-validator', 'angular', 'forms', 'hard', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-async-validator-pending', 'angular', 'forms', 'hard', 'test', 3, 'draft', 'angular@22'),
+  ('ng-forms-formarray', 'angular', 'forms', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-disabled-rawvalue', 'angular', 'forms', 'hard', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-markalltouched', 'angular', 'forms', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-template-name', 'angular', 'forms', 'easy', 'test', 3, 'draft', 'angular@22'),
+  ('ng-forms-formcontrol-vs-name', 'angular', 'forms', 'easy', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-updateon-blur', 'angular', 'forms', 'hard', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-controlvalueaccessor', 'angular', 'forms', 'hard', 'test', 2, 'draft', 'angular@22'),
+  ('ng-forms-typed-nullable', 'angular', 'forms', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-status-values', 'angular', 'forms', 'easy', 'test', 3, 'draft', 'angular@22'),
+  ('ng-forms-haserror', 'angular', 'forms', 'easy', 'test', 2, 'draft', 'angular@22'),
+  ('ng-signalforms-schema', 'angular', 'forms', 'medium', 'test', 0, 'draft', 'angular@22'),
+  ('ng-forms-valuechanges-search', 'angular', 'forms', 'medium', 'test', 1, 'draft', 'angular@22'),
+  ('ng-forms-formbuilder', 'angular', 'forms', 'easy', 'test', 0, 'draft', 'angular@22')
 on conflict (id) do update set
   tech = excluded.tech,
   topic = excluded.topic,
@@ -606,7 +657,389 @@ this.route.params.subscribe((params) => {
   ('rx-tosignal', 'es', '¿Qué hace `toSignal(obs$)` en un componente?', '["Se suscribe, expone el último valor como signal y se cancela al destruirse el componente","Convierte un signal en un Observable que emite un valor cada vez que el signal cambia","Evita que el Observable emita más de un valor, igual que haría el operador `take(1)`","Hace que el Observable se ejecute solo en el servidor durante el renderizado inicial"]'::jsonb, '`toSignal` se suscribe al Observable, guarda su último valor en un signal (puedes leerlo con `()` en la plantilla) y **se da de baja solo** al destruirse el contexto. Hasta la primera emisión vale `undefined`, salvo que pases `initialValue`.'),
   ('rx-tosignal', 'en', 'What does `toSignal(obs$)` do in a component?', '["It subscribes, exposes the latest value as a signal and cancels when the component is destroyed","It turns a signal into an Observable that emits a value every time the signal changes","It prevents the Observable from emitting more than one value, like the `take(1)` operator would","It makes the Observable run only on the server during the initial rendering"]'::jsonb, '`toSignal` subscribes to the Observable, stores its latest value in a signal (you can read it with `()` in the template) and **unsubscribes by itself** when the context is destroyed. Until the first emission it is `undefined`, unless you pass `initialValue`.'),
   ('rx-toobservable-async', 'es', '¿Cuándo emite `toObservable(signal)` un cambio del signal?', '["De forma síncrona, en la misma línea en que se llama a `set()` sobre el signal","Solo cuando se destruye el componente que contiene el signal original","Cada segundo, leyendo el valor actual del signal desde un temporizador interno","De forma asíncrona, a través de un `effect`, no inmediatamente tras `set()`"]'::jsonb, '`toObservable` usa un `effect` por debajo, así que la emisión es **asíncrona**: se produce cuando el `effect` se ejecuta, no justo tras `set()`. Si cambias el signal varias veces seguidas, puede emitirse solo el valor más reciente.'),
-  ('rx-toobservable-async', 'en', 'When does `toObservable(signal)` emit a change of the signal?', '["Synchronously, on the very line where `set()` is called on the signal","Only when the component that holds the original signal is destroyed","Every second, reading the signal''s current value from an internal timer","Asynchronously, through an `effect`, not immediately after `set()`"]'::jsonb, '`toObservable` uses an `effect` under the hood, so emission is **asynchronous**: it happens when the `effect` runs, not right after `set()`. If you change the signal several times in a row, only the most recent value may be emitted.')
+  ('rx-toobservable-async', 'en', 'When does `toObservable(signal)` emit a change of the signal?', '["Synchronously, on the very line where `set()` is called on the signal","Only when the component that holds the original signal is destroyed","Every second, reading the signal''s current value from an internal timer","Asynchronously, through an `effect`, not immediately after `set()`"]'::jsonb, '`toObservable` uses an `effect` under the hood, so emission is **asynchronous**: it happens when the `effect` runs, not right after `set()`. If you change the signal several times in a row, only the most recent value may be emitted.'),
+  ('ng-provide-httpclient', 'es', 'En una app Angular standalone, ¿qué necesitas para poder inyectar `HttpClient`?', '["Importar `HttpClientModule` en un `AppModule`, porque no existe ninguna otra forma de registrarlo","Nada: `HttpClient` está disponible por defecto en cualquier aplicación Angular nueva","Añadir `provideHttpClient()` a los `providers` de `app.config.ts`","Instalar el paquete `@angular/http`, que contiene el cliente HTTP oficial"]'::jsonb, 'En una app standalone se registra con `provideHttpClient()` en los `providers` de `app.config.ts`, y se le pueden añadir funciones como `withInterceptors(...)` o `withFetch()`. `HttpClientModule` está obsoleto.'),
+  ('ng-provide-httpclient', 'en', 'In a standalone Angular app, what do you need to be able to inject `HttpClient`?', '["Import `HttpClientModule` in an `AppModule`, because there is no other way to register it","Nothing: `HttpClient` is available by default in any new Angular application","Add `provideHttpClient()` to the `providers` of `app.config.ts`","Install the `@angular/http` package, which contains the official HTTP client"]'::jsonb, 'In a standalone app it is registered with `provideHttpClient()` in the `providers` of `app.config.ts`, and you can add features such as `withInterceptors(...)` or `withFetch()`. `HttpClientModule` is deprecated.'),
+  ('ng-httpclient-returns-observable', 'es', '¿Qué devuelve `this.http.get<User[]>(''/api/users'')`?', '["Una `Promise<User[]>` que se resuelve cuando llega la respuesta del servidor","Un `Observable<User[]>` que no hace la petición hasta que alguien se suscribe","Directamente el array `User[]`, porque la petición es síncrona por defecto","Un signal `Signal<User[]>` que se rellena solo cuando llega la respuesta"]'::jsonb, '`HttpClient` devuelve Observables *cold*: la petición solo se lanza al suscribirse (con `subscribe`, la pipe `async` o `toSignal`), y se lanza una vez por cada suscripción.'),
+  ('ng-httpclient-returns-observable', 'en', 'What does `this.http.get<User[]>(''/api/users'')` return?', '["A `Promise<User[]>` that resolves when the server response arrives","An `Observable<User[]>` that does not make the request until someone subscribes","The `User[]` array directly, because the request is synchronous by default","A `Signal<User[]>` signal that fills itself when the response arrives"]'::jsonb, '`HttpClient` returns *cold* Observables: the request only fires on subscribing (with `subscribe`, the `async` pipe or `toSignal`), and fires once per subscription.'),
+  ('ng-httpparams-immutable', 'es', '¿Qué URL se pide con este código?
+
+```ts
+let params = new HttpParams();
+params.set(''page'', 1);
+
+this.http.get(''/api/items'', { params });
+```', '["`/api/items`: `set` devuelve una instancia nueva y aquí se descarta","`/api/items?page=1`, porque `set` modifica directamente el objeto original","Ninguna, porque `HttpParams` lanza un error si no se reasigna el resultado","`/api/items?page`, sin valor, porque un número no es un `string`"]'::jsonb, '`HttpParams` (igual que `HttpHeaders` y `HttpRequest`) es **inmutable**: `set` devuelve una instancia nueva y la original no cambia. Hay que reasignar (`params = params.set(...)`) o encadenar las llamadas.'),
+  ('ng-httpparams-immutable', 'en', 'What URL is requested with this code?
+
+```ts
+let params = new HttpParams();
+params.set(''page'', 1);
+
+this.http.get(''/api/items'', { params });
+```', '["`/api/items`: `set` returns a new instance and here it is discarded","`/api/items?page=1`, because `set` directly modifies the original object","None, because `HttpParams` throws an error if the result is not reassigned","`/api/items?page`, with no value, because a number is not a `string`"]'::jsonb, '`HttpParams` (like `HttpHeaders` and `HttpRequest`) is **immutable**: `set` returns a new instance and the original does not change. You must reassign (`params = params.set(...)`) or chain the calls.'),
+  ('ng-httpparams-append-vs-set', 'es', '¿Qué cadena de consulta generan estos dos fragmentos?
+
+```ts
+new HttpParams().append(''t'', ''a'').append(''t'', ''b'');
+new HttpParams().set(''t'', ''a'').set(''t'', ''b'');
+```', '["Los dos generan `t=a&t=b`, porque `set` y `append` son sinónimos","`append` genera `t=a&t=b` y `set` genera `t=b`","`append` genera `t=b` y `set` genera `t=a&t=b`","Los dos generan `t=b`, porque una clave no se puede repetir"]'::jsonb, '`append` **añade** un valor a la clave (se pueden repetir claves: `t=a&t=b`). `set` **sustituye** el valor que hubiera: el último gana (`t=b`).'),
+  ('ng-httpparams-append-vs-set', 'en', 'What query string do these two snippets generate?
+
+```ts
+new HttpParams().append(''t'', ''a'').append(''t'', ''b'');
+new HttpParams().set(''t'', ''a'').set(''t'', ''b'');
+```', '["Both generate `t=a&t=b`, because `set` and `append` are synonyms","`append` generates `t=a&t=b` and `set` generates `t=b`","`append` generates `t=b` and `set` generates `t=a&t=b`","Both generate `t=b`, because a key cannot be repeated"]'::jsonb, '`append` **adds** a value to the key (keys can repeat: `t=a&t=b`). `set` **replaces** whatever value there was: the last one wins (`t=b`).'),
+  ('ng-httpheaders-immutable', 'es', '¿Por qué este código no añade ninguna cabecera a la petición?
+
+```ts
+const headers = new HttpHeaders();
+headers.set(''X-App'', ''mockinter'');
+
+this.http.get(''/api/items'', { headers });
+```', '["Porque `HttpHeaders` solo admite cabeceras estándar como `Authorization`","Porque el navegador prohíbe siempre las cabeceras personalizadas","Porque `get` ignora el campo `headers` de las opciones de la petición","Porque `set` devuelve una instancia nueva y aquí se descarta el resultado"]'::jsonb, '`HttpHeaders` es inmutable: `set` no modifica el objeto, devuelve uno nuevo. Hay que reasignar o encadenar: `new HttpHeaders().set(...)`.'),
+  ('ng-httpheaders-immutable', 'en', 'Why does this code not add any header to the request?
+
+```ts
+const headers = new HttpHeaders();
+headers.set(''X-App'', ''mockinter'');
+
+this.http.get(''/api/items'', { headers });
+```', '["Because `HttpHeaders` only accepts standard headers such as `Authorization`","Because the browser always forbids custom headers","Because `get` ignores the `headers` field of the request options","Because `set` returns a new instance and here the result is discarded"]'::jsonb, '`HttpHeaders` is immutable: `set` does not modify the object, it returns a new one. You must reassign or chain: `new HttpHeaders().set(...)`.'),
+  ('ng-http-error-status-zero', 'es', 'Un usuario pierde la conexión a internet y falla una petición. ¿Qué `status` trae el `HttpErrorResponse`?', '["`0`: es un error de red y no hubo respuesta del servidor","`404`, porque el recurso no se ha podido encontrar en el servidor","`500`, porque el fallo ocurrió dentro del propio servidor de la API","`503`, porque el servicio está temporalmente fuera de disponibilidad"]'::jsonb, 'Cuando la petición no llega a obtener respuesta (sin conexión, CORS bloqueado, servidor caído), el `HttpErrorResponse` trae `status: 0`. Los códigos 4xx y 5xx significan que el servidor **sí** contestó.'),
+  ('ng-http-error-status-zero', 'en', 'A user loses their internet connection and a request fails. What `status` does the `HttpErrorResponse` carry?', '["`0`: it is a network error and there was no server response","`404`, because the resource could not be found on the server","`500`, because the failure happened inside the API server itself","`503`, because the service is temporarily unavailable"]'::jsonb, 'When the request gets no response at all (offline, CORS blocked, server down), the `HttpErrorResponse` has `status: 0`. 4xx and 5xx codes mean the server **did** answer.'),
+  ('ng-http-observe-response', 'es', '¿Qué opción necesitas en `get` para leer las cabeceras y el código de estado de la respuesta?', '["`{ responseType: ''headers'' }`, que devuelve únicamente las cabeceras","`{ observe: ''response'' }`, que devuelve la `HttpResponse` completa","`{ withCredentials: true }`, que añade información sobre la respuesta","`{ reportProgress: true }`, que incluye el estado y las cabeceras"]'::jsonb, 'Por defecto `HttpClient` solo emite el cuerpo. Con `observe: ''response''` emite la `HttpResponse` entera (cuerpo, `status`, `headers`...). `observe: ''events''` da todos los eventos, incluido el progreso.'),
+  ('ng-http-observe-response', 'en', 'Which option do you need in `get` to read the response headers and status code?', '["`{ responseType: ''headers'' }`, which returns only the headers","`{ observe: ''response'' }`, which returns the full `HttpResponse`","`{ withCredentials: true }`, which adds information about the response","`{ reportProgress: true }`, which includes the status and the headers"]'::jsonb, 'By default `HttpClient` only emits the body. With `observe: ''response''` it emits the whole `HttpResponse` (body, `status`, `headers`...). `observe: ''events''` gives every event, including progress.'),
+  ('ng-http-json-default', 'es', '¿Qué hace `HttpClient` por defecto con el cuerpo de una respuesta?', '["Lo devuelve como texto, y hay que llamar a `JSON.parse` a mano siempre","Lo devuelve como `Blob`, para poder descargarlo luego como un fichero","Lo interpreta como JSON y lo devuelve ya convertido en un objeto","Lo guarda en caché y devuelve solo una referencia al resultado"]'::jsonb, 'Por defecto `responseType` es `''json''`: `HttpClient` hace el `JSON.parse` por ti. Para texto, binarios o descargas se indica `responseType: ''text''` o `''blob''`.'),
+  ('ng-http-json-default', 'en', 'What does `HttpClient` do by default with a response body?', '["It returns it as text, and you must always call `JSON.parse` by hand","It returns it as a `Blob`, so it can be downloaded later as a file","It parses it as JSON and returns it already converted into an object","It caches it and only returns a reference to the result"]'::jsonb, 'By default `responseType` is `''json''`: `HttpClient` does the `JSON.parse` for you. For text, binary or downloads you pass `responseType: ''text''` or `''blob''`.'),
+  ('ng-http-cancel-unsubscribe', 'es', '¿Qué ocurre con una petición HTTP en curso si te das de baja de su Observable?', '["Sigue hasta el final y la respuesta se descarta cuando llega al cliente","Se pausa, y se reanuda sola cuando alguien se vuelve a suscribir después","Lanza un `HttpErrorResponse` con el estado 499 en el callback `error`","Se cancela: el navegador aborta la petición y no llega ninguna respuesta"]'::jsonb, 'Darse de baja de un Observable de `HttpClient` **cancela la petición** (el navegador la aborta). Por eso `switchMap` cancela la petición anterior cuando llega un valor nuevo y evita respuestas antiguas.'),
+  ('ng-http-cancel-unsubscribe', 'en', 'What happens to an in-flight HTTP request if you unsubscribe from its Observable?', '["It carries on to the end and the response is discarded when it reaches the client","It is paused, and resumes by itself when someone subscribes again later","It throws an `HttpErrorResponse` with status 499 in the `error` callback","It is cancelled: the browser aborts the request and no response arrives"]'::jsonb, 'Unsubscribing from an `HttpClient` Observable **cancels the request** (the browser aborts it). That is why `switchMap` cancels the previous request when a new value arrives and avoids stale responses.'),
+  ('ng-interceptor-clone', 'es', '¿Por qué se usa `req.clone(...)` en este interceptor en vez de modificar `req` directamente?
+
+```ts
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).token();
+  return next(req.clone({ setHeaders: { Authorization: ''Bearer '' + token } }));
+};
+```', '["Porque `req` es un `Observable` y no tiene propiedades que se puedan cambiar","Porque `HttpRequest` es inmutable: para cambiarla se crea una copia modificada","Porque `clone` envía una petición adicional de prueba antes de la petición real","Porque `req` solo se puede modificar dentro del `ngOnInit` de un componente"]'::jsonb, '`HttpRequest` (y `HttpHeaders`, `HttpParams`) es **inmutable**. Un interceptor no la modifica: crea una copia con `clone({ ... })` y pasa esa copia a `next`.'),
+  ('ng-interceptor-clone', 'en', 'Why is `req.clone(...)` used in this interceptor instead of modifying `req` directly?
+
+```ts
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const token = inject(AuthService).token();
+  return next(req.clone({ setHeaders: { Authorization: ''Bearer '' + token } }));
+};
+```', '["Because `req` is an `Observable` and has no properties that can be changed","Because `HttpRequest` is immutable: to change it you create a modified copy","Because `clone` sends an extra test request before the real one","Because `req` can only be modified inside a component''s `ngOnInit`"]'::jsonb, '`HttpRequest` (and `HttpHeaders`, `HttpParams`) is **immutable**. An interceptor does not modify it: it creates a copy with `clone({ ... })` and passes that copy to `next`.'),
+  ('ng-interceptor-register', 'es', '¿Cómo se registra un interceptor funcional en una app standalone?', '["`provideHttpClient(withInterceptors([authInterceptor]))` en `app.config.ts`","Añadiéndolo al array `declarations` de un NgModule de la aplicación","Marcando la función con un decorador `@Interceptor()` en cualquier fichero","Importándolo en el componente raíz con `imports: [authInterceptor]`"]'::jsonb, 'Se pasa a `withInterceptors([...])` dentro de `provideHttpClient(...)`. Los interceptores de clase antiguos (`HttpInterceptor`) se siguen registrando con `HTTP_INTERCEPTORS` y `withInterceptorsFromDi()`.'),
+  ('ng-interceptor-register', 'en', 'How do you register a functional interceptor in a standalone app?', '["`provideHttpClient(withInterceptors([authInterceptor]))` in `app.config.ts`","By adding it to the `declarations` array of an application NgModule","By marking the function with an `@Interceptor()` decorator in any file","By importing it in the root component with `imports: [authInterceptor]`"]'::jsonb, 'You pass it to `withInterceptors([...])` inside `provideHttpClient(...)`. Old class-based interceptors (`HttpInterceptor`) are still registered with `HTTP_INTERCEPTORS` and `withInterceptorsFromDi()`.'),
+  ('ng-interceptor-inject-context', 'es', '¿Por qué se puede usar `inject()` dentro de un `HttpInterceptorFn`?', '["Porque `inject()` funciona en cualquier función, se ejecute cuando se ejecute","Porque los interceptores reciben el inyector como tercer parámetro obligatorio","Porque Angular ejecuta el interceptor dentro de un contexto de inyección","Porque `HttpClient` guarda una copia del componente que lanzó la petición"]'::jsonb, 'Los interceptores funcionales se ejecutan en un contexto de inyección, así que `inject()` funciona en el cuerpo de la función. Pero no dentro de callbacks asíncronos posteriores (por ejemplo, en un `catchError`): hay que inyectar arriba.'),
+  ('ng-interceptor-inject-context', 'en', 'Why can `inject()` be used inside an `HttpInterceptorFn`?', '["`inject()` works in any function, whenever it runs","Because interceptors receive the injector as a mandatory third parameter","Because Angular runs the interceptor inside an injection context","Because `HttpClient` keeps a copy of the component that fired the request"]'::jsonb, 'Functional interceptors run in an injection context, so `inject()` works in the function body. But not inside later asynchronous callbacks (for example, in a `catchError`): inject at the top.'),
+  ('ng-interceptor-order', 'es', '¿En qué orden pasa una petición por los interceptores y en qué orden vuelve la respuesta?
+
+```ts
+provideHttpClient(withInterceptors([a, b, c]));
+```', '["Petición: `c`, `b`, `a`; respuesta: `a`, `b`, `c`","Petición: `a`, `b`, `c`; respuesta: `c`, `b`, `a`","Petición y respuesta pasan siempre en el orden `a`, `b`, `c`","Sin orden definido: Angular los ejecuta todos en paralelo"]'::jsonb, 'Funcionan como un *middleware*: la petición atraviesa los interceptores en el orden del array (`a`, `b`, `c`) y la respuesta vuelve en orden inverso (`c`, `b`, `a`).'),
+  ('ng-interceptor-order', 'en', 'In what order does a request go through the interceptors and in what order does the response come back?
+
+```ts
+provideHttpClient(withInterceptors([a, b, c]));
+```', '["Request: `c`, `b`, `a`; response: `a`, `b`, `c`","Request: `a`, `b`, `c`; response: `c`, `b`, `a`","Request and response always go through in the order `a`, `b`, `c`","No defined order: Angular runs them all in parallel"]'::jsonb, 'They work like *middleware*: the request goes through the interceptors in array order (`a`, `b`, `c`) and the response comes back in reverse order (`c`, `b`, `a`).'),
+  ('ng-interceptor-use-case', 'es', '¿Para qué es adecuado un interceptor HTTP?', '["Para decidir qué componente se muestra según la ruta de la aplicación","Para validar los campos de un formulario antes de enviarlos al servidor","Para guardar el estado de la interfaz entre una navegación y la siguiente","Para añadir lógica común a todas las peticiones, como la cabecera de autenticación"]'::jsonb, 'Un interceptor se ejecuta en cada petición y respuesta, así que es el sitio para lo transversal: añadir el token, gestionar errores 401 de forma global, mostrar un indicador de carga, registrar logs o reintentar.'),
+  ('ng-interceptor-use-case', 'en', 'What is an HTTP interceptor suitable for?', '["Deciding which component is shown according to the application route","Validating form fields before sending them to the server","Keeping UI state between one navigation and the next","Adding common logic to every request, such as the authentication header"]'::jsonb, 'An interceptor runs on every request and response, so it is the place for cross-cutting concerns: adding the token, handling 401 errors globally, showing a loading indicator, logging or retrying.'),
+  ('ng-interceptor-rethrow', 'es', '¿Por qué este interceptor termina con `throwError(() => error)`?
+
+```ts
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        router.navigate([''/login'']);
+      }
+      return throwError(() => error);
+    }),
+  );
+};
+```', '["Para que el error siga llegando a quien hizo la petición después de gestionarlo","Para que Angular reintente la petición automáticamente tras redirigir al login","Porque `catchError` obliga siempre a lanzar un error nuevo con otro mensaje","Para convertir el error en un valor normal que `subscribe` pueda recibir"]'::jsonb, 'Si `catchError` no devolviera nada, el error se perdería y quien hizo la petición no sabría que falló. `throwError` lo **relanza**: el interceptor hace su trabajo global (redirigir en un 401) y el error sigue su camino.'),
+  ('ng-interceptor-rethrow', 'en', 'Why does this interceptor end with `throwError(() => error)`?
+
+```ts
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      if (error.status === 401) {
+        router.navigate([''/login'']);
+      }
+      return throwError(() => error);
+    }),
+  );
+};
+```', '["So the error keeps reaching whoever made the request after being handled","So Angular automatically retries the request after redirecting to login","Because `catchError` always forces throwing a new error with another message","To turn the error into a normal value that `subscribe` can receive"]'::jsonb, 'If `catchError` returned nothing, the error would be lost and whoever made the request would not know it failed. `throwError` **rethrows** it: the interceptor does its global job (redirecting on a 401) and the error continues on its way.'),
+  ('ng-http-withfetch', 'es', '¿Qué cambia al usar `provideHttpClient(withFetch())`?', '["Las peticiones pasan a ser síncronas y bloquean la interfaz hasta responder","`HttpClient` deja de devolver Observables y empieza a devolver `Promise`","`HttpClient` usa la API `fetch` del navegador en lugar de `XMLHttpRequest`","Se desactivan los interceptores, porque `fetch` no los admite en ningún caso"]'::jsonb, '`withFetch()` cambia la implementación interna: en vez de `XMLHttpRequest`, usa `fetch`. La API de `HttpClient` y los interceptores siguen igual. Es lo recomendado con SSR.'),
+  ('ng-http-withfetch', 'en', 'What changes when using `provideHttpClient(withFetch())`?', '["Requests become synchronous and block the interface until they respond","`HttpClient` stops returning Observables and starts returning `Promise`","`HttpClient` uses the browser''s `fetch` API instead of `XMLHttpRequest`","Interceptors are disabled, because `fetch` does not support them in any case"]'::jsonb, '`withFetch()` changes the internal implementation: instead of `XMLHttpRequest`, it uses `fetch`. The `HttpClient` API and interceptors stay the same. It is recommended with SSR.'),
+  ('ng-proxy-purpose', 'es', '¿Para qué sirve este `proxy.conf.json` con `ng serve`?
+
+```json
+{
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false
+  }
+}
+```', '["Para cifrar con HTTPS las peticiones que envía la aplicación en producción","Para reenviar a `localhost:3000` las peticiones a `/api`, evitando problemas de CORS en desarrollo","Para que el compilador de Angular genere automáticamente el backend de la API","Para guardar en caché las respuestas de `/api` y acelerar la recarga de la página"]'::jsonb, 'El servidor de desarrollo hace de intermediario: las peticiones a `/api` salen del mismo origen que la app (`localhost:4200`) y él las reenvía a `localhost:3000`. Al navegador le parece el mismo origen, así que no hay CORS. Se activa con `ng serve --proxy-config proxy.conf.json`.'),
+  ('ng-proxy-purpose', 'en', 'What is this `proxy.conf.json` for with `ng serve`?
+
+```json
+{
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false
+  }
+}
+```', '["To encrypt with HTTPS the requests the application sends in production","To forward `/api` requests to `localhost:3000`, avoiding CORS problems in development","So the Angular compiler automatically generates the API backend","To cache `/api` responses and speed up page reload"]'::jsonb, 'The dev server acts as an intermediary: requests to `/api` leave from the same origin as the app (`localhost:4200`) and it forwards them to `localhost:3000`. To the browser it looks like the same origin, so there is no CORS. It is enabled with `ng serve --proxy-config proxy.conf.json`.'),
+  ('ng-proxy-dev-only', 'es', '¿Funciona `proxy.conf.json` en producción?', '["Sí, `ng build` incluye el proxy dentro del paquete que se despliega","Sí, pero solo si la aplicación se despliega con HTTPS y certificado válido","Sí, siempre que el fichero esté dentro de la carpeta `public` del proyecto","No: solo lo usa el servidor de desarrollo; en producción lo resuelve el servidor o el hosting"]'::jsonb, 'El proxy es una función del servidor de desarrollo (`ng serve`). En producción no existe: hay que resolverlo en el hosting (reglas de reescritura o *rewrites*) o configurando CORS en la API.'),
+  ('ng-proxy-dev-only', 'en', 'Does `proxy.conf.json` work in production?', '["Yes, `ng build` includes the proxy inside the package that gets deployed","Yes, but only if the app is deployed with HTTPS and a valid certificate","Yes, as long as the file is inside the project''s `public` folder","No: only the dev server uses it; in production the server or hosting handles it"]'::jsonb, 'The proxy is a feature of the dev server (`ng serve`). It does not exist in production: you must solve it in the hosting (rewrite rules) or by configuring CORS on the API.'),
+  ('web-cors-who-enforces', 'es', '¿Quién aplica la política CORS?', '["El navegador: bloquea la respuesta si el servidor no la autoriza con cabeceras","El servidor, que rechaza cualquier petición que venga de otro dominio distinto","El compilador de Angular, al hacer `ng build` con las URLs de la API","El sistema operativo, que filtra las peticiones antes de salir a la red"]'::jsonb, 'CORS lo aplica **el navegador**. El servidor solo declara, con cabeceras como `Access-Control-Allow-Origin`, qué orígenes autoriza. Por eso el mismo servicio funciona desde `curl` o un servidor y falla en el navegador.'),
+  ('web-cors-who-enforces', 'en', 'Who enforces the CORS policy?', '["The browser: it blocks the response if the server does not authorize it with headers","The server, which rejects any request coming from a different domain","The Angular compiler, when running `ng build` with the API URLs","The operating system, which filters requests before they leave to the network"]'::jsonb, 'CORS is enforced by **the browser**. The server only declares, with headers such as `Access-Control-Allow-Origin`, which origins it authorizes. That is why the same service works from `curl` or a server and fails in the browser.'),
+  ('web-cors-allow-origin', 'es', '¿Qué cabecera de respuesta autoriza a un origen concreto a leer la respuesta de una API?', '["`Content-Security-Policy: allow-origin`","`X-Frame-Options: ALLOW`","`Access-Control-Allow-Origin`","`Referrer-Policy: cross-origin`"]'::jsonb, '`Access-Control-Allow-Origin: https://www.mockinter.dev` le dice al navegador que ese origen puede leer la respuesta. Con `*` se permite a cualquiera (sin credenciales).'),
+  ('web-cors-allow-origin', 'en', 'Which response header authorizes a specific origin to read an API response?', '["`Content-Security-Policy: allow-origin`","`X-Frame-Options: ALLOW`","`Access-Control-Allow-Origin`","`Referrer-Policy: cross-origin`"]'::jsonb, '`Access-Control-Allow-Origin: https://www.mockinter.dev` tells the browser that origin may read the response. With `*` anyone is allowed (without credentials).'),
+  ('web-cors-preflight', 'es', '¿Qué es una petición *preflight* en CORS?', '["Una petición `GET` que carga los datos antes de que el usuario los pida","Una petición `OPTIONS` que el navegador envía antes para preguntar si la real está permitida","Una copia de seguridad de la petición real que se guarda por si esta falla","Una petición que el servidor envía al navegador para comprobar su origen"]'::jsonb, 'Para peticiones "no simples" (métodos como `PUT` o `DELETE`, cabeceras como `Authorization`, o `Content-Type: application/json`), el navegador envía antes una petición `OPTIONS` preguntando si el servidor lo permite. Solo si responde que sí, envía la real.'),
+  ('web-cors-preflight', 'en', 'What is a *preflight* request in CORS?', '["A `GET` request that loads the data before the user asks for it","An `OPTIONS` request the browser sends beforehand to ask whether the real one is allowed","A backup copy of the real request that is kept in case it fails","A request the server sends to the browser to check its origin"]'::jsonb, 'For "non-simple" requests (methods such as `PUT` or `DELETE`, headers such as `Authorization`, or `Content-Type: application/json`), the browser first sends an `OPTIONS` request asking whether the server allows it. Only if it says yes does it send the real one.'),
+  ('web-401-vs-403', 'es', '¿Qué diferencia hay entre un código HTTP 401 y un 403?', '["El 401 significa recurso no encontrado y el 403 significa error del servidor","Ninguna: los dos indican que el usuario escribió mal su contraseña","El 401: no estás autenticado; el 403: estás autenticado, pero sin permiso","El 401 es temporal y el 403 es permanente, igual que ocurre con 302 y 301"]'::jsonb, '**401 Unauthorized** significa que no estás identificado (falta el login o el token es inválido). **403 Forbidden** significa que el servidor sabe quién eres, pero no tienes permiso para ese recurso. El "no encontrado" es el 404.'),
+  ('web-401-vs-403', 'en', 'What is the difference between an HTTP 401 and a 403?', '["401 means resource not found and 403 means server error","None: both indicate the user typed their password wrong","401: you are not authenticated; 403: you are authenticated, but not permitted","401 is temporary and 403 is permanent, just like 302 and 301"]'::jsonb, '**401 Unauthorized** means you are not identified (missing login or invalid token). **403 Forbidden** means the server knows who you are, but you have no permission for that resource. "Not found" is the 404.'),
+  ('web-http-idempotent', 'es', '¿Cuál de estos métodos HTTP **no** es idempotente?', '["`PUT`: repetir la misma petición deja el recurso en el mismo estado","`DELETE`: borrar dos veces el mismo recurso deja el mismo resultado final","`GET`: leer varias veces no modifica nada del recurso en el servidor","`POST`: repetirlo suele crear un recurso nuevo cada vez que se envía"]'::jsonb, 'Un método es idempotente si repetirlo da el mismo resultado final que hacerlo una vez. `GET`, `PUT` y `DELETE` lo son. `POST` no: enviarlo dos veces suele crear dos recursos. Por eso reintentar un `POST` automáticamente es peligroso.'),
+  ('web-http-idempotent', 'en', 'Which of these HTTP methods is **not** idempotent?', '["`PUT`: repeating the same request leaves the resource in the same state","`DELETE`: deleting the same resource twice gives the same final result","`GET`: reading several times does not modify anything on the server resource","`POST`: repeating it usually creates a new resource each time it is sent"]'::jsonb, 'A method is idempotent if repeating it gives the same final result as doing it once. `GET`, `PUT` and `DELETE` are. `POST` is not: sending it twice usually creates two resources. That is why automatically retrying a `POST` is dangerous.'),
+  ('ng-httpresource-vs-httpclient', 'es', '¿Cuándo usarías `HttpClient` en lugar de `httpResource`?', '["Para operaciones que modifican datos, como `POST`, `PUT` o `DELETE`","Nunca: `httpResource` sustituye por completo a `HttpClient` en todos los casos","Solo cuando la aplicación sea zoneless, porque `httpResource` requiere Zone.js","Para leer datos que dependen de un signal y que se recargan cuando este cambia"]'::jsonb, '`httpResource` está pensado para **leer** datos de forma reactiva: se recarga solo cuando cambian los signals de los que depende, y expone `value`, `isLoading` y `error`. Para operaciones que modifican datos (`POST`, `PUT`, `DELETE`) se usa `HttpClient`.'),
+  ('ng-httpresource-vs-httpclient', 'en', 'When would you use `HttpClient` instead of `httpResource`?', '["For operations that modify data, such as `POST`, `PUT` or `DELETE`","Never: `httpResource` completely replaces `HttpClient` in every case","Only when the application is zoneless, because `httpResource` requires Zone.js","To read data that depends on a signal and reloads when it changes"]'::jsonb, '`httpResource` is designed to **read** data reactively: it reloads when the signals it depends on change, and exposes `value`, `isLoading` and `error`. For operations that modify data (`POST`, `PUT`, `DELETE`) you use `HttpClient`.'),
+  ('ng-http-testing', 'es', '¿Cómo se prueba un servicio que usa `HttpClient` sin hacer peticiones reales?', '["Arrancando un servidor real en el puerto 4200 antes de cada test","Sustituyendo `HttpClient` por `localStorage` durante la ejecución de los tests","Con `provideHttpClientTesting()` y `HttpTestingController` para simular las respuestas","No se puede: los servicios HTTP solo se verifican manualmente en el navegador"]'::jsonb, '`provideHttpClientTesting()` sustituye el backend real por uno de pruebas. Con `HttpTestingController` compruebas qué petición se hizo (`expectOne`) y respondes con datos o errores falsos (`flush`).'),
+  ('ng-http-testing', 'en', 'How do you test a service that uses `HttpClient` without making real requests?', '["By starting a real server on port 4200 before each test","By replacing `HttpClient` with `localStorage` while the tests run","With `provideHttpClientTesting()` and `HttpTestingController` to simulate the responses","You cannot: HTTP services can only be verified manually in the browser"]'::jsonb, '`provideHttpClientTesting()` replaces the real backend with a test one. With `HttpTestingController` you check which request was made (`expectOne`) and respond with fake data or errors (`flush`).'),
+  ('ng-forms-reactive-vs-template', 'es', '¿Cuál es la diferencia principal entre formularios reactivos y formularios de plantilla (*template-driven*)?', '["Los reactivos no admiten validación y los de plantilla sí la incluyen de serie","En los reactivos el modelo se define en la clase; en los de plantilla, con directivas en el HTML","Los reactivos solo funcionan con signals y los de plantilla solo funcionan con RxJS","No hay ninguna diferencia: son dos nombres para el mismo sistema de formularios"]'::jsonb, 'En los **reactivos** (`FormGroup`, `FormControl`) construyes el modelo explícitamente en TypeScript, lo que da más control y facilita probarlo. En los de **plantilla** (`ngModel`) Angular deduce el modelo de las directivas del HTML: más simple, pero con menos control.'),
+  ('ng-forms-reactive-vs-template', 'en', 'What is the main difference between reactive forms and template-driven forms?', '["Reactive ones do not support validation and template-driven ones include it by default","In reactive forms the model is defined in the class; in template-driven, with directives in the HTML","Reactive ones only work with signals and template-driven ones only work with RxJS","There is no difference: they are two names for the same forms system"]'::jsonb, 'In **reactive** forms (`FormGroup`, `FormControl`) you build the model explicitly in TypeScript, which gives more control and makes testing easier. In **template-driven** forms (`ngModel`) Angular infers the model from the HTML directives: simpler, but with less control.'),
+  ('ng-forms-imports', 'es', '¿Qué necesita importar un componente standalone para usar `[formGroup]` y `formControlName`?', '["`FormsModule`, que contiene todas las directivas de formularios de Angular","`HttpClientModule`, porque los formularios envían siempre datos al servidor","`ReactiveFormsModule`, que incluye `FormGroupDirective` y `FormControlName`","Nada: las directivas de formularios están disponibles en todos los componentes"]'::jsonb, '`ReactiveFormsModule` trae las directivas de los formularios reactivos (`[formGroup]`, `formControlName`, `[formControl]`). `FormsModule` trae `ngModel`, para los de plantilla.'),
+  ('ng-forms-imports', 'en', 'What does a standalone component need to import to use `[formGroup]` and `formControlName`?', '["`FormsModule`, which contains all of Angular''s form directives","`HttpClientModule`, because forms always send data to the server","`ReactiveFormsModule`, which includes `FormGroupDirective` and `FormControlName`","Nothing: form directives are available in every component"]'::jsonb, '`ReactiveFormsModule` brings the reactive forms directives (`[formGroup]`, `formControlName`, `[formControl]`). `FormsModule` brings `ngModel`, for template-driven forms.'),
+  ('ng-forms-reset-null', 'es', '¿Qué imprime este código?
+
+```ts
+const name = new FormControl(''Ana'');
+name.setValue(''Luis'');
+name.reset();
+console.log(name.value);
+```', '["`null`: `reset()` vuelve a `null`, no al valor con el que se creó","`''Ana''`, el valor inicial con el que se creó el control","`''Luis''`, porque `reset()` solo limpia el estado y no el valor","`undefined`, porque el control queda sin inicializar tras el reinicio"]'::jsonb, 'Por defecto, `reset()` deja el valor en **`null`**, no en el inicial. Por eso el tipo es `FormControl<string | null>`. Con `{ nonNullable: true }`, `reset()` restaura el valor inicial (`''Ana''`).'),
+  ('ng-forms-reset-null', 'en', 'What does this code print?
+
+```ts
+const name = new FormControl(''Ana'');
+name.setValue(''Luis'');
+name.reset();
+console.log(name.value);
+```', '["`null`: `reset()` goes back to `null`, not to the value it was created with","`''Ana''`, the initial value the control was created with","`''Luis''`, because `reset()` only clears the state and not the value","`undefined`, because the control is left uninitialized after the reset"]'::jsonb, 'By default, `reset()` leaves the value as **`null`**, not the initial one. That is why the type is `FormControl<string | null>`. With `{ nonNullable: true }`, `reset()` restores the initial value (`''Ana''`).'),
+  ('ng-forms-nonnullable', 'es', '¿Qué cambia con `new FormControl(''Ana'', { nonNullable: true })`?', '["El control no se puede dejar vacío y la validación `required` se activa sola","El control deja de emitir `valueChanges` cuando se escribe un valor vacío","El control se deshabilita automáticamente cuando su valor llega a ser `null`","`reset()` restaura el valor inicial y el tipo pasa a ser `string`"]'::jsonb, 'Con `nonNullable: true`, el control nunca es `null`: `reset()` vuelve al valor inicial y el tipo es `FormControl<string>` (sin `| null`). Con `fb.nonNullable.group(...)` se aplica a todos los controles del grupo.'),
+  ('ng-forms-nonnullable', 'en', 'What changes with `new FormControl(''Ana'', { nonNullable: true })`?', '["The control cannot be left empty and `required` validation turns on by itself","The control stops emitting `valueChanges` when an empty value is typed","The control is automatically disabled when its value becomes `null`","`reset()` restores the initial value and the type becomes `string`"]'::jsonb, 'With `nonNullable: true`, the control is never `null`: `reset()` goes back to the initial value and the type is `FormControl<string>` (without `| null`). With `fb.nonNullable.group(...)` it applies to every control in the group.'),
+  ('ng-forms-required-state', 'es', '¿Qué imprime este código?
+
+```ts
+const c = new FormControl('''', Validators.required);
+console.log(c.valid, c.errors);
+```', '["`true null`, porque el usuario todavía no ha tocado el control","`false { required: true }`: la validación se ejecuta desde que se crea","`false null`, porque los errores solo existen después de enviar el formulario","`true { required: false }`, porque `required` solo se comprueba al perder el foco"]'::jsonb, 'La validación se calcula **desde que se crea el control**: un valor vacío con `required` es inválido y `errors` es `{ required: true }`. Que el usuario lo haya tocado o no solo decide **cuándo mostrar** el error en pantalla.'),
+  ('ng-forms-required-state', 'en', 'What does this code print?
+
+```ts
+const c = new FormControl('''', Validators.required);
+console.log(c.valid, c.errors);
+```', '["`true null`, because the user has not touched the control yet","`false { required: true }`: validation runs from the moment it is created","`false null`, because errors only exist after submitting the form","`true { required: false }`, because `required` is only checked on blur"]'::jsonb, 'Validation is computed **from the moment the control is created**: an empty value with `required` is invalid and `errors` is `{ required: true }`. Whether the user has touched it only decides **when to show** the error on screen.'),
+  ('ng-forms-setvalue-vs-patchvalue', 'es', '¿Qué ocurre con cada llamada?
+
+```ts
+const form = new FormGroup({
+  name: new FormControl(''''),
+  age: new FormControl(0),
+});
+
+form.patchValue({ name: ''Ana'' });
+form.setValue({ name: ''Ana'' });
+```', '["Las dos actualizan solo `name` y dejan `age` exactamente como estaba","`patchValue` lanza un error y `setValue` actualiza solo `name`","`patchValue` actualiza `name`; `setValue` lanza un error porque falta `age`","Las dos lanzan un error, porque `age` no se ha indicado en el objeto"]'::jsonb, '`patchValue` acepta un objeto **parcial** y actualiza solo lo indicado. `setValue` exige **todos** los controles del grupo y lanza un error si falta alguno. Usa `patchValue` para rellenar parte del formulario.'),
+  ('ng-forms-setvalue-vs-patchvalue', 'en', 'What happens with each call?
+
+```ts
+const form = new FormGroup({
+  name: new FormControl(''''),
+  age: new FormControl(0),
+});
+
+form.patchValue({ name: ''Ana'' });
+form.setValue({ name: ''Ana'' });
+```', '["Both update only `name` and leave `age` exactly as it was","`patchValue` throws an error and `setValue` updates only `name`","`patchValue` updates `name`; `setValue` throws an error because `age` is missing","Both throw an error, because `age` is not specified in the object"]'::jsonb, '`patchValue` accepts a **partial** object and updates only what is given. `setValue` requires **every** control in the group and throws if one is missing. Use `patchValue` to fill part of the form.'),
+  ('ng-forms-dirty-touched', 'es', 'Cambias el valor de un control con `control.setValue(''x'')` desde el código. ¿Qué valen `dirty` y `touched`?', '["Los dos pasan a `true`, igual que si lo hiciera el usuario escribiendo","`dirty` pasa a `true` y `touched` sigue en `false`","`touched` pasa a `true` y `dirty` sigue en `false`","Los dos siguen en `false`: solo cambian con la interacción del usuario"]'::jsonb, '`dirty` y `touched` reflejan lo que hace **el usuario** (escribir, salir del campo). Un `setValue` desde el código no los modifica. Si los necesitas, se activan con `markAsDirty()` y `markAsTouched()`.'),
+  ('ng-forms-dirty-touched', 'en', 'You change a control''s value with `control.setValue(''x'')` from code. What are `dirty` and `touched`?', '["Both become `true`, just as if the user had typed","`dirty` becomes `true` and `touched` stays `false`","`touched` becomes `true` and `dirty` stays `false`","Both stay `false`: they only change with user interaction"]'::jsonb, '`dirty` and `touched` reflect what **the user** does (typing, leaving the field). A `setValue` from code does not change them. If you need them, you set them with `markAsDirty()` and `markAsTouched()`.'),
+  ('ng-forms-emitevent-false', 'es', '¿Qué imprime este código?
+
+```ts
+const c = new FormControl('''');
+c.valueChanges.subscribe((v) => console.log(v));
+
+c.setValue(''a'');
+c.setValue(''b'', { emitEvent: false });
+c.setValue(''c'');
+```', '["`a`, `b` y `c`: `emitEvent` no afecta a lo que emite `valueChanges`","`a` y `c`: con `emitEvent: false` ese cambio no se emite","Solo `c`, porque `valueChanges` ignora todo salvo el último valor","`a`, `b` y `c`, y además un error por usar `emitEvent: false`"]'::jsonb, 'Con `{ emitEvent: false }`, el valor cambia pero **no se emite** `valueChanges`. Es útil para evitar bucles al actualizar un campo desde un `subscribe` de otro, aunque conviene usarlo con cuidado.'),
+  ('ng-forms-emitevent-false', 'en', 'What does this code print?
+
+```ts
+const c = new FormControl('''');
+c.valueChanges.subscribe((v) => console.log(v));
+
+c.setValue(''a'');
+c.setValue(''b'', { emitEvent: false });
+c.setValue(''c'');
+```', '["`a`, `b` and `c`: `emitEvent` does not affect what `valueChanges` emits","`a` and `c`: with `emitEvent: false` that change is not emitted","Only `c`, because `valueChanges` ignores everything but the last value","`a`, `b` and `c`, plus an error for using `emitEvent: false`"]'::jsonb, 'With `{ emitEvent: false }`, the value changes but `valueChanges` is **not emitted**. It is useful to avoid loops when updating one field from another''s `subscribe`, though it should be used with care.'),
+  ('ng-forms-custom-validator', 'es', '¿Qué debe devolver un validador síncrono cuando el valor es válido?
+
+```ts
+function noSpaces(control: AbstractControl): ValidationErrors | null {
+  return control.value?.includes('' '') ? { noSpaces: true } : null;
+}
+```', '["`null`, que representa la ausencia de errores","`true`, para indicar que la validación ha pasado","`undefined`, igual que una función sin ningún `return`","`false`, porque `true` se reserva para los errores"]'::jsonb, 'Un validador síncrono devuelve `null` si es válido, o un **objeto de errores** (`{ noSpaces: true }`) si no lo es. La clave del objeto es el nombre del error, que se lee con `control.errors` o `hasError(''noSpaces'')`.'),
+  ('ng-forms-custom-validator', 'en', 'What must a synchronous validator return when the value is valid?
+
+```ts
+function noSpaces(control: AbstractControl): ValidationErrors | null {
+  return control.value?.includes('' '') ? { noSpaces: true } : null;
+}
+```', '["`null`, which represents the absence of errors","`true`, to indicate that validation passed","`undefined`, like a function with no `return` at all","`false`, because `true` is reserved for errors"]'::jsonb, 'A synchronous validator returns `null` if valid, or an **errors object** (`{ noSpaces: true }`) if not. The object key is the error name, read with `control.errors` or `hasError(''noSpaces'')`.'),
+  ('ng-forms-validator-factory', 'es', '¿Por qué `forbiddenName` devuelve una función en lugar de devolver directamente los errores?
+
+```ts
+function forbiddenName(name: string): ValidatorFn {
+  return (control) => (control.value === name ? { forbiddenName: true } : null);
+}
+
+new FormControl('''', forbiddenName(''admin''));
+```', '["Porque Angular exige que todas las funciones de validación sean asíncronas","Porque así el validador se ejecuta una sola vez, cuando se crea el control","Es una *factory*: recibe el parámetro y devuelve el `ValidatorFn` que usa el control","Porque las funciones normales no pueden devolver `null` dentro de un validador"]'::jsonb, 'Un `ValidatorFn` solo recibe el control. Para pasarle datos propios (el nombre prohibido) se usa una *factory*: una función que recibe los parámetros y **devuelve** el validador. Así funcionan también `Validators.minLength(3)` o `Validators.pattern(...)`.'),
+  ('ng-forms-validator-factory', 'en', 'Why does `forbiddenName` return a function instead of returning the errors directly?
+
+```ts
+function forbiddenName(name: string): ValidatorFn {
+  return (control) => (control.value === name ? { forbiddenName: true } : null);
+}
+
+new FormControl('''', forbiddenName(''admin''));
+```', '["Because Angular requires every validation function to be asynchronous","Because that way the validator runs only once, when the control is created","It is a *factory*: it takes the parameter and returns the `ValidatorFn` the control uses","Because normal functions cannot return `null` inside a validator"]'::jsonb, 'A `ValidatorFn` only receives the control. To pass it your own data (the forbidden name) you use a *factory*: a function that takes the parameters and **returns** the validator. `Validators.minLength(3)` or `Validators.pattern(...)` work the same way.'),
+  ('ng-forms-minlength-empty', 'es', 'Un control vacío tiene `Validators.required` y `Validators.minLength(3)`. ¿Qué errores tiene?
+
+```ts
+const c = new FormControl('''', [Validators.required, Validators.minLength(3)]);
+console.log(c.errors);
+```', '["`required` y `minlength`, porque una cadena vacía tiene menos de 3 caracteres","Solo `required`: `minLength` no valida los valores vacíos","Solo `minlength`, porque `required` se omite si hay otro validador","Ninguno, porque el control todavía no ha sido tocado por el usuario"]'::jsonb, '`minLength`, `maxLength`, `pattern` o `email` **ignoran los valores vacíos**: dejan esa decisión a `required`. Así el usuario ve un único mensaje ("obligatorio") en vez de dos a la vez.'),
+  ('ng-forms-minlength-empty', 'en', 'An empty control has `Validators.required` and `Validators.minLength(3)`. What errors does it have?
+
+```ts
+const c = new FormControl('''', [Validators.required, Validators.minLength(3)]);
+console.log(c.errors);
+```', '["`required` and `minlength`, because an empty string has fewer than 3 characters","Only `required`: `minLength` does not validate empty values","Only `minlength`, because `required` is skipped if there is another validator","None, because the user has not touched the control yet"]'::jsonb, '`minLength`, `maxLength`, `pattern` or `email` **ignore empty values**: they leave that decision to `required`. That way the user sees a single message ("required") instead of two at once.'),
+  ('ng-forms-crossfield-validator', 'es', '¿Dónde aparece el error `mismatch`?
+
+```ts
+const form = new FormGroup(
+  { pass: new FormControl(''1''), repeat: new FormControl(''2'') },
+  {
+    validators: (group) =>
+      group.get(''pass'')?.value === group.get(''repeat'')?.value ? null : { mismatch: true },
+  },
+);
+```', '["En `form.errors`: en el grupo, no en un control concreto","En `form.get(''pass'')?.errors`, el primer control del grupo","En `form.get(''repeat'')?.errors`, el último control que se compara","En ningún sitio: los validadores de grupo no pueden devolver errores"]'::jsonb, 'Un validador de **grupo** se aplica al `FormGroup` y su error aparece en `form.errors`. Es la forma de validar campos que dependen entre sí (contraseña y repetición). Los controles hijos siguen siendo válidos.'),
+  ('ng-forms-crossfield-validator', 'en', 'Where does the `mismatch` error appear?
+
+```ts
+const form = new FormGroup(
+  { pass: new FormControl(''1''), repeat: new FormControl(''2'') },
+  {
+    validators: (group) =>
+      group.get(''pass'')?.value === group.get(''repeat'')?.value ? null : { mismatch: true },
+  },
+);
+```', '["In `form.errors`: on the group, not on a specific control","In `form.get(''pass'')?.errors`, the first control in the group","In `form.get(''repeat'')?.errors`, the last control being compared","Nowhere: group validators cannot return errors"]'::jsonb, 'A **group** validator is applied to the `FormGroup` and its error appears in `form.errors`. It is the way to validate fields that depend on each other (password and repeat). The child controls remain valid.'),
+  ('ng-forms-async-validator-pending', 'es', '¿Qué `status` tiene el control mientras se espera la respuesta del validador asíncrono?
+
+```ts
+const username = new FormControl(''ana'', null, () =>
+  timer(300).pipe(map(() => ({ taken: true }))),
+);
+```', '["`VALID`, porque aún no se ha detectado ningún error","`INVALID`, porque el validador todavía no ha respondido","`DISABLED`, porque el control espera a que termine la comprobación","`PENDING`, hasta que el validador asíncrono responde"]'::jsonb, 'Mientras un validador asíncrono no ha terminado, el estado es **`PENDING`**. Después pasa a `VALID` o `INVALID`. Los validadores asíncronos solo se ejecutan si los síncronos pasan, para evitar peticiones inútiles.'),
+  ('ng-forms-async-validator-pending', 'en', 'What `status` does the control have while waiting for the async validator''s response?
+
+```ts
+const username = new FormControl(''ana'', null, () =>
+  timer(300).pipe(map(() => ({ taken: true }))),
+);
+```', '["`VALID`, because no error has been detected yet","`INVALID`, because the validator has not responded yet","`DISABLED`, because the control waits for the check to finish","`PENDING`, until the async validator responds"]'::jsonb, 'While an async validator has not finished, the status is **`PENDING`**. It then becomes `VALID` or `INVALID`. Async validators only run if the sync ones pass, to avoid pointless requests.'),
+  ('ng-forms-formarray', 'es', '¿Qué imprime este código?
+
+```ts
+const tags = new FormArray([new FormControl(''a''), new FormControl(''b'')]);
+tags.push(new FormControl(''c''));
+tags.removeAt(0);
+console.log(tags.value);
+```', '["`[''a'', ''b'', ''c'']`, porque `removeAt` solo marca el elemento como borrado","`[''b'', ''c'']`: se añade `c` y se elimina el elemento de la posición 0","`[''a'', ''c'']`, porque `removeAt(0)` borra el segundo elemento de la lista","`[''c'']`, porque `removeAt` elimina todos los elementos anteriores a `c`"]'::jsonb, '`FormArray` es una lista dinámica de controles: `push` añade al final y `removeAt(i)` elimina por posición. Su `value` es un array con los valores de sus controles. Es lo que se usa para listas que crecen o encogen (teléfonos, etiquetas).'),
+  ('ng-forms-formarray', 'en', 'What does this code print?
+
+```ts
+const tags = new FormArray([new FormControl(''a''), new FormControl(''b'')]);
+tags.push(new FormControl(''c''));
+tags.removeAt(0);
+console.log(tags.value);
+```', '["`[''a'', ''b'', ''c'']`, because `removeAt` only marks the item as deleted","`[''b'', ''c'']`: `c` is added and the item at position 0 is removed","`[''a'', ''c'']`, because `removeAt(0)` deletes the second item in the list","`[''c'']`, because `removeAt` removes all the items before `c`"]'::jsonb, '`FormArray` is a dynamic list of controls: `push` adds at the end and `removeAt(i)` removes by position. Its `value` is an array with its controls'' values. It is what you use for lists that grow or shrink (phones, tags).'),
+  ('ng-forms-disabled-rawvalue', 'es', '¿Qué devuelven `form.value` y `form.getRawValue()` si el control `b` está deshabilitado?
+
+```ts
+const form = new FormGroup({
+  a: new FormControl(''1''),
+  b: new FormControl(''2''),
+});
+form.get(''b'')?.disable();
+```', '["Los dos devuelven `{ a: ''1'', b: ''2'' }`, porque el valor no depende del estado","`value` devuelve `{ a: ''1'', b: ''2'' }` y `getRawValue()` devuelve `{ a: ''1'' }`","`value` omite el control deshabilitado y `getRawValue()` lo incluye","Los dos omiten `b`, porque un control deshabilitado deja de tener valor"]'::jsonb, '`form.value` **excluye** los controles deshabilitados (`{ a: ''1'' }`). `getRawValue()` los incluye (`{ a: ''1'', b: ''2'' }`). Es una sorpresa típica: al enviar el formulario puede faltar un campo deshabilitado.'),
+  ('ng-forms-disabled-rawvalue', 'en', 'What do `form.value` and `form.getRawValue()` return if control `b` is disabled?
+
+```ts
+const form = new FormGroup({
+  a: new FormControl(''1''),
+  b: new FormControl(''2''),
+});
+form.get(''b'')?.disable();
+```', '["Both return `{ a: ''1'', b: ''2'' }`, because the value does not depend on the state","`value` returns `{ a: ''1'', b: ''2'' }` and `getRawValue()` returns `{ a: ''1'' }`","`value` omits the disabled control and `getRawValue()` includes it","Both omit `b`, because a disabled control no longer has a value"]'::jsonb, '`form.value` **excludes** disabled controls (`{ a: ''1'' }`). `getRawValue()` includes them (`{ a: ''1'', b: ''2'' }`). It is a classic surprise: when submitting the form a disabled field may be missing.'),
+  ('ng-forms-markalltouched', 'es', 'Al enviar un formulario inválido, ¿qué método hace que se muestren los errores de todos los campos si los mensajes dependen de `touched`?', '["`markAllAsTouched()` sobre el grupo, para que todos cuenten como tocados","`reset()` sobre el grupo, porque limpia los mensajes de error pendientes","`disable()` sobre el grupo, que fuerza la validación de cada campo","`setValue({})` sobre el grupo, que recalcula todos los errores de golpe"]'::jsonb, 'Si el mensaje de error solo sale cuando el campo está `touched`, un usuario que pulsa "Enviar" sin tocar nada no vería ninguno. `form.markAllAsTouched()` marca todos como tocados y los errores aparecen.'),
+  ('ng-forms-markalltouched', 'en', 'When submitting an invalid form, which method makes the errors of every field appear if messages depend on `touched`?', '["`markAllAsTouched()` on the group, so all of them count as touched","`reset()` on the group, because it clears pending error messages","`disable()` on the group, which forces validation of each field","`setValue({})` on the group, which recalculates all errors at once"]'::jsonb, 'If the error message only shows when the field is `touched`, a user who presses "Submit" without touching anything would see none. `form.markAllAsTouched()` marks them all as touched and the errors appear.'),
+  ('ng-forms-template-name', 'es', 'En un formulario de plantilla, ¿qué atributo necesita un `<input [(ngModel)]>` dentro de un `<form>`?', '["`id`, porque `ngModel` registra los controles por su identificador","`type`, para indicar al formulario qué clase de valor guarda","`formControlName`, que es la directiva que conecta cada campo","`name`, con el que el control se registra dentro del formulario"]'::jsonb, 'Dentro de un `<form>`, `ngModel` registra el control con el valor de su atributo **`name`**. Sin él, Angular lanza un error (salvo que uses `[ngModelOptions]="{ standalone: true }"`).'),
+  ('ng-forms-template-name', 'en', 'In a template-driven form, which attribute does an `<input [(ngModel)]>` need inside a `<form>`?', '["`id`, because `ngModel` registers controls by their identifier","`type`, to tell the form what kind of value it holds","`formControlName`, which is the directive that connects each field","`name`, with which the control registers itself inside the form"]'::jsonb, 'Inside a `<form>`, `ngModel` registers the control using the value of its **`name`** attribute. Without it, Angular throws an error (unless you use `[ngModelOptions]="{ standalone: true }"`).'),
+  ('ng-forms-formcontrol-vs-name', 'es', '¿Cuándo usas `[formControl]` y cuándo `formControlName`?', '["`[formControl]` dentro de un `FormGroup` y `formControlName` solo fuera de él","`[formControl]` enlaza un control suelto; `formControlName` lo busca por nombre dentro de `[formGroup]`","Son sinónimos: se pueden intercambiar en cualquier plantilla sin cambiar nada","`[formControl]` es para componentes standalone y `formControlName` para NgModules"]'::jsonb, '`[formControl]="miControl"` enlaza directamente un `FormControl` que tienes en la clase. `formControlName="email"` busca el control por su nombre dentro del `FormGroup` que enlaza `[formGroup]` en un elemento padre.'),
+  ('ng-forms-formcontrol-vs-name', 'en', 'When do you use `[formControl]` and when `formControlName`?', '["`[formControl]` inside a `FormGroup` and `formControlName` only outside it","`[formControl]` binds a standalone control; `formControlName` looks it up by name inside `[formGroup]`","They are synonyms: they can be swapped in any template without changing anything","`[formControl]` is for standalone components and `formControlName` for NgModules"]'::jsonb, '`[formControl]="myControl"` directly binds a `FormControl` you hold in the class. `formControlName="email"` looks up the control by name inside the `FormGroup` that `[formGroup]` binds on a parent element.'),
+  ('ng-forms-updateon-blur', 'es', '¿Qué efecto tiene `updateOn: ''blur''` en un `FormControl`?', '["El valor y la validez se actualizan cuando el campo pierde el foco, no con cada tecla","El control se actualiza solo cuando el usuario pulsa el botón de enviar el formulario","El campo se desactiva automáticamente al perder el foco, hasta que se vuelve a pulsar","El control emite `valueChanges` una vez por segundo mientras mantiene el foco"]'::jsonb, 'Por defecto un control se actualiza en cada `input` (`updateOn: ''change''`). Con `''blur''` el valor del modelo y la validación se actualizan al salir del campo, y con `''submit''`, al enviar. Reduce validaciones mientras el usuario aún escribe.'),
+  ('ng-forms-updateon-blur', 'en', 'What effect does `updateOn: ''blur''` have on a `FormControl`?', '["The value and validity update when the field loses focus, not on every keystroke","The control updates only when the user presses the form''s submit button","The field is automatically disabled on losing focus, until it is clicked again","The control emits `valueChanges` once per second while it keeps focus"]'::jsonb, 'By default a control updates on every `input` (`updateOn: ''change''`). With `''blur''` the model value and validation update when leaving the field, and with `''submit''`, on submit. It reduces validations while the user is still typing.'),
+  ('ng-forms-controlvalueaccessor', 'es', '¿Para qué sirve implementar `ControlValueAccessor` en un componente?', '["Para que el componente pueda hacer peticiones HTTP con los datos del formulario","Para guardar automáticamente el valor del campo en `localStorage` al cambiar","Para que un componente propio funcione como campo con `ngModel` o `formControl`","Para validar el valor del campo de forma asíncrona sin escribir un validador"]'::jsonb, '`ControlValueAccessor` es el puente entre Angular Forms y un componente propio (un selector de fechas, un rating...). Define `writeValue`, `registerOnChange`, `registerOnTouched` y `setDisabledState`, y se registra con `NG_VALUE_ACCESSOR`.'),
+  ('ng-forms-controlvalueaccessor', 'en', 'What is implementing `ControlValueAccessor` in a component for?', '["So the component can make HTTP requests with the form data","To automatically save the field value in `localStorage` on change","So a custom component works as a field with `ngModel` or `formControl`","To validate the field value asynchronously without writing a validator"]'::jsonb, '`ControlValueAccessor` is the bridge between Angular Forms and a custom component (a date picker, a rating...). It defines `writeValue`, `registerOnChange`, `registerOnTouched` and `setDisabledState`, and is registered with `NG_VALUE_ACCESSOR`.'),
+  ('ng-forms-typed-nullable', 'es', '¿Por qué el tipo de `new FormControl('''')` es `FormControl<string | null>`?', '["Porque los formularios de Angular no admiten cadenas vacías como valor válido","Porque `reset()` puede dejar el valor en `null`","Porque TypeScript no sabe inferir el tipo del valor inicial de un control","Porque `null` es el valor por defecto de todos los `input` de HTML"]'::jsonb, 'Desde los formularios tipados (Angular 14), el tipo refleja que `reset()` puede devolver `null`. Si quieres evitarlo, `new FormControl('''', { nonNullable: true })` da `FormControl<string>`.'),
+  ('ng-forms-typed-nullable', 'en', 'Why is the type of `new FormControl('''')` `FormControl<string | null>`?', '["Because Angular forms do not support empty strings as a valid value","Because `reset()` can leave the value as `null`","Because TypeScript cannot infer the type of a control''s initial value","Because `null` is the default value of every HTML `input`"]'::jsonb, 'Since typed forms (Angular 14), the type reflects that `reset()` can return `null`. To avoid it, `new FormControl('''', { nonNullable: true })` gives `FormControl<string>`.'),
+  ('ng-forms-status-values', 'es', '¿Qué valores puede tomar la propiedad `status` de un control o grupo?', '["`OK`, `ERROR` y `LOADING`","`TRUE`, `FALSE` y `UNKNOWN`","`PRISTINE`, `DIRTY` y `TOUCHED`","`VALID`, `INVALID`, `PENDING` y `DISABLED`"]'::jsonb, '`status` es uno de `VALID`, `INVALID`, `PENDING` (validador asíncrono en marcha) o `DISABLED`. `pristine`/`dirty` y `touched`/`untouched` son otro conjunto de propiedades, sobre la interacción del usuario.'),
+  ('ng-forms-status-values', 'en', 'Which values can the `status` property of a control or group take?', '["`OK`, `ERROR` and `LOADING`","`TRUE`, `FALSE` and `UNKNOWN`","`PRISTINE`, `DIRTY` and `TOUCHED`","`VALID`, `INVALID`, `PENDING` and `DISABLED`"]'::jsonb, '`status` is one of `VALID`, `INVALID`, `PENDING` (async validator running) or `DISABLED`. `pristine`/`dirty` and `touched`/`untouched` are a different set of properties, about user interaction.'),
+  ('ng-forms-haserror', 'es', '¿Qué comprueba `form.get(''email'')?.hasError(''required'')`?', '["Si el campo tiene el atributo HTML `required` escrito en su plantilla","Si el campo ha sido tocado y está vacío en ese preciso momento","Si el control tiene un error con la clave `required` en su `errors`","Si el formulario entero es inválido porque falta algún campo"]'::jsonb, '`hasError(''required'')` devuelve `true` si `errors` contiene la clave `required`. Suele combinarse con `touched` para mostrar el mensaje: `control.touched && control.hasError(''required'')`.'),
+  ('ng-forms-haserror', 'en', 'What does `form.get(''email'')?.hasError(''required'')` check?', '["Whether the field has the HTML `required` attribute written in its template","Whether the field has been touched and is empty at that very moment","Whether the control has an error with the key `required` in its `errors`","Whether the whole form is invalid because some field is missing"]'::jsonb, '`hasError(''required'')` returns `true` if `errors` contains the key `required`. It is usually combined with `touched` to show the message: `control.touched && control.hasError(''required'')`.'),
+  ('ng-signalforms-schema', 'es', 'En Signal Forms, ¿dónde se declaran las reglas de validación?', '["En una función que recibe `path` y se pasa a `form()`, junto al modelo","En un array de `Validators` que se pasa a cada `FormControl` al crearlo","En atributos HTML como `required` y `minlength`, que Angular lee del DOM","En un NgModule de validaciones que se importa en el componente raíz"]'::jsonb, 'Se pasan como segundo argumento de `form(modelo, (path) => { required(path.email); email(path.email); })`. `path` apunta a los campos del modelo y las funciones (`required`, `email`, `minLength`...) declaran las reglas.'),
+  ('ng-signalforms-schema', 'en', 'In Signal Forms, where are validation rules declared?', '["In a function that receives `path` and is passed to `form()`, next to the model","In an array of `Validators` passed to each `FormControl` when creating it","In HTML attributes such as `required` and `minlength`, which Angular reads from the DOM","In a validations NgModule imported in the root component"]'::jsonb, 'They are passed as the second argument of `form(model, (path) => { required(path.email); email(path.email); })`. `path` points to the model''s fields and the functions (`required`, `email`, `minLength`...) declare the rules.'),
+  ('ng-forms-valuechanges-search', 'es', '¿Qué ventaja tiene este patrón en un campo de búsqueda?
+
+```ts
+this.search.valueChanges
+  .pipe(debounceTime(300), distinctUntilChanged())
+  .subscribe((term) => this.load(term));
+```', '["Hace que el campo ignore las teclas que no sean letras o números","Evita cargar por cada tecla y repetir la carga con un texto igual al anterior","Cancela automáticamente la petición anterior cuando el usuario sigue escribiendo","Guarda en caché los resultados de cada término buscado durante la sesión"]'::jsonb, '`debounceTime(300)` espera a que el usuario pare de escribir y `distinctUntilChanged()` descarta un valor igual al anterior. Para **cancelar** la petición en curso se añadiría `switchMap`.'),
+  ('ng-forms-valuechanges-search', 'en', 'What advantage does this pattern have in a search box?
+
+```ts
+this.search.valueChanges
+  .pipe(debounceTime(300), distinctUntilChanged())
+  .subscribe((term) => this.load(term));
+```', '["It makes the field ignore keys that are not letters or numbers","It avoids loading on every keystroke and repeating the load with the same text as before","It automatically cancels the previous request while the user keeps typing","It caches the results of each searched term during the session"]'::jsonb, '`debounceTime(300)` waits for the user to stop typing and `distinctUntilChanged()` discards a value equal to the previous one. To **cancel** the in-flight request you would add `switchMap`.'),
+  ('ng-forms-formbuilder', 'es', '¿Qué ventaja ofrece `FormBuilder`?', '["Una sintaxis más corta para crear grupos, arrays y controles, como `fb.group({ ... })`","Que los formularios creados con él se validan en el servidor en lugar del cliente","Que convierte automáticamente un formulario de plantilla en uno reactivo","Que permite crear formularios sin tener que importar ningún módulo de formularios"]'::jsonb, '`FormBuilder` es un atajo: `fb.group({ name: [''''], email: ['''', Validators.email] })` en vez de escribir `new FormGroup({ name: new FormControl(''''), ... })`. Se inyecta con `inject(FormBuilder)`. No cambia lo que hace el formulario.'),
+  ('ng-forms-formbuilder', 'en', 'What advantage does `FormBuilder` offer?', '["A shorter syntax to create groups, arrays and controls, such as `fb.group({ ... })`","That forms created with it are validated on the server instead of the client","That it automatically turns a template-driven form into a reactive one","That it lets you create forms without importing any forms module"]'::jsonb, '`FormBuilder` is a shortcut: `fb.group({ name: [''''], email: ['''', Validators.email] })` instead of writing `new FormGroup({ name: new FormControl(''''), ... })`. It is injected with `inject(FormBuilder)`. It does not change what the form does.')
 on conflict (question_id, lang) do update set
   prompt = excluded.prompt,
   options = excluded.options,

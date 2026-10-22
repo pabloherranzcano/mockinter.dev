@@ -1,0 +1,702 @@
+[
+  {
+    "id": "ng-provide-httpclient",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "En una app Angular standalone, ¿qué necesitas para poder inyectar `HttpClient`?",
+      "options": [
+        "Importar `HttpClientModule` en un `AppModule`, porque no existe ninguna otra forma de registrarlo",
+        "Nada: `HttpClient` está disponible por defecto en cualquier aplicación Angular nueva",
+        "Añadir `provideHttpClient()` a los `providers` de `app.config.ts`",
+        "Instalar el paquete `@angular/http`, que contiene el cliente HTTP oficial"
+      ],
+      "explanation": "En una app standalone se registra con `provideHttpClient()` en los `providers` de `app.config.ts`, y se le pueden añadir funciones como `withInterceptors(...)` o `withFetch()`. `HttpClientModule` está obsoleto."
+    },
+    "en": {
+      "prompt": "In a standalone Angular app, what do you need to be able to inject `HttpClient`?",
+      "options": [
+        "Import `HttpClientModule` in an `AppModule`, because there is no other way to register it",
+        "Nothing: `HttpClient` is available by default in any new Angular application",
+        "Add `provideHttpClient()` to the `providers` of `app.config.ts`",
+        "Install the `@angular/http` package, which contains the official HTTP client"
+      ],
+      "explanation": "In a standalone app it is registered with `provideHttpClient()` in the `providers` of `app.config.ts`, and you can add features such as `withInterceptors(...)` or `withFetch()`. `HttpClientModule` is deprecated."
+    }
+  },
+  {
+    "id": "ng-httpclient-returns-observable",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué devuelve `this.http.get<User[]>('/api/users')`?",
+      "options": [
+        "Una `Promise<User[]>` que se resuelve cuando llega la respuesta del servidor",
+        "Un `Observable<User[]>` que no hace la petición hasta que alguien se suscribe",
+        "Directamente el array `User[]`, porque la petición es síncrona por defecto",
+        "Un signal `Signal<User[]>` que se rellena solo cuando llega la respuesta"
+      ],
+      "explanation": "`HttpClient` devuelve Observables *cold*: la petición solo se lanza al suscribirse (con `subscribe`, la pipe `async` o `toSignal`), y se lanza una vez por cada suscripción."
+    },
+    "en": {
+      "prompt": "What does `this.http.get<User[]>('/api/users')` return?",
+      "options": [
+        "A `Promise<User[]>` that resolves when the server response arrives",
+        "An `Observable<User[]>` that does not make the request until someone subscribes",
+        "The `User[]` array directly, because the request is synchronous by default",
+        "A `Signal<User[]>` signal that fills itself when the response arrives"
+      ],
+      "explanation": "`HttpClient` returns *cold* Observables: the request only fires on subscribing (with `subscribe`, the `async` pipe or `toSignal`), and fires once per subscription."
+    }
+  },
+  {
+    "id": "ng-httpparams-immutable",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué URL se pide con este código?\n\n```ts\nlet params = new HttpParams();\nparams.set('page', 1);\n\nthis.http.get('/api/items', { params });\n```",
+      "options": [
+        "`/api/items`: `set` devuelve una instancia nueva y aquí se descarta",
+        "`/api/items?page=1`, porque `set` modifica directamente el objeto original",
+        "Ninguna, porque `HttpParams` lanza un error si no se reasigna el resultado",
+        "`/api/items?page`, sin valor, porque un número no es un `string`"
+      ],
+      "explanation": "`HttpParams` (igual que `HttpHeaders` y `HttpRequest`) es **inmutable**: `set` devuelve una instancia nueva y la original no cambia. Hay que reasignar (`params = params.set(...)`) o encadenar las llamadas."
+    },
+    "en": {
+      "prompt": "What URL is requested with this code?\n\n```ts\nlet params = new HttpParams();\nparams.set('page', 1);\n\nthis.http.get('/api/items', { params });\n```",
+      "options": [
+        "`/api/items`: `set` returns a new instance and here it is discarded",
+        "`/api/items?page=1`, because `set` directly modifies the original object",
+        "None, because `HttpParams` throws an error if the result is not reassigned",
+        "`/api/items?page`, with no value, because a number is not a `string`"
+      ],
+      "explanation": "`HttpParams` (like `HttpHeaders` and `HttpRequest`) is **immutable**: `set` returns a new instance and the original does not change. You must reassign (`params = params.set(...)`) or chain the calls."
+    }
+  },
+  {
+    "id": "ng-httpparams-append-vs-set",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué cadena de consulta generan estos dos fragmentos?\n\n```ts\nnew HttpParams().append('t', 'a').append('t', 'b');\nnew HttpParams().set('t', 'a').set('t', 'b');\n```",
+      "options": [
+        "Los dos generan `t=a&t=b`, porque `set` y `append` son sinónimos",
+        "`append` genera `t=a&t=b` y `set` genera `t=b`",
+        "`append` genera `t=b` y `set` genera `t=a&t=b`",
+        "Los dos generan `t=b`, porque una clave no se puede repetir"
+      ],
+      "explanation": "`append` **añade** un valor a la clave (se pueden repetir claves: `t=a&t=b`). `set` **sustituye** el valor que hubiera: el último gana (`t=b`)."
+    },
+    "en": {
+      "prompt": "What query string do these two snippets generate?\n\n```ts\nnew HttpParams().append('t', 'a').append('t', 'b');\nnew HttpParams().set('t', 'a').set('t', 'b');\n```",
+      "options": [
+        "Both generate `t=a&t=b`, because `set` and `append` are synonyms",
+        "`append` generates `t=a&t=b` and `set` generates `t=b`",
+        "`append` generates `t=b` and `set` generates `t=a&t=b`",
+        "Both generate `t=b`, because a key cannot be repeated"
+      ],
+      "explanation": "`append` **adds** a value to the key (keys can repeat: `t=a&t=b`). `set` **replaces** whatever value there was: the last one wins (`t=b`)."
+    }
+  },
+  {
+    "id": "ng-httpheaders-immutable",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Por qué este código no añade ninguna cabecera a la petición?\n\n```ts\nconst headers = new HttpHeaders();\nheaders.set('X-App', 'mockinter');\n\nthis.http.get('/api/items', { headers });\n```",
+      "options": [
+        "Porque `HttpHeaders` solo admite cabeceras estándar como `Authorization`",
+        "Porque el navegador prohíbe siempre las cabeceras personalizadas",
+        "Porque `get` ignora el campo `headers` de las opciones de la petición",
+        "Porque `set` devuelve una instancia nueva y aquí se descarta el resultado"
+      ],
+      "explanation": "`HttpHeaders` es inmutable: `set` no modifica el objeto, devuelve uno nuevo. Hay que reasignar o encadenar: `new HttpHeaders().set(...)`."
+    },
+    "en": {
+      "prompt": "Why does this code not add any header to the request?\n\n```ts\nconst headers = new HttpHeaders();\nheaders.set('X-App', 'mockinter');\n\nthis.http.get('/api/items', { headers });\n```",
+      "options": [
+        "Because `HttpHeaders` only accepts standard headers such as `Authorization`",
+        "Because the browser always forbids custom headers",
+        "Because `get` ignores the `headers` field of the request options",
+        "Because `set` returns a new instance and here the result is discarded"
+      ],
+      "explanation": "`HttpHeaders` is immutable: `set` does not modify the object, it returns a new one. You must reassign or chain: `new HttpHeaders().set(...)`."
+    }
+  },
+  {
+    "id": "ng-http-error-status-zero",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un usuario pierde la conexión a internet y falla una petición. ¿Qué `status` trae el `HttpErrorResponse`?",
+      "options": [
+        "`0`: es un error de red y no hubo respuesta del servidor",
+        "`404`, porque el recurso no se ha podido encontrar en el servidor",
+        "`500`, porque el fallo ocurrió dentro del propio servidor de la API",
+        "`503`, porque el servicio está temporalmente fuera de disponibilidad"
+      ],
+      "explanation": "Cuando la petición no llega a obtener respuesta (sin conexión, CORS bloqueado, servidor caído), el `HttpErrorResponse` trae `status: 0`. Los códigos 4xx y 5xx significan que el servidor **sí** contestó."
+    },
+    "en": {
+      "prompt": "A user loses their internet connection and a request fails. What `status` does the `HttpErrorResponse` carry?",
+      "options": [
+        "`0`: it is a network error and there was no server response",
+        "`404`, because the resource could not be found on the server",
+        "`500`, because the failure happened inside the API server itself",
+        "`503`, because the service is temporarily unavailable"
+      ],
+      "explanation": "When the request gets no response at all (offline, CORS blocked, server down), the `HttpErrorResponse` has `status: 0`. 4xx and 5xx codes mean the server **did** answer."
+    }
+  },
+  {
+    "id": "ng-http-observe-response",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué opción necesitas en `get` para leer las cabeceras y el código de estado de la respuesta?",
+      "options": [
+        "`{ responseType: 'headers' }`, que devuelve únicamente las cabeceras",
+        "`{ observe: 'response' }`, que devuelve la `HttpResponse` completa",
+        "`{ withCredentials: true }`, que añade información sobre la respuesta",
+        "`{ reportProgress: true }`, que incluye el estado y las cabeceras"
+      ],
+      "explanation": "Por defecto `HttpClient` solo emite el cuerpo. Con `observe: 'response'` emite la `HttpResponse` entera (cuerpo, `status`, `headers`...). `observe: 'events'` da todos los eventos, incluido el progreso."
+    },
+    "en": {
+      "prompt": "Which option do you need in `get` to read the response headers and status code?",
+      "options": [
+        "`{ responseType: 'headers' }`, which returns only the headers",
+        "`{ observe: 'response' }`, which returns the full `HttpResponse`",
+        "`{ withCredentials: true }`, which adds information about the response",
+        "`{ reportProgress: true }`, which includes the status and the headers"
+      ],
+      "explanation": "By default `HttpClient` only emits the body. With `observe: 'response'` it emits the whole `HttpResponse` (body, `status`, `headers`...). `observe: 'events'` gives every event, including progress."
+    }
+  },
+  {
+    "id": "ng-http-json-default",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué hace `HttpClient` por defecto con el cuerpo de una respuesta?",
+      "options": [
+        "Lo devuelve como texto, y hay que llamar a `JSON.parse` a mano siempre",
+        "Lo devuelve como `Blob`, para poder descargarlo luego como un fichero",
+        "Lo interpreta como JSON y lo devuelve ya convertido en un objeto",
+        "Lo guarda en caché y devuelve solo una referencia al resultado"
+      ],
+      "explanation": "Por defecto `responseType` es `'json'`: `HttpClient` hace el `JSON.parse` por ti. Para texto, binarios o descargas se indica `responseType: 'text'` o `'blob'`."
+    },
+    "en": {
+      "prompt": "What does `HttpClient` do by default with a response body?",
+      "options": [
+        "It returns it as text, and you must always call `JSON.parse` by hand",
+        "It returns it as a `Blob`, so it can be downloaded later as a file",
+        "It parses it as JSON and returns it already converted into an object",
+        "It caches it and only returns a reference to the result"
+      ],
+      "explanation": "By default `responseType` is `'json'`: `HttpClient` does the `JSON.parse` for you. For text, binary or downloads you pass `responseType: 'text'` or `'blob'`."
+    }
+  },
+  {
+    "id": "ng-http-cancel-unsubscribe",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ocurre con una petición HTTP en curso si te das de baja de su Observable?",
+      "options": [
+        "Sigue hasta el final y la respuesta se descarta cuando llega al cliente",
+        "Se pausa, y se reanuda sola cuando alguien se vuelve a suscribir después",
+        "Lanza un `HttpErrorResponse` con el estado 499 en el callback `error`",
+        "Se cancela: el navegador aborta la petición y no llega ninguna respuesta"
+      ],
+      "explanation": "Darse de baja de un Observable de `HttpClient` **cancela la petición** (el navegador la aborta). Por eso `switchMap` cancela la petición anterior cuando llega un valor nuevo y evita respuestas antiguas."
+    },
+    "en": {
+      "prompt": "What happens to an in-flight HTTP request if you unsubscribe from its Observable?",
+      "options": [
+        "It carries on to the end and the response is discarded when it reaches the client",
+        "It is paused, and resumes by itself when someone subscribes again later",
+        "It throws an `HttpErrorResponse` with status 499 in the `error` callback",
+        "It is cancelled: the browser aborts the request and no response arrives"
+      ],
+      "explanation": "Unsubscribing from an `HttpClient` Observable **cancels the request** (the browser aborts it). That is why `switchMap` cancels the previous request when a new value arrives and avoids stale responses."
+    }
+  },
+  {
+    "id": "ng-interceptor-clone",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Por qué se usa `req.clone(...)` en este interceptor en vez de modificar `req` directamente?\n\n```ts\nexport const authInterceptor: HttpInterceptorFn = (req, next) => {\n  const token = inject(AuthService).token();\n  return next(req.clone({ setHeaders: { Authorization: 'Bearer ' + token } }));\n};\n```",
+      "options": [
+        "Porque `req` es un `Observable` y no tiene propiedades que se puedan cambiar",
+        "Porque `HttpRequest` es inmutable: para cambiarla se crea una copia modificada",
+        "Porque `clone` envía una petición adicional de prueba antes de la petición real",
+        "Porque `req` solo se puede modificar dentro del `ngOnInit` de un componente"
+      ],
+      "explanation": "`HttpRequest` (y `HttpHeaders`, `HttpParams`) es **inmutable**. Un interceptor no la modifica: crea una copia con `clone({ ... })` y pasa esa copia a `next`."
+    },
+    "en": {
+      "prompt": "Why is `req.clone(...)` used in this interceptor instead of modifying `req` directly?\n\n```ts\nexport const authInterceptor: HttpInterceptorFn = (req, next) => {\n  const token = inject(AuthService).token();\n  return next(req.clone({ setHeaders: { Authorization: 'Bearer ' + token } }));\n};\n```",
+      "options": [
+        "Because `req` is an `Observable` and has no properties that can be changed",
+        "Because `HttpRequest` is immutable: to change it you create a modified copy",
+        "Because `clone` sends an extra test request before the real one",
+        "Because `req` can only be modified inside a component's `ngOnInit`"
+      ],
+      "explanation": "`HttpRequest` (and `HttpHeaders`, `HttpParams`) is **immutable**. An interceptor does not modify it: it creates a copy with `clone({ ... })` and passes that copy to `next`."
+    }
+  },
+  {
+    "id": "ng-interceptor-register",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cómo se registra un interceptor funcional en una app standalone?",
+      "options": [
+        "`provideHttpClient(withInterceptors([authInterceptor]))` en `app.config.ts`",
+        "Añadiéndolo al array `declarations` de un NgModule de la aplicación",
+        "Marcando la función con un decorador `@Interceptor()` en cualquier fichero",
+        "Importándolo en el componente raíz con `imports: [authInterceptor]`"
+      ],
+      "explanation": "Se pasa a `withInterceptors([...])` dentro de `provideHttpClient(...)`. Los interceptores de clase antiguos (`HttpInterceptor`) se siguen registrando con `HTTP_INTERCEPTORS` y `withInterceptorsFromDi()`."
+    },
+    "en": {
+      "prompt": "How do you register a functional interceptor in a standalone app?",
+      "options": [
+        "`provideHttpClient(withInterceptors([authInterceptor]))` in `app.config.ts`",
+        "By adding it to the `declarations` array of an application NgModule",
+        "By marking the function with an `@Interceptor()` decorator in any file",
+        "By importing it in the root component with `imports: [authInterceptor]`"
+      ],
+      "explanation": "You pass it to `withInterceptors([...])` inside `provideHttpClient(...)`. Old class-based interceptors (`HttpInterceptor`) are still registered with `HTTP_INTERCEPTORS` and `withInterceptorsFromDi()`."
+    }
+  },
+  {
+    "id": "ng-interceptor-inject-context",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Por qué se puede usar `inject()` dentro de un `HttpInterceptorFn`?",
+      "options": [
+        "Porque `inject()` funciona en cualquier función, se ejecute cuando se ejecute",
+        "Porque los interceptores reciben el inyector como tercer parámetro obligatorio",
+        "Porque Angular ejecuta el interceptor dentro de un contexto de inyección",
+        "Porque `HttpClient` guarda una copia del componente que lanzó la petición"
+      ],
+      "explanation": "Los interceptores funcionales se ejecutan en un contexto de inyección, así que `inject()` funciona en el cuerpo de la función. Pero no dentro de callbacks asíncronos posteriores (por ejemplo, en un `catchError`): hay que inyectar arriba."
+    },
+    "en": {
+      "prompt": "Why can `inject()` be used inside an `HttpInterceptorFn`?",
+      "options": [
+        "`inject()` works in any function, whenever it runs",
+        "Because interceptors receive the injector as a mandatory third parameter",
+        "Because Angular runs the interceptor inside an injection context",
+        "Because `HttpClient` keeps a copy of the component that fired the request"
+      ],
+      "explanation": "Functional interceptors run in an injection context, so `inject()` works in the function body. But not inside later asynchronous callbacks (for example, in a `catchError`): inject at the top."
+    }
+  },
+  {
+    "id": "ng-interceptor-order",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿En qué orden pasa una petición por los interceptores y en qué orden vuelve la respuesta?\n\n```ts\nprovideHttpClient(withInterceptors([a, b, c]));\n```",
+      "options": [
+        "Petición: `c`, `b`, `a`; respuesta: `a`, `b`, `c`",
+        "Petición: `a`, `b`, `c`; respuesta: `c`, `b`, `a`",
+        "Petición y respuesta pasan siempre en el orden `a`, `b`, `c`",
+        "Sin orden definido: Angular los ejecuta todos en paralelo"
+      ],
+      "explanation": "Funcionan como un *middleware*: la petición atraviesa los interceptores en el orden del array (`a`, `b`, `c`) y la respuesta vuelve en orden inverso (`c`, `b`, `a`)."
+    },
+    "en": {
+      "prompt": "In what order does a request go through the interceptors and in what order does the response come back?\n\n```ts\nprovideHttpClient(withInterceptors([a, b, c]));\n```",
+      "options": [
+        "Request: `c`, `b`, `a`; response: `a`, `b`, `c`",
+        "Request: `a`, `b`, `c`; response: `c`, `b`, `a`",
+        "Request and response always go through in the order `a`, `b`, `c`",
+        "No defined order: Angular runs them all in parallel"
+      ],
+      "explanation": "They work like *middleware*: the request goes through the interceptors in array order (`a`, `b`, `c`) and the response comes back in reverse order (`c`, `b`, `a`)."
+    }
+  },
+  {
+    "id": "ng-interceptor-use-case",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Para qué es adecuado un interceptor HTTP?",
+      "options": [
+        "Para decidir qué componente se muestra según la ruta de la aplicación",
+        "Para validar los campos de un formulario antes de enviarlos al servidor",
+        "Para guardar el estado de la interfaz entre una navegación y la siguiente",
+        "Para añadir lógica común a todas las peticiones, como la cabecera de autenticación"
+      ],
+      "explanation": "Un interceptor se ejecuta en cada petición y respuesta, así que es el sitio para lo transversal: añadir el token, gestionar errores 401 de forma global, mostrar un indicador de carga, registrar logs o reintentar."
+    },
+    "en": {
+      "prompt": "What is an HTTP interceptor suitable for?",
+      "options": [
+        "Deciding which component is shown according to the application route",
+        "Validating form fields before sending them to the server",
+        "Keeping UI state between one navigation and the next",
+        "Adding common logic to every request, such as the authentication header"
+      ],
+      "explanation": "An interceptor runs on every request and response, so it is the place for cross-cutting concerns: adding the token, handling 401 errors globally, showing a loading indicator, logging or retrying."
+    }
+  },
+  {
+    "id": "ng-interceptor-rethrow",
+    "tech": "angular",
+    "topic": "interceptors",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Por qué este interceptor termina con `throwError(() => error)`?\n\n```ts\nexport const errorInterceptor: HttpInterceptorFn = (req, next) => {\n  const router = inject(Router);\n  return next(req).pipe(\n    catchError((error: HttpErrorResponse) => {\n      if (error.status === 401) {\n        router.navigate(['/login']);\n      }\n      return throwError(() => error);\n    }),\n  );\n};\n```",
+      "options": [
+        "Para que el error siga llegando a quien hizo la petición después de gestionarlo",
+        "Para que Angular reintente la petición automáticamente tras redirigir al login",
+        "Porque `catchError` obliga siempre a lanzar un error nuevo con otro mensaje",
+        "Para convertir el error en un valor normal que `subscribe` pueda recibir"
+      ],
+      "explanation": "Si `catchError` no devolviera nada, el error se perdería y quien hizo la petición no sabría que falló. `throwError` lo **relanza**: el interceptor hace su trabajo global (redirigir en un 401) y el error sigue su camino."
+    },
+    "en": {
+      "prompt": "Why does this interceptor end with `throwError(() => error)`?\n\n```ts\nexport const errorInterceptor: HttpInterceptorFn = (req, next) => {\n  const router = inject(Router);\n  return next(req).pipe(\n    catchError((error: HttpErrorResponse) => {\n      if (error.status === 401) {\n        router.navigate(['/login']);\n      }\n      return throwError(() => error);\n    }),\n  );\n};\n```",
+      "options": [
+        "So the error keeps reaching whoever made the request after being handled",
+        "So Angular automatically retries the request after redirecting to login",
+        "Because `catchError` always forces throwing a new error with another message",
+        "To turn the error into a normal value that `subscribe` can receive"
+      ],
+      "explanation": "If `catchError` returned nothing, the error would be lost and whoever made the request would not know it failed. `throwError` **rethrows** it: the interceptor does its global job (redirecting on a 401) and the error continues on its way."
+    }
+  },
+  {
+    "id": "ng-http-withfetch",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué cambia al usar `provideHttpClient(withFetch())`?",
+      "options": [
+        "Las peticiones pasan a ser síncronas y bloquean la interfaz hasta responder",
+        "`HttpClient` deja de devolver Observables y empieza a devolver `Promise`",
+        "`HttpClient` usa la API `fetch` del navegador en lugar de `XMLHttpRequest`",
+        "Se desactivan los interceptores, porque `fetch` no los admite en ningún caso"
+      ],
+      "explanation": "`withFetch()` cambia la implementación interna: en vez de `XMLHttpRequest`, usa `fetch`. La API de `HttpClient` y los interceptores siguen igual. Es lo recomendado con SSR."
+    },
+    "en": {
+      "prompt": "What changes when using `provideHttpClient(withFetch())`?",
+      "options": [
+        "Requests become synchronous and block the interface until they respond",
+        "`HttpClient` stops returning Observables and starts returning `Promise`",
+        "`HttpClient` uses the browser's `fetch` API instead of `XMLHttpRequest`",
+        "Interceptors are disabled, because `fetch` does not support them in any case"
+      ],
+      "explanation": "`withFetch()` changes the internal implementation: instead of `XMLHttpRequest`, it uses `fetch`. The `HttpClient` API and interceptors stay the same. It is recommended with SSR."
+    }
+  },
+  {
+    "id": "ng-proxy-purpose",
+    "tech": "angular",
+    "topic": "tooling",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Para qué sirve este `proxy.conf.json` con `ng serve`?\n\n```json\n{\n  \"/api\": {\n    \"target\": \"http://localhost:3000\",\n    \"secure\": false\n  }\n}\n```",
+      "options": [
+        "Para cifrar con HTTPS las peticiones que envía la aplicación en producción",
+        "Para reenviar a `localhost:3000` las peticiones a `/api`, evitando problemas de CORS en desarrollo",
+        "Para que el compilador de Angular genere automáticamente el backend de la API",
+        "Para guardar en caché las respuestas de `/api` y acelerar la recarga de la página"
+      ],
+      "explanation": "El servidor de desarrollo hace de intermediario: las peticiones a `/api` salen del mismo origen que la app (`localhost:4200`) y él las reenvía a `localhost:3000`. Al navegador le parece el mismo origen, así que no hay CORS. Se activa con `ng serve --proxy-config proxy.conf.json`."
+    },
+    "en": {
+      "prompt": "What is this `proxy.conf.json` for with `ng serve`?\n\n```json\n{\n  \"/api\": {\n    \"target\": \"http://localhost:3000\",\n    \"secure\": false\n  }\n}\n```",
+      "options": [
+        "To encrypt with HTTPS the requests the application sends in production",
+        "To forward `/api` requests to `localhost:3000`, avoiding CORS problems in development",
+        "So the Angular compiler automatically generates the API backend",
+        "To cache `/api` responses and speed up page reload"
+      ],
+      "explanation": "The dev server acts as an intermediary: requests to `/api` leave from the same origin as the app (`localhost:4200`) and it forwards them to `localhost:3000`. To the browser it looks like the same origin, so there is no CORS. It is enabled with `ng serve --proxy-config proxy.conf.json`."
+    }
+  },
+  {
+    "id": "ng-proxy-dev-only",
+    "tech": "angular",
+    "topic": "tooling",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Funciona `proxy.conf.json` en producción?",
+      "options": [
+        "Sí, `ng build` incluye el proxy dentro del paquete que se despliega",
+        "Sí, pero solo si la aplicación se despliega con HTTPS y certificado válido",
+        "Sí, siempre que el fichero esté dentro de la carpeta `public` del proyecto",
+        "No: solo lo usa el servidor de desarrollo; en producción lo resuelve el servidor o el hosting"
+      ],
+      "explanation": "El proxy es una función del servidor de desarrollo (`ng serve`). En producción no existe: hay que resolverlo en el hosting (reglas de reescritura o *rewrites*) o configurando CORS en la API."
+    },
+    "en": {
+      "prompt": "Does `proxy.conf.json` work in production?",
+      "options": [
+        "Yes, `ng build` includes the proxy inside the package that gets deployed",
+        "Yes, but only if the app is deployed with HTTPS and a valid certificate",
+        "Yes, as long as the file is inside the project's `public` folder",
+        "No: only the dev server uses it; in production the server or hosting handles it"
+      ],
+      "explanation": "The proxy is a feature of the dev server (`ng serve`). It does not exist in production: you must solve it in the hosting (rewrite rules) or by configuring CORS on the API."
+    }
+  },
+  {
+    "id": "web-cors-who-enforces",
+    "tech": "web",
+    "topic": "cors",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Quién aplica la política CORS?",
+      "options": [
+        "El navegador: bloquea la respuesta si el servidor no la autoriza con cabeceras",
+        "El servidor, que rechaza cualquier petición que venga de otro dominio distinto",
+        "El compilador de Angular, al hacer `ng build` con las URLs de la API",
+        "El sistema operativo, que filtra las peticiones antes de salir a la red"
+      ],
+      "explanation": "CORS lo aplica **el navegador**. El servidor solo declara, con cabeceras como `Access-Control-Allow-Origin`, qué orígenes autoriza. Por eso el mismo servicio funciona desde `curl` o un servidor y falla en el navegador."
+    },
+    "en": {
+      "prompt": "Who enforces the CORS policy?",
+      "options": [
+        "The browser: it blocks the response if the server does not authorize it with headers",
+        "The server, which rejects any request coming from a different domain",
+        "The Angular compiler, when running `ng build` with the API URLs",
+        "The operating system, which filters requests before they leave to the network"
+      ],
+      "explanation": "CORS is enforced by **the browser**. The server only declares, with headers such as `Access-Control-Allow-Origin`, which origins it authorizes. That is why the same service works from `curl` or a server and fails in the browser."
+    }
+  },
+  {
+    "id": "web-cors-allow-origin",
+    "tech": "web",
+    "topic": "cors",
+    "difficulty": "medium",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué cabecera de respuesta autoriza a un origen concreto a leer la respuesta de una API?",
+      "options": [
+        "`Content-Security-Policy: allow-origin`",
+        "`X-Frame-Options: ALLOW`",
+        "`Access-Control-Allow-Origin`",
+        "`Referrer-Policy: cross-origin`"
+      ],
+      "explanation": "`Access-Control-Allow-Origin: https://www.mockinter.dev` le dice al navegador que ese origen puede leer la respuesta. Con `*` se permite a cualquiera (sin credenciales)."
+    },
+    "en": {
+      "prompt": "Which response header authorizes a specific origin to read an API response?",
+      "options": [
+        "`Content-Security-Policy: allow-origin`",
+        "`X-Frame-Options: ALLOW`",
+        "`Access-Control-Allow-Origin`",
+        "`Referrer-Policy: cross-origin`"
+      ],
+      "explanation": "`Access-Control-Allow-Origin: https://www.mockinter.dev` tells the browser that origin may read the response. With `*` anyone is allowed (without credentials)."
+    }
+  },
+  {
+    "id": "web-cors-preflight",
+    "tech": "web",
+    "topic": "cors",
+    "difficulty": "hard",
+    "refVersion": "evergreen",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué es una petición *preflight* en CORS?",
+      "options": [
+        "Una petición `GET` que carga los datos antes de que el usuario los pida",
+        "Una petición `OPTIONS` que el navegador envía antes para preguntar si la real está permitida",
+        "Una copia de seguridad de la petición real que se guarda por si esta falla",
+        "Una petición que el servidor envía al navegador para comprobar su origen"
+      ],
+      "explanation": "Para peticiones \"no simples\" (métodos como `PUT` o `DELETE`, cabeceras como `Authorization`, o `Content-Type: application/json`), el navegador envía antes una petición `OPTIONS` preguntando si el servidor lo permite. Solo si responde que sí, envía la real."
+    },
+    "en": {
+      "prompt": "What is a *preflight* request in CORS?",
+      "options": [
+        "A `GET` request that loads the data before the user asks for it",
+        "An `OPTIONS` request the browser sends beforehand to ask whether the real one is allowed",
+        "A backup copy of the real request that is kept in case it fails",
+        "A request the server sends to the browser to check its origin"
+      ],
+      "explanation": "For \"non-simple\" requests (methods such as `PUT` or `DELETE`, headers such as `Authorization`, or `Content-Type: application/json`), the browser first sends an `OPTIONS` request asking whether the server allows it. Only if it says yes does it send the real one."
+    }
+  },
+  {
+    "id": "web-401-vs-403",
+    "tech": "web",
+    "topic": "http",
+    "difficulty": "easy",
+    "refVersion": "evergreen",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre un código HTTP 401 y un 403?",
+      "options": [
+        "El 401 significa recurso no encontrado y el 403 significa error del servidor",
+        "Ninguna: los dos indican que el usuario escribió mal su contraseña",
+        "El 401: no estás autenticado; el 403: estás autenticado, pero sin permiso",
+        "El 401 es temporal y el 403 es permanente, igual que ocurre con 302 y 301"
+      ],
+      "explanation": "**401 Unauthorized** significa que no estás identificado (falta el login o el token es inválido). **403 Forbidden** significa que el servidor sabe quién eres, pero no tienes permiso para ese recurso. El \"no encontrado\" es el 404."
+    },
+    "en": {
+      "prompt": "What is the difference between an HTTP 401 and a 403?",
+      "options": [
+        "401 means resource not found and 403 means server error",
+        "None: both indicate the user typed their password wrong",
+        "401: you are not authenticated; 403: you are authenticated, but not permitted",
+        "401 is temporary and 403 is permanent, just like 302 and 301"
+      ],
+      "explanation": "**401 Unauthorized** means you are not identified (missing login or invalid token). **403 Forbidden** means the server knows who you are, but you have no permission for that resource. \"Not found\" is the 404."
+    }
+  },
+  {
+    "id": "web-http-idempotent",
+    "tech": "web",
+    "topic": "http",
+    "difficulty": "hard",
+    "refVersion": "evergreen",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Cuál de estos métodos HTTP **no** es idempotente?",
+      "options": [
+        "`PUT`: repetir la misma petición deja el recurso en el mismo estado",
+        "`DELETE`: borrar dos veces el mismo recurso deja el mismo resultado final",
+        "`GET`: leer varias veces no modifica nada del recurso en el servidor",
+        "`POST`: repetirlo suele crear un recurso nuevo cada vez que se envía"
+      ],
+      "explanation": "Un método es idempotente si repetirlo da el mismo resultado final que hacerlo una vez. `GET`, `PUT` y `DELETE` lo son. `POST` no: enviarlo dos veces suele crear dos recursos. Por eso reintentar un `POST` automáticamente es peligroso."
+    },
+    "en": {
+      "prompt": "Which of these HTTP methods is **not** idempotent?",
+      "options": [
+        "`PUT`: repeating the same request leaves the resource in the same state",
+        "`DELETE`: deleting the same resource twice gives the same final result",
+        "`GET`: reading several times does not modify anything on the server resource",
+        "`POST`: repeating it usually creates a new resource each time it is sent"
+      ],
+      "explanation": "A method is idempotent if repeating it gives the same final result as doing it once. `GET`, `PUT` and `DELETE` are. `POST` is not: sending it twice usually creates two resources. That is why automatically retrying a `POST` is dangerous."
+    }
+  },
+  {
+    "id": "ng-httpresource-vs-httpclient",
+    "tech": "angular",
+    "topic": "http",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cuándo usarías `HttpClient` en lugar de `httpResource`?",
+      "options": [
+        "Para operaciones que modifican datos, como `POST`, `PUT` o `DELETE`",
+        "Nunca: `httpResource` sustituye por completo a `HttpClient` en todos los casos",
+        "Solo cuando la aplicación sea zoneless, porque `httpResource` requiere Zone.js",
+        "Para leer datos que dependen de un signal y que se recargan cuando este cambia"
+      ],
+      "explanation": "`httpResource` está pensado para **leer** datos de forma reactiva: se recarga solo cuando cambian los signals de los que depende, y expone `value`, `isLoading` y `error`. Para operaciones que modifican datos (`POST`, `PUT`, `DELETE`) se usa `HttpClient`."
+    },
+    "en": {
+      "prompt": "When would you use `HttpClient` instead of `httpResource`?",
+      "options": [
+        "For operations that modify data, such as `POST`, `PUT` or `DELETE`",
+        "Never: `httpResource` completely replaces `HttpClient` in every case",
+        "Only when the application is zoneless, because `httpResource` requires Zone.js",
+        "To read data that depends on a signal and reloads when it changes"
+      ],
+      "explanation": "`httpResource` is designed to **read** data reactively: it reloads when the signals it depends on change, and exposes `value`, `isLoading` and `error`. For operations that modify data (`POST`, `PUT`, `DELETE`) you use `HttpClient`."
+    }
+  },
+  {
+    "id": "ng-http-testing",
+    "tech": "angular",
+    "topic": "testing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Cómo se prueba un servicio que usa `HttpClient` sin hacer peticiones reales?",
+      "options": [
+        "Arrancando un servidor real en el puerto 4200 antes de cada test",
+        "Sustituyendo `HttpClient` por `localStorage` durante la ejecución de los tests",
+        "Con `provideHttpClientTesting()` y `HttpTestingController` para simular las respuestas",
+        "No se puede: los servicios HTTP solo se verifican manualmente en el navegador"
+      ],
+      "explanation": "`provideHttpClientTesting()` sustituye el backend real por uno de pruebas. Con `HttpTestingController` compruebas qué petición se hizo (`expectOne`) y respondes con datos o errores falsos (`flush`)."
+    },
+    "en": {
+      "prompt": "How do you test a service that uses `HttpClient` without making real requests?",
+      "options": [
+        "By starting a real server on port 4200 before each test",
+        "By replacing `HttpClient` with `localStorage` while the tests run",
+        "With `provideHttpClientTesting()` and `HttpTestingController` to simulate the responses",
+        "You cannot: HTTP services can only be verified manually in the browser"
+      ],
+      "explanation": "`provideHttpClientTesting()` replaces the real backend with a test one. With `HttpTestingController` you check which request was made (`expectOne`) and respond with fake data or errors (`flush`)."
+    }
+  }
+]
