@@ -7,7 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "questions": "node scripts/questions-to-sql.mjs data/questions-*.json > data/import-all.sql"
+    "questions": "node scripts/questions-to-sql.mjs data/questions-*.json > data/import-all.sql",
+    "questions:split": "node scripts/questions-to-sql.mjs data/questions-*.json --split=data/sql"
   },
   "private": true,
   "packageManager": "npm@11.19.1",

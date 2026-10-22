@@ -308,12 +308,12 @@ insert into public.questions (id, tech, topic, difficulty, type, correct_index, 
   ('git-amend-unpushed', 'git', 'history', 'medium', 'test', 3, 'draft', 'evergreen'),
   ('git-leaked-secret', 'git', 'security', 'hard', 'test', 2, 'draft', 'evergreen')
 on conflict (id) do update set
-  tech = excluded.tech,
-  topic = excluded.topic,
-  difficulty = excluded.difficulty,
-  correct_index = excluded.correct_index,
-  ref_version = excluded.ref_version;
-
+    tech = excluded.tech,
+    topic = excluded.topic,
+    difficulty = excluded.difficulty,
+    correct_index = excluded.correct_index,
+    ref_version = excluded.ref_version;
+  
 insert into public.question_translations (question_id, lang, prompt, options, explanation) values
   ('ng-computed-vs-effect', 'es', '¿Cuándo usarías un `computed` y cuándo un `effect`?', '["`computed` para guardar datos en `localStorage` y `effect` para derivar valores nuevos","`computed` para derivar un valor de otros signals; `effect` para ejecutar una acción","Son equivalentes: la única diferencia es que `effect` se ejecuta más rápido","`computed` solo dentro de componentes y `effect` solo dentro de servicios"]'::jsonb, 'Un `computed` calcula un valor derivado: es de solo lectura y se recalcula únicamente cuando cambian sus dependencias. Un `effect` ejecuta una acción (guardar en `localStorage`, llamar a algo externo) cuando cambian los signals que lee. Regla práctica: si el resultado es un valor que vas a usar, `computed`; si es una acción, `effect`.'),
   ('ng-computed-vs-effect', 'en', 'When would you use a `computed` and when an `effect`?', '["`computed` to save data in `localStorage` and `effect` to derive new values","`computed` to derive a value from other signals; `effect` to run an action","They are equivalent: the only difference is that `effect` runs faster","`computed` only inside components and `effect` only inside services"]'::jsonb, 'A `computed` calculates a derived value: it is read-only and only recalculates when its dependencies change. An `effect` runs an action (saving to `localStorage`, calling something external) when the signals it reads change. Rule of thumb: if the result is a value you will use, `computed`; if it is an action, `effect`.'),
@@ -1924,6 +1924,6 @@ join question_translations t on t.question_id = q.id;
   ('git-leaked-secret', 'es', 'Has subido por error una clave secreta a un repositorio público y luego la borras en un commit nuevo. ¿Es suficiente?', '["Sí: al borrarla en el último commit ya no es accesible para nadie","Sí, siempre que hagas el repositorio privado justo después de borrarla","No: sigue en el historial y puede estar copiada; hay que revocarla","No, pero solo si el repositorio tiene más de cien commits en su historial"]'::jsonb, 'Git conserva todo el **historial**: la clave sigue en el commit anterior, y los bots rastrean repositorios públicos en segundos. Borrarla del último commit no basta. Hay que **revocar/rotar** la clave de inmediato, y solo después limpiar el historial si hace falta.'),
   ('git-leaked-secret', 'en', 'You accidentally pushed a secret key to a public repository and then delete it in a new commit. Is that enough?', '["Yes: once deleted in the latest commit it is no longer accessible to anyone","Yes, as long as you make the repository private right after deleting it","No: it stays in the history and may be copied; you must revoke it","No, but only if the repository has more than a hundred commits in its history"]'::jsonb, 'Git keeps the whole **history**: the key is still in the earlier commit, and bots scan public repositories within seconds. Deleting it in the latest commit is not enough. You must **revoke/rotate** the key immediately, and only then clean the history if needed.')
 on conflict (question_id, lang) do update set
-  prompt = excluded.prompt,
-  options = excluded.options,
-  explanation = excluded.explanation;
+    prompt = excluded.prompt,
+    options = excluded.options,
+    explanation = excluded.explanation;

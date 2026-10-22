@@ -5,7 +5,7 @@
 // Las preguntas se importan como 'draft' (borrador): se revisan en Supabase y se publican después.
 // Si algo no cumple las reglas, el script se detiene y dice qué pregunta y qué falla.
 
-import { readFileSync } from 'node:fs';
+import fs, { readFileSync } from 'node:fs';
 
 const DIFFICULTIES = ['easy', 'medium', 'hard'];
 const LANGS = ['es', 'en'];
@@ -15,7 +15,12 @@ const errors = [];
 const ids = new Set();
 const questions = [];
 
-for (const file of process.argv.slice(2)) {
+const args = process.argv.slice(2);
+const splitDir = args.find((a) => a.startsWith('--split='))?.slice('--split='.length);
+const files = args.filter((a) => !a.startsWith('--'));
+const byFile = new Map();
+
+for (const file of files) {
   const list = JSON.parse(readFileSync(file, 'utf8'));
   list.forEach((q, i) => {
     const where = `${file} #${i + 1} (${q.id ?? 'sin id'})`;
@@ -52,6 +57,7 @@ for (const file of process.argv.slice(2)) {
       }
     }
     questions.push(q);
+    byFile.set(file, [...(byFile.get(file) ?? []), q]);
   });
 }
 
@@ -78,40 +84,55 @@ if (errors.length > 0) {
 }
 
 const sql = (text) => `'${String(text).replaceAll("'", "''")}'`;
-const out = [];
-out.push('-- Generado por scripts/questions-to-sql.mjs. Se puede ejecutar varias veces: no duplica nada.');
-out.push('-- Las preguntas nuevas entran como draft. Las que ya existen se actualizan, y su estado se respeta.\n');
 
-out.push('insert into public.questions (id, tech, topic, difficulty, type, correct_index, status, ref_version) values');
-out.push(
-  questions
-    .map((q) => `  (${sql(q.id)}, ${sql(q.tech)}, ${sql(q.topic)}, ${sql(q.difficulty)}, 'test', ${q.correctIndex}, 'draft', ${sql(q.refVersion)})`)
-    .join(',\n'),
-);
-// Si la pregunta ya existe se actualiza su contenido, pero NO su estado: lo publicado sigue publicado
-out.push(`on conflict (id) do update set
-  tech = excluded.tech,
-  topic = excluded.topic,
-  difficulty = excluded.difficulty,
-  correct_index = excluded.correct_index,
-  ref_version = excluded.ref_version;
-`);
+function build(list) {
+  const out = [];
+  out.push('-- Generado por scripts/questions-to-sql.mjs. Se puede ejecutar varias veces: no duplica nada.');
+  out.push('-- Las preguntas nuevas entran como draft. Las que ya existen se actualizan, y su estado se respeta.\n');
 
-out.push('insert into public.question_translations (question_id, lang, prompt, options, explanation) values');
-out.push(
-  questions
-    .flatMap((q) =>
-      LANGS.map(
-        (lang) =>
-          `  (${sql(q.id)}, '${lang}', ${sql(q[lang].prompt)}, ${sql(JSON.stringify(q[lang].options))}::jsonb, ${sql(q[lang].explanation)})`,
-      ),
-    )
-    .join(',\n'),
-);
-out.push(`on conflict (question_id, lang) do update set
-  prompt = excluded.prompt,
-  options = excluded.options,
-  explanation = excluded.explanation;`);
+  out.push('insert into public.questions (id, tech, topic, difficulty, type, correct_index, status, ref_version) values');
+  out.push(
+    list
+      .map((q) => `  (${sql(q.id)}, ${sql(q.tech)}, ${sql(q.topic)}, ${sql(q.difficulty)}, 'test', ${q.correctIndex}, 'draft', ${sql(q.refVersion)})`)
+      .join(',\n'),
+  );
+  // Si la pregunta ya existe se actualiza su contenido, pero NO su estado: lo publicado sigue publicado
+  out.push(`on conflict (id) do update set
+    tech = excluded.tech,
+    topic = excluded.topic,
+    difficulty = excluded.difficulty,
+    correct_index = excluded.correct_index,
+    ref_version = excluded.ref_version;
+  `);
 
-console.log(out.join('\n'));
+  out.push('insert into public.question_translations (question_id, lang, prompt, options, explanation) values');
+  out.push(
+    list
+      .flatMap((q) =>
+        LANGS.map(
+          (lang) =>
+            `  (${sql(q.id)}, '${lang}', ${sql(q[lang].prompt)}, ${sql(JSON.stringify(q[lang].options))}::jsonb, ${sql(q[lang].explanation)})`,
+        ),
+      )
+      .join(',\n'),
+  );
+  out.push(`on conflict (question_id, lang) do update set
+    prompt = excluded.prompt,
+    options = excluded.options,
+    explanation = excluded.explanation;`);
+
+
+  return out.join('\n');
+}
+
+if (splitDir) {
+  fs.mkdirSync(splitDir, { recursive: true });
+  for (const [file, list] of byFile) {
+    const name = file.split('/').pop().replace(/\.json$/, '.sql');
+    fs.writeFileSync(splitDir + '/' + name, build(list) + '\n');
+  }
+  console.error(`SQL por lote escrito en ${splitDir}/ (${byFile.size} ficheros)`);
+} else {
+  console.log(build(questions));
+}
 console.error(`OK: ${questions.length} preguntas válidas.`);
