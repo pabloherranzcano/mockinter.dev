@@ -614,5 +614,33 @@
       ],
       "explanation": "Everything in the front end, including `environment.ts`, reaches the browser and can be seen with F12. A secret must live in server code (an Edge Function, for example). Supabase's `publishable` key is the exception: it is public by design and RLS rules protect the data."
     }
+  },
+  {
+    "id": "web-xss-innerhtml-sanitizer",
+    "tech": "web",
+    "topic": "security",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ocurre en Angular si pintas un texto no confiable con `[innerHTML]`?",
+      "options": [
+        "Angular lo muestra como texto sin interpretar, igual que con las llaves dobles",
+        "Lo interpreta como HTML, pero lo sanea y elimina lo peligroso",
+        "Lo ejecuta tal cual, incluidos los scripts y los atributos como `onerror`",
+        "Lanza un error de compilación porque no se permite ese enlace en plantillas"
+      ],
+      "explanation": "Con `{{ }}` Angular escapa todo: un `<script>` se ve como texto. Con `[innerHTML]` lo interpreta como HTML, pero antes lo pasa por el `DomSanitizer`, que elimina scripts, atributos como `onerror` y URLs `javascript:`. `bypassSecurityTrustHtml()` desactiva ese saneado: si el HTML viene de un usuario, abre la puerta a un ataque XSS."
+    },
+    "en": {
+      "prompt": "What happens in Angular if you render untrusted text with `[innerHTML]`?",
+      "options": [
+        "Angular shows it as plain text without interpreting it, just like with double braces",
+        "It interprets it as HTML, but sanitizes it and removes what is dangerous",
+        "It runs it as is, including scripts and attributes such as `onerror`",
+        "It throws a compile error because that binding is not allowed in templates"
+      ],
+      "explanation": "With `{{ }}` Angular escapes everything: a `<script>` is shown as text. With `[innerHTML]` it interprets it as HTML, but first passes it through the `DomSanitizer`, which removes scripts, attributes such as `onerror` and `javascript:` URLs. `bypassSecurityTrustHtml()` turns that sanitizing off: if the HTML comes from a user, it opens the door to an XSS attack."
+    }
   }
 ]
