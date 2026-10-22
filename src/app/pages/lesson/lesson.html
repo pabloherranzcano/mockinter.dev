@@ -9,9 +9,13 @@
       {{ t().lesson.retry }}
     </button>
   </main>
+} @else if (waitingForAttempts()) {
+  <main class="lesson state">
+    <app-spinner [label]="t().lesson.loading" />
+  </main>
 } @else if (lessonQuestions().length === 0) {
   <main class="lesson state">
-    <h2>{{ t().lesson.empty }}</h2>
+    <h2>{{ isWrongMode() ? t().lesson.noWrong : t().lesson.empty }}</h2>
     <a class="btn" routerLink="/">{{ t().lesson.backHome }}</a>
   </main>
 } @else if (store.finished()) {

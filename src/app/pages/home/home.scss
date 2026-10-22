@@ -115,3 +115,13 @@ h1 {
     color: var(--accent);
   }
 }
+
+// La chip de fallos es un enlace: va directa a la lección con las preguntas falladas
+.chip.wrong {
+  border-color: var(--bad);
+  text-decoration: none;
+
+  &:hover {
+    background: color-mix(in srgb, var(--bad) 14%, transparent);
+  }
+}

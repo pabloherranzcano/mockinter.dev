@@ -33,6 +33,11 @@
         >
           {{ t().home.all }} <span class="count">{{ total() }}</span>
         </button>
+        @if (user() && wrongCount() > 0) {
+          <a class="chip wrong" [routerLink]="['/lesson', wrongParam]">
+            {{ t().home.wrong }} <span class="count">{{ wrongCount() }}</span>
+          </a>
+        }
       </div>
 
       @for (group of groups(); track group.id) {

@@ -22,6 +22,7 @@ export const es = {
     subtitle: 'Preguntas cortas de frontend con explicación. Sin registrarte, en 5 minutos.',
     pick: '¿Qué quieres practicar?',
     all: 'Todas',
+    wrong: 'Fallos',
     start: 'Empezar',
     streak: 'Racha (días)',
     selectGroup: 'Marcar todo',
@@ -61,5 +62,6 @@ export const es = {
     error: 'No se pudo cargar la lección. Revisa tu conexión e inténtalo otra vez.',
     retry: 'Reintentar',
     empty: 'Todavía no hay preguntas disponibles.',
+    noWrong: 'No tienes fallos pendientes. ¡Sigue así!',
   },
 };

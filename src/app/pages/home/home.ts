@@ -5,7 +5,7 @@ import { LanguageService } from '../../core/language.service';
 import { ProgressService } from '../../core/progress.service';
 import { QuestionsService } from '../../core/questions/questions.service';
 import { Group, GROUPS, groupOf } from '../../core/tech-groups';
-import { techsToParam } from '../../core/techs';
+import { techsToParam, WRONG_PARAM } from '../../core/techs';
 import { Spinner } from '../../shared/spinner/spinner';
 
 interface TechChip {
@@ -23,7 +23,8 @@ export class Home {
   protected readonly t = inject(LanguageService).t;
   protected readonly questionsService = inject(QuestionsService);
   protected readonly user = inject(AuthService).user;
-  protected readonly streak = inject(ProgressService).streak;
+  private readonly progressService = inject(ProgressService);
+  protected readonly streak = this.progressService.streak;
 
   /** Tecnologías marcadas. Si no hay ninguna, se practican todas. */
   protected readonly selected = signal<string[]>([]);
@@ -58,6 +59,15 @@ export class Home {
       .filter((tech) => this.selected().includes(tech.name))
       .reduce((sum, tech) => sum + tech.count, 0);
   });
+
+  /** Cuántas preguntas publicadas tengo falladas (las que ya no existan no cuentan). */
+  protected readonly wrongCount = computed(() => {
+    const wrongIds = this.progressService.wrongIds();
+    return this.questionsService.questions().filter((question) => wrongIds.includes(question.id))
+      .length;
+  });
+
+  protected readonly wrongParam = WRONG_PARAM;
 
   /** El valor para la URL: /lesson/angular,rxjs (o /lesson/all). */
   protected readonly lessonParam = computed(() => techsToParam(this.selected()));

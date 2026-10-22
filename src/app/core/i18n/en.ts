@@ -24,6 +24,7 @@ export const en: typeof es = {
     subtitle: 'Short frontend questions with explanations. No sign-up, in 5 minutes.',
     pick: 'What do you want to practice?',
     all: 'All',
+    wrong: 'Mistakes',
     start: 'Start',
     streak: 'Streak (days)',
     selectGroup: 'Select all',
@@ -63,5 +64,6 @@ export const en: typeof es = {
     error: 'The lesson could not be loaded. Check your connection and try again.',
     retry: 'Try again',
     empty: 'There are no questions available yet.',
+    noWrong: 'You have no pending mistakes. Keep it up!',
   },
 };

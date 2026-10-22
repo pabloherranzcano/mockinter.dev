@@ -18,6 +18,9 @@ export class ProgressService {
   /** Mis intentos, del más reciente al más antiguo. Vacío si no hay sesión. */
   readonly attempts = signal<Attempt[]>([]);
 
+  /** Pasa a true cuando ya se han pedido los intentos (o se sabe que no hay sesión). */
+  readonly loaded = signal(false);
+
   // Solo el id: si Supabase renueva el token, el usuario "cambia" de objeto pero no de id
   private readonly userId = computed(() => this.auth.user()?.id ?? null);
 
@@ -66,6 +69,7 @@ export class ProgressService {
   async load() {
     if (!this.auth.user()) {
       this.attempts.set([]);
+      this.loaded.set(true);
       return;
     }
 
@@ -78,6 +82,7 @@ export class ProgressService {
     if (!error) {
       this.attempts.set(data as Attempt[]);
     }
+    this.loaded.set(true);
   }
 
   /** Apunta una respuesta en la tabla attempts. Devuelve el error, o null si fue bien. */
