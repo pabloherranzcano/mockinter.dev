@@ -78,7 +78,7 @@ if (errors.length > 0) {
 const sql = (text) => `'${String(text).replaceAll("'", "''")}'`;
 const out = [];
 out.push('-- Generado por scripts/questions-to-sql.mjs. Se puede ejecutar varias veces: no duplica nada.');
-out.push('-- Las preguntas entran como draft: se revisan y se publican después.\n');
+out.push('-- Las preguntas nuevas entran como draft. Las que ya existen se actualizan, y su estado se respeta.\n');
 
 out.push('insert into public.questions (id, tech, topic, difficulty, type, correct_index, status, ref_version) values');
 out.push(
@@ -86,7 +86,14 @@ out.push(
     .map((q) => `  (${sql(q.id)}, ${sql(q.tech)}, ${sql(q.topic)}, ${sql(q.difficulty)}, 'test', ${q.correctIndex}, 'draft', ${sql(q.refVersion)})`)
     .join(',\n'),
 );
-out.push('on conflict (id) do nothing;\n');
+// Si la pregunta ya existe se actualiza su contenido, pero NO su estado: lo publicado sigue publicado
+out.push(`on conflict (id) do update set
+  tech = excluded.tech,
+  topic = excluded.topic,
+  difficulty = excluded.difficulty,
+  correct_index = excluded.correct_index,
+  ref_version = excluded.ref_version;
+`);
 
 out.push('insert into public.question_translations (question_id, lang, prompt, options, explanation) values');
 out.push(
@@ -99,7 +106,10 @@ out.push(
     )
     .join(',\n'),
 );
-out.push('on conflict (question_id, lang) do nothing;');
+out.push(`on conflict (question_id, lang) do update set
+  prompt = excluded.prompt,
+  options = excluded.options,
+  explanation = excluded.explanation;`);
 
 console.log(out.join('\n'));
 console.error(`OK: ${questions.length} preguntas válidas.`);

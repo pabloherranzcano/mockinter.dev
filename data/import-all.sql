@@ -1,5 +1,5 @@
 -- Generado por scripts/questions-to-sql.mjs. Se puede ejecutar varias veces: no duplica nada.
--- Las preguntas entran como draft: se revisan y se publican después.
+-- Las preguntas nuevas entran como draft. Las que ya existen se actualizan, y su estado se respeta.
 
 insert into public.questions (id, tech, topic, difficulty, type, correct_index, status, ref_version) values
   ('ng-computed-vs-effect', 'angular', 'signals', 'easy', 'test', 1, 'draft', 'angular@22'),
@@ -49,8 +49,19 @@ insert into public.questions (id, tech, topic, difficulty, type, correct_index, 
   ('web-spa-refresh-404', 'web', 'deployment', 'medium', 'test', 3, 'draft', 'evergreen'),
   ('web-open-redirect', 'web', 'security', 'hard', 'test', 1, 'draft', 'evergreen'),
   ('web-secrets-in-frontend', 'web', 'security', 'medium', 'test', 2, 'draft', 'evergreen'),
-  ('web-xss-innerhtml-sanitizer', 'web', 'security', 'hard', 'test', 1, 'draft', 'angular@22')
-on conflict (id) do nothing;
+  ('web-xss-innerhtml-sanitizer', 'web', 'security', 'hard', 'test', 1, 'draft', 'angular@22'),
+  ('rx-map-basic', 'rxjs', 'operators', 'easy', 'test', 1, 'draft', 'rxjs@7'),
+  ('rx-observable-vs-promise-lazy', 'rxjs', 'observables', 'medium', 'test', 0, 'draft', 'rxjs@7'),
+  ('rx-behaviorsubject-late-subscriber', 'rxjs', 'subjects', 'medium', 'test', 1, 'draft', 'rxjs@7'),
+  ('rx-switchmap-search', 'rxjs', 'operators', 'medium', 'test', 0, 'draft', 'rxjs@7'),
+  ('js-nullish-vs-or', 'javascript', 'operators', 'easy', 'test', 0, 'draft', 'es2020'),
+  ('js-const-block-scope', 'javascript', 'scope', 'easy', 'test', 2, 'draft', 'es2015')
+on conflict (id) do update set
+  tech = excluded.tech,
+  topic = excluded.topic,
+  difficulty = excluded.difficulty,
+  correct_index = excluded.correct_index,
+  ref_version = excluded.ref_version;
 
 insert into public.question_translations (question_id, lang, prompt, options, explanation) values
   ('ng-computed-vs-effect', 'es', '¿Cuándo usarías un `computed` y cuándo un `effect`?', '["`computed` para guardar datos en `localStorage` y `effect` para derivar valores nuevos","`computed` para derivar un valor de otros signals; `effect` para ejecutar una acción","Son equivalentes: la única diferencia es que `effect` se ejecuta más rápido","`computed` solo dentro de componentes y `effect` solo dentro de servicios"]'::jsonb, 'Un `computed` calcula un valor derivado: es de solo lectura y se recalcula únicamente cuando cambian sus dependencias. Un `effect` ejecuta una acción (guardar en `localStorage`, llamar a algo externo) cuando cambian los signals que lee. Regla práctica: si el resultado es un valor que vas a usar, `computed`; si es una acción, `effect`.'),
@@ -148,5 +159,110 @@ insert into public.question_translations (question_id, lang, prompt, options, ex
   ('web-secrets-in-frontend', 'es', '¿Por qué la clave de una API de pago no puede ir en el código de una app Angular?', '["Porque Angular no admite variables de entorno en el código de la aplicación","Porque ralentiza notablemente el arranque de la aplicación en el navegador","Porque el front lo descarga el usuario y cualquiera puede leerla","Porque los navegadores bloquean las claves que son demasiado largas"]'::jsonb, 'Todo lo que va en el front, incluido lo de `environment.ts`, llega al navegador y se puede ver con F12. Un secreto debe vivir en código de servidor (una Edge Function, por ejemplo). La clave `publishable` de Supabase es la excepción: es pública por diseño y la protegen las reglas RLS.'),
   ('web-secrets-in-frontend', 'en', 'Why can a payment API key not go in an Angular app''s code?', '["Because Angular does not support environment variables in application code","Because it noticeably slows down the application''s startup in the browser","Because the front end is downloaded by the user and anyone can read it","Because browsers block keys that are too long"]'::jsonb, 'Everything in the front end, including `environment.ts`, reaches the browser and can be seen with F12. A secret must live in server code (an Edge Function, for example). Supabase''s `publishable` key is the exception: it is public by design and RLS rules protect the data.'),
   ('web-xss-innerhtml-sanitizer', 'es', '¿Qué ocurre en Angular si pintas un texto no confiable con `[innerHTML]`?', '["Angular lo muestra como texto sin interpretar, igual que con las llaves dobles","Lo interpreta como HTML, pero lo sanea y elimina lo peligroso","Lo ejecuta tal cual, incluidos los scripts y los atributos como `onerror`","Lanza un error de compilación porque no se permite ese enlace en plantillas"]'::jsonb, 'Con `{{ }}` Angular escapa todo: un `<script>` se ve como texto. Con `[innerHTML]` lo interpreta como HTML, pero antes lo pasa por el `DomSanitizer`, que elimina scripts, atributos como `onerror` y URLs `javascript:`. `bypassSecurityTrustHtml()` desactiva ese saneado: si el HTML viene de un usuario, abre la puerta a un ataque XSS.'),
-  ('web-xss-innerhtml-sanitizer', 'en', 'What happens in Angular if you render untrusted text with `[innerHTML]`?', '["Angular shows it as plain text without interpreting it, just like with double braces","It interprets it as HTML, but sanitizes it and removes what is dangerous","It runs it as is, including scripts and attributes such as `onerror`","It throws a compile error because that binding is not allowed in templates"]'::jsonb, 'With `{{ }}` Angular escapes everything: a `<script>` is shown as text. With `[innerHTML]` it interprets it as HTML, but first passes it through the `DomSanitizer`, which removes scripts, attributes such as `onerror` and `javascript:` URLs. `bypassSecurityTrustHtml()` turns that sanitizing off: if the HTML comes from a user, it opens the door to an XSS attack.')
-on conflict (question_id, lang) do nothing;
+  ('web-xss-innerhtml-sanitizer', 'en', 'What happens in Angular if you render untrusted text with `[innerHTML]`?', '["Angular shows it as plain text without interpreting it, just like with double braces","It interprets it as HTML, but sanitizes it and removes what is dangerous","It runs it as is, including scripts and attributes such as `onerror`","It throws a compile error because that binding is not allowed in templates"]'::jsonb, 'With `{{ }}` Angular escapes everything: a `<script>` is shown as text. With `[innerHTML]` it interprets it as HTML, but first passes it through the `DomSanitizer`, which removes scripts, attributes such as `onerror` and `javascript:` URLs. `bypassSecurityTrustHtml()` turns that sanitizing off: if the HTML comes from a user, it opens the door to an XSS attack.'),
+  ('rx-map-basic', 'es', '¿Qué imprime este código?
+
+```ts
+of(1, 2, 3)
+  .pipe(map((n) => n * 2))
+  .subscribe(console.log);
+```', '["Un solo valor: `6`, la suma de los tres números de la secuencia","`2`, `4` y `6`, cada valor en una llamada distinta a `console.log`","Un array `[2, 4, 6]` impreso una única vez en la consola","`1`, `2` y `3`, porque `map` no modifica los valores emitidos"]'::jsonb, '`of` emite 1, 2 y 3 uno a uno, `map` transforma cada valor y `subscribe` lo recibe: `console.log` se llama tres veces (2, 4 y 6). Un Observable emite valores a lo largo del tiempo, no un array de golpe.'),
+  ('rx-map-basic', 'en', 'What does this code print?
+
+```ts
+of(1, 2, 3)
+  .pipe(map((n) => n * 2))
+  .subscribe(console.log);
+```', '["A single value: `6`, the sum of the three numbers in the sequence","`2`, `4` and `6`, each value in a separate call to `console.log`","An array `[2, 4, 6]` printed only once in the console","`1`, `2` and `3`, because `map` does not modify the emitted values"]'::jsonb, '`of` emits 1, 2 and 3 one by one, `map` transforms each value and `subscribe` receives it: `console.log` is called three times (2, 4 and 6). An Observable emits values over time, not an array at once.'),
+  ('rx-observable-vs-promise-lazy', 'es', '¿Cuándo se imprime `hola` en cada caso?
+
+```ts
+const obs$ = new Observable((subscriber) => {
+  console.log(''hola'');
+  subscriber.next(1);
+});
+
+const promesa = new Promise((resolve) => {
+  console.log(''hola'');
+  resolve(1);
+});
+```', '["La `Promise` lo imprime al crearse; el `Observable`, al suscribirse","Ambos lo imprimen en el momento de crearse, como cualquier función normal","La `Promise` lo imprime al llamar a `.then()` y el `Observable` al crearse","Ninguno lo imprime hasta que alguien usa `await` sobre ellos en un contexto async"]'::jsonb, 'El ejecutor de una `Promise` se ejecuta nada más crearla (es *eager*). Un `Observable` es *lazy*: su código solo se ejecuta cuando alguien se suscribe, y se vuelve a ejecutar en cada suscripción. Además, una `Promise` emite un solo valor y no se puede cancelar; un `Observable` puede emitir varios y se cancela con `unsubscribe`.'),
+  ('rx-observable-vs-promise-lazy', 'en', 'When is `hola` printed in each case?
+
+```ts
+const obs$ = new Observable((subscriber) => {
+  console.log(''hola'');
+  subscriber.next(1);
+});
+
+const promesa = new Promise((resolve) => {
+  console.log(''hola'');
+  resolve(1);
+});
+```', '["The `Promise` prints it when created; the `Observable`, when subscribed","Both print it the moment they are created, like any normal function","The `Promise` prints it when `.then()` is called and the `Observable` when created","Neither prints it until someone uses `await` on them inside an async context"]'::jsonb, 'A `Promise` executor runs as soon as it is created (it is *eager*). An `Observable` is *lazy*: its code only runs when someone subscribes, and runs again on every subscription. Also, a `Promise` emits a single value and cannot be cancelled; an `Observable` can emit several and is cancelled with `unsubscribe`.'),
+  ('rx-behaviorsubject-late-subscriber', 'es', '¿Qué imprime este código?
+
+```ts
+const s = new BehaviorSubject(0);
+s.next(1);
+s.subscribe((v) => console.log(v));
+s.next(2);
+```', '["`0` y `2`, porque el valor inicial se emite siempre al suscribirse","`1` y `2`: primero el valor actual y luego el nuevo que llega","`0`, `1` y `2`, porque recibe el historial completo de valores","Solo `2`, porque un `Subject` no emite lo ocurrido antes de suscribirse"]'::jsonb, 'Un `BehaviorSubject` guarda **el último valor** y lo emite al instante a cada nuevo suscriptor. Cuando te suscribes, el valor actual es 1 (el 0 ya fue sustituido), y después llega el 2. Un `ReplaySubject` reenvía varios valores anteriores, y un `Subject` normal no recuerda ninguno.'),
+  ('rx-behaviorsubject-late-subscriber', 'en', 'What does this code print?
+
+```ts
+const s = new BehaviorSubject(0);
+s.next(1);
+s.subscribe((v) => console.log(v));
+s.next(2);
+```', '["`0` and `2`, because the initial value is always emitted on subscribe","`1` and `2`: first the current value and then the new one that arrives","`0`, `1` and `2`, because it receives the complete history of values","Only `2`, because a `Subject` does not emit what happened before subscribing"]'::jsonb, 'A `BehaviorSubject` keeps **the latest value** and emits it instantly to every new subscriber. When you subscribe, the current value is 1 (the 0 was already replaced), and then 2 arrives. A `ReplaySubject` replays several earlier values, and a plain `Subject` remembers none.'),
+  ('rx-switchmap-search', 'es', 'Un buscador usa este código y el usuario escribe rápido. ¿Qué hace `switchMap` con la petición que sigue en curso cuando llega un término nuevo?
+
+```ts
+this.search.valueChanges.pipe(
+  debounceTime(300),
+  switchMap((term) => this.http.get<Result[]>(''/api/search?q='' + term)),
+).subscribe((results) => (this.results = results));
+```', '["La cancela y se queda solo con la respuesta de la última","Lanza todas a la vez y emite las respuestas según vayan llegando","Las pone en cola y las ejecuta una a una, en el orden en que se escribieron","Ignora los términos nuevos mientras haya una petición pendiente sin terminar"]'::jsonb, '`switchMap` se da de baja del Observable interno anterior cuando llega un valor nuevo; con `HttpClient`, eso **cancela la petición** en curso y evita que una respuesta lenta y antigua pise a la nueva. Las demás: `mergeMap` las lanza a la vez, `concatMap` las encola y `exhaustMap` ignora las nuevas mientras haya una en curso.'),
+  ('rx-switchmap-search', 'en', 'A search box uses this code and the user types fast. What does `switchMap` do with the request still in flight when a new term arrives?
+
+```ts
+this.search.valueChanges.pipe(
+  debounceTime(300),
+  switchMap((term) => this.http.get<Result[]>(''/api/search?q='' + term)),
+).subscribe((results) => (this.results = results));
+```', '["It cancels it and keeps only the response to the latest one","It fires them all at once and emits responses as they arrive","It queues them and runs them one by one, in the order they were typed","It ignores the new terms while a request is still pending and unfinished"]'::jsonb, '`switchMap` unsubscribes from the previous inner Observable when a new value arrives; with `HttpClient`, that **cancels the in-flight request** and prevents a slow, old response from overwriting the new one. The others: `mergeMap` fires them all at once, `concatMap` queues them and `exhaustMap` ignores new ones while one is running.'),
+  ('js-nullish-vs-or', 'es', '¿Qué imprime este código?
+
+```ts
+const a = 0 ?? 10;
+const b = 0 || 10;
+console.log(a, b);
+```', '["`0 10`","`10 10`","`0 0`","`10 0`"]'::jsonb, '`??` solo usa el valor de la derecha cuando el de la izquierda es `null` o `undefined`, así que respeta el `0`. `||` lo usa con cualquier valor falsy (`0`, `''''`, `false`, `NaN`...). Para valores por defecto en los que `0` es válido, usa `??`.'),
+  ('js-nullish-vs-or', 'en', 'What does this code print?
+
+```ts
+const a = 0 ?? 10;
+const b = 0 || 10;
+console.log(a, b);
+```', '["`0 10`","`10 10`","`0 0`","`10 0`"]'::jsonb, '`??` only uses the right-hand value when the left is `null` or `undefined`, so it keeps the `0`. `||` uses it for any falsy value (`0`, `''''`, `false`, `NaN`...). For defaults where `0` is valid, use `??`.'),
+  ('js-const-block-scope', 'es', '¿Qué ocurre al ejecutar este código?
+
+```ts
+if (true) {
+  const x = 1;
+}
+console.log(x);
+```', '["Imprime `1`, porque la condición se cumple y la variable se crea","Imprime `undefined`, porque `x` existe pero aún no tiene valor asignado","Lanza un `ReferenceError`: `x` solo existe dentro de las llaves","Lanza un `SyntaxError` al cargar el script, antes de ejecutarlo"]'::jsonb, '`let` y `const` tienen **ámbito de bloque**: solo existen entre las llaves donde se declaran, así que fuera de ellas `x` no está definida (`ReferenceError`). Con `var`, que tiene ámbito de función, sí imprimiría `1`.'),
+  ('js-const-block-scope', 'en', 'What happens when this code runs?
+
+```ts
+if (true) {
+  const x = 1;
+}
+console.log(x);
+```', '["It prints `1`, because the condition holds and the variable is created","It prints `undefined`, because `x` exists but has no assigned value yet","It throws a `ReferenceError`: `x` only exists inside the braces","It throws a `SyntaxError` when loading the script, before running it"]'::jsonb, '`let` and `const` have **block scope**: they only exist between the braces where they are declared, so outside them `x` is not defined (`ReferenceError`). With `var`, which is function-scoped, it would print `1`.')
+on conflict (question_id, lang) do update set
+  prompt = excluded.prompt,
+  options = excluded.options,
+  explanation = excluded.explanation;

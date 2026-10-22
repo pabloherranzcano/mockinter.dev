@@ -1,0 +1,170 @@
+[
+  {
+    "id": "rx-map-basic",
+    "tech": "rxjs",
+    "topic": "operators",
+    "difficulty": "easy",
+    "refVersion": "rxjs@7",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nof(1, 2, 3)\n  .pipe(map((n) => n * 2))\n  .subscribe(console.log);\n```",
+      "options": [
+        "Un solo valor: `6`, la suma de los tres números de la secuencia",
+        "`2`, `4` y `6`, cada valor en una llamada distinta a `console.log`",
+        "Un array `[2, 4, 6]` impreso una única vez en la consola",
+        "`1`, `2` y `3`, porque `map` no modifica los valores emitidos"
+      ],
+      "explanation": "`of` emite 1, 2 y 3 uno a uno, `map` transforma cada valor y `subscribe` lo recibe: `console.log` se llama tres veces (2, 4 y 6). Un Observable emite valores a lo largo del tiempo, no un array de golpe."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nof(1, 2, 3)\n  .pipe(map((n) => n * 2))\n  .subscribe(console.log);\n```",
+      "options": [
+        "A single value: `6`, the sum of the three numbers in the sequence",
+        "`2`, `4` and `6`, each value in a separate call to `console.log`",
+        "An array `[2, 4, 6]` printed only once in the console",
+        "`1`, `2` and `3`, because `map` does not modify the emitted values"
+      ],
+      "explanation": "`of` emits 1, 2 and 3 one by one, `map` transforms each value and `subscribe` receives it: `console.log` is called three times (2, 4 and 6). An Observable emits values over time, not an array at once."
+    }
+  },
+  {
+    "id": "rx-observable-vs-promise-lazy",
+    "tech": "rxjs",
+    "topic": "observables",
+    "difficulty": "medium",
+    "refVersion": "rxjs@7",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cuándo se imprime `hola` en cada caso?\n\n```ts\nconst obs$ = new Observable((subscriber) => {\n  console.log('hola');\n  subscriber.next(1);\n});\n\nconst promesa = new Promise((resolve) => {\n  console.log('hola');\n  resolve(1);\n});\n```",
+      "options": [
+        "La `Promise` lo imprime al crearse; el `Observable`, al suscribirse",
+        "Ambos lo imprimen en el momento de crearse, como cualquier función normal",
+        "La `Promise` lo imprime al llamar a `.then()` y el `Observable` al crearse",
+        "Ninguno lo imprime hasta que alguien usa `await` sobre ellos en un contexto async"
+      ],
+      "explanation": "El ejecutor de una `Promise` se ejecuta nada más crearla (es *eager*). Un `Observable` es *lazy*: su código solo se ejecuta cuando alguien se suscribe, y se vuelve a ejecutar en cada suscripción. Además, una `Promise` emite un solo valor y no se puede cancelar; un `Observable` puede emitir varios y se cancela con `unsubscribe`."
+    },
+    "en": {
+      "prompt": "When is `hola` printed in each case?\n\n```ts\nconst obs$ = new Observable((subscriber) => {\n  console.log('hola');\n  subscriber.next(1);\n});\n\nconst promesa = new Promise((resolve) => {\n  console.log('hola');\n  resolve(1);\n});\n```",
+      "options": [
+        "The `Promise` prints it when created; the `Observable`, when subscribed",
+        "Both print it the moment they are created, like any normal function",
+        "The `Promise` prints it when `.then()` is called and the `Observable` when created",
+        "Neither prints it until someone uses `await` on them inside an async context"
+      ],
+      "explanation": "A `Promise` executor runs as soon as it is created (it is *eager*). An `Observable` is *lazy*: its code only runs when someone subscribes, and runs again on every subscription. Also, a `Promise` emits a single value and cannot be cancelled; an `Observable` can emit several and is cancelled with `unsubscribe`."
+    }
+  },
+  {
+    "id": "rx-behaviorsubject-late-subscriber",
+    "tech": "rxjs",
+    "topic": "subjects",
+    "difficulty": "medium",
+    "refVersion": "rxjs@7",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst s = new BehaviorSubject(0);\ns.next(1);\ns.subscribe((v) => console.log(v));\ns.next(2);\n```",
+      "options": [
+        "`0` y `2`, porque el valor inicial se emite siempre al suscribirse",
+        "`1` y `2`: primero el valor actual y luego el nuevo que llega",
+        "`0`, `1` y `2`, porque recibe el historial completo de valores",
+        "Solo `2`, porque un `Subject` no emite lo ocurrido antes de suscribirse"
+      ],
+      "explanation": "Un `BehaviorSubject` guarda **el último valor** y lo emite al instante a cada nuevo suscriptor. Cuando te suscribes, el valor actual es 1 (el 0 ya fue sustituido), y después llega el 2. Un `ReplaySubject` reenvía varios valores anteriores, y un `Subject` normal no recuerda ninguno."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst s = new BehaviorSubject(0);\ns.next(1);\ns.subscribe((v) => console.log(v));\ns.next(2);\n```",
+      "options": [
+        "`0` and `2`, because the initial value is always emitted on subscribe",
+        "`1` and `2`: first the current value and then the new one that arrives",
+        "`0`, `1` and `2`, because it receives the complete history of values",
+        "Only `2`, because a `Subject` does not emit what happened before subscribing"
+      ],
+      "explanation": "A `BehaviorSubject` keeps **the latest value** and emits it instantly to every new subscriber. When you subscribe, the current value is 1 (the 0 was already replaced), and then 2 arrives. A `ReplaySubject` replays several earlier values, and a plain `Subject` remembers none."
+    }
+  },
+  {
+    "id": "rx-switchmap-search",
+    "tech": "rxjs",
+    "topic": "operators",
+    "difficulty": "medium",
+    "refVersion": "rxjs@7",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un buscador usa este código y el usuario escribe rápido. ¿Qué hace `switchMap` con la petición que sigue en curso cuando llega un término nuevo?\n\n```ts\nthis.search.valueChanges.pipe(\n  debounceTime(300),\n  switchMap((term) => this.http.get<Result[]>('/api/search?q=' + term)),\n).subscribe((results) => (this.results = results));\n```",
+      "options": [
+        "La cancela y se queda solo con la respuesta de la última",
+        "Lanza todas a la vez y emite las respuestas según vayan llegando",
+        "Las pone en cola y las ejecuta una a una, en el orden en que se escribieron",
+        "Ignora los términos nuevos mientras haya una petición pendiente sin terminar"
+      ],
+      "explanation": "`switchMap` se da de baja del Observable interno anterior cuando llega un valor nuevo; con `HttpClient`, eso **cancela la petición** en curso y evita que una respuesta lenta y antigua pise a la nueva. Las demás: `mergeMap` las lanza a la vez, `concatMap` las encola y `exhaustMap` ignora las nuevas mientras haya una en curso."
+    },
+    "en": {
+      "prompt": "A search box uses this code and the user types fast. What does `switchMap` do with the request still in flight when a new term arrives?\n\n```ts\nthis.search.valueChanges.pipe(\n  debounceTime(300),\n  switchMap((term) => this.http.get<Result[]>('/api/search?q=' + term)),\n).subscribe((results) => (this.results = results));\n```",
+      "options": [
+        "It cancels it and keeps only the response to the latest one",
+        "It fires them all at once and emits responses as they arrive",
+        "It queues them and runs them one by one, in the order they were typed",
+        "It ignores the new terms while a request is still pending and unfinished"
+      ],
+      "explanation": "`switchMap` unsubscribes from the previous inner Observable when a new value arrives; with `HttpClient`, that **cancels the in-flight request** and prevents a slow, old response from overwriting the new one. The others: `mergeMap` fires them all at once, `concatMap` queues them and `exhaustMap` ignores new ones while one is running."
+    }
+  },
+  {
+    "id": "js-nullish-vs-or",
+    "tech": "javascript",
+    "topic": "operators",
+    "difficulty": "easy",
+    "refVersion": "es2020",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué imprime este código?\n\n```ts\nconst a = 0 ?? 10;\nconst b = 0 || 10;\nconsole.log(a, b);\n```",
+      "options": [
+        "`0 10`",
+        "`10 10`",
+        "`0 0`",
+        "`10 0`"
+      ],
+      "explanation": "`??` solo usa el valor de la derecha cuando el de la izquierda es `null` o `undefined`, así que respeta el `0`. `||` lo usa con cualquier valor falsy (`0`, `''`, `false`, `NaN`...). Para valores por defecto en los que `0` es válido, usa `??`."
+    },
+    "en": {
+      "prompt": "What does this code print?\n\n```ts\nconst a = 0 ?? 10;\nconst b = 0 || 10;\nconsole.log(a, b);\n```",
+      "options": [
+        "`0 10`",
+        "`10 10`",
+        "`0 0`",
+        "`10 0`"
+      ],
+      "explanation": "`??` only uses the right-hand value when the left is `null` or `undefined`, so it keeps the `0`. `||` uses it for any falsy value (`0`, `''`, `false`, `NaN`...). For defaults where `0` is valid, use `??`."
+    }
+  },
+  {
+    "id": "js-const-block-scope",
+    "tech": "javascript",
+    "topic": "scope",
+    "difficulty": "easy",
+    "refVersion": "es2015",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué ocurre al ejecutar este código?\n\n```ts\nif (true) {\n  const x = 1;\n}\nconsole.log(x);\n```",
+      "options": [
+        "Imprime `1`, porque la condición se cumple y la variable se crea",
+        "Imprime `undefined`, porque `x` existe pero aún no tiene valor asignado",
+        "Lanza un `ReferenceError`: `x` solo existe dentro de las llaves",
+        "Lanza un `SyntaxError` al cargar el script, antes de ejecutarlo"
+      ],
+      "explanation": "`let` y `const` tienen **ámbito de bloque**: solo existen entre las llaves donde se declaran, así que fuera de ellas `x` no está definida (`ReferenceError`). Con `var`, que tiene ámbito de función, sí imprimiría `1`."
+    },
+    "en": {
+      "prompt": "What happens when this code runs?\n\n```ts\nif (true) {\n  const x = 1;\n}\nconsole.log(x);\n```",
+      "options": [
+        "It prints `1`, because the condition holds and the variable is created",
+        "It prints `undefined`, because `x` exists but has no assigned value yet",
+        "It throws a `ReferenceError`: `x` only exists inside the braces",
+        "It throws a `SyntaxError` when loading the script, before running it"
+      ],
+      "explanation": "`let` and `const` have **block scope**: they only exist between the braces where they are declared, so outside them `x` is not defined (`ReferenceError`). With `var`, which is function-scoped, it would print `1`."
+    }
+  }
+]
