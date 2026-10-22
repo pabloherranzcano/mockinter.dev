@@ -29,6 +29,13 @@ export class Home {
   /** Tecnologías marcadas. Si no hay ninguna, se practican todas. */
   protected readonly selected = signal<string[]>([]);
 
+  /** Preguntas por sesión. null = todas. */
+  protected readonly sizes = [10, 20, null] as const;
+  protected readonly size = signal<number | null>(10);
+
+  /** Lo que va en la URL: ?n=10 (o nada, si son todas). */
+  protected readonly queryParams = computed(() => (this.size() ? { n: this.size() } : {}));
+
   protected readonly total = computed(() => this.questionsService.questions().length);
 
   /** Las tecnologías que existen en las preguntas, con cuántas hay de cada una. */
@@ -68,6 +75,11 @@ export class Home {
   });
 
   protected readonly wrongParam = WRONG_PARAM;
+
+  /** Cuántas preguntas tendrá la sesión: las de la selección, con el tope elegido. */
+  protected readonly sessionCount = computed(() =>
+    Math.min(this.selectedCount(), this.size() ?? Infinity),
+  );
 
   /** El valor para la URL: /lesson/angular,rxjs (o /lesson/all). */
   protected readonly lessonParam = computed(() => techsToParam(this.selected()));

@@ -20,12 +20,19 @@ export class Lesson {
   // Viene de la URL (/lesson/:tech): 'all' (todas), varias separadas por comas ('angular,rxjs')
   // o 'wrong' (las preguntas falladas).
   tech = input.required<string>();
+  // Viene de la URL (?n=10): cuántas preguntas tiene la sesión. Sin ?n=, son todas.
+  n = input<string>();
 
   protected readonly t = inject(LanguageService).t;
   protected readonly store = inject(LessonStore);
   protected readonly questionsService = inject(QuestionsService);
 
   protected readonly progressService = inject(ProgressService);
+
+  private readonly limit = computed(() => {
+    const n = Number(this.n());
+    return Number.isInteger(n) && n > 0 ? n : Infinity;
+  });
 
   private readonly techs = computed(() => paramToTechs(this.tech()));
 
@@ -57,18 +64,25 @@ export class Lesson {
   /** El valor de la URL con el que ya empezó la lección de fallos. */
   private wrongStartedFor: string | null = null;
 
+  /** Otra sesión con la misma selección (se vuelven a barajar las preguntas). */
+  protected again(): void {
+    this.store.start(this.lessonQuestions(), this.limit());
+  }
+
   constructor() {
     effect(() => {
       const questions = this.candidates();
-      const tech = this.tech();
+      const limit = this.limit();
+      // La clave cambia si cambia la tecnología o el tamaño de la sesión
+      const key = this.tech() + '?' + this.n();
       untracked(() => {
-        if (this.isWrongMode() && this.wrongStartedFor === tech) {
+        if (this.isWrongMode() && this.wrongStartedFor === key) {
           return;
         }
         this.lessonQuestions.set(questions);
         if (questions.length > 0) {
-          this.wrongStartedFor = this.isWrongMode() ? tech : null;
-          this.store.start(questions);
+          this.wrongStartedFor = this.isWrongMode() ? key : null;
+          this.store.start(questions, limit);
         }
       });
     });

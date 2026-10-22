@@ -22,6 +22,7 @@
   <main class="lesson result">
     <h2>{{ t().lesson.finished }}</h2>
     <p>{{ t().lesson.score }}: {{ store.correctCount() }} / {{ store.total() }}</p>
+    <button type="button" class="btn" (click)="again()">{{ t().lesson.again }}</button>
     <a class="btn" routerLink="/">{{ t().lesson.backHome }}</a>
   </main>
 } @else if (store.current()) {

@@ -55,14 +55,31 @@ Siempre hablar en español.
 - Onboarding al registrarse: el usuario elige las tecnologías que quiere
   practicar (selección múltiple). No se le pregunta el nivel. Se puede cambiar
   desde Ajustes.
-- Filtro por tecnología en la Home (viaja en la URL: `/lesson/:tech`, con `all`
-  para todas). Las preguntas salen mezcladas, de cualquier dificultad: un
+- Filtro por tecnología en la Home, de selección múltiple y agrupado (Frontend,
+  Backend, Datos, Herramientas). Viaja en la URL: `/lesson/angular,rxjs`, con `all`
+  para todas y `wrong` para tus fallos. El grupo de cada tecnología está en
+  `core/tech-groups.ts`. Las preguntas salen mezcladas, de cualquier dificultad: un
   junior puede practicar las difíciles desde el primer día. El campo
   `difficulty` se guarda en los datos, pero no hay filtro ni selector de
   dificultad por ahora (pospuesto hasta tener muchas preguntas).
+- Sesiones cortas: por defecto 10 preguntas (selector 10 / 20 / Todas en la Home,
+  `?n=10` en la URL) y botón "Otra sesión" al terminar. La lección muestra `X / N`.
+- Fallos: chip "Fallos (N)" en la Home (solo con sesión). Una pregunta está en fallos
+  si su ÚLTIMO intento fue `wrong` (`ProgressService.wrongIds`), sin tabla nueva.
 - Botón ES/EN que cambia toda la app (UI y preguntas) en tiempo real.
 - Botón "reportar un problema" en cada pregunta.
 - Gratis, sin suscripción.
+
+## Gamificación (más adelante, después del login)
+
+Sin vidas, XP ni estrellas (práctica libre). Ideas ya decididas, para cuando haya
+usuarios con progreso guardado:
+
+- Racha (ya existe).
+- Resumen al final de cada sesión: aciertos, tiempo y temas flojos.
+- Medallas por hitos ("100 preguntas", "7 días seguidos", "dominas RxJS").
+- Mapa de dominio por tecnología (porcentaje acertado de cada chip).
+- Preferir en las sesiones las preguntas que el usuario aún no ha visto.
 
 ## Idioma (i18n)
 

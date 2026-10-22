@@ -73,9 +73,11 @@ export class LessonStore {
     return q !== null && s !== null && this.options()[s].index === q.correctIndex;
   });
 
-  start(questions: Question[]) {
-    this.queue.set(shuffle(questions));
-    this.total.set(questions.length);
+  /** Empieza una sesión: baraja las preguntas y se queda con `limit` (por defecto, todas). */
+  start(questions: Question[], limit = questions.length) {
+    const picked = shuffle(questions).slice(0, limit);
+    this.queue.set(picked);
+    this.total.set(picked.length);
     this.correctCount.set(0);
     this.resetQuestion();
   }
