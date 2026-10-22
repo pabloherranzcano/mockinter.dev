@@ -1,0 +1,394 @@
+[
+  {
+    "id": "rt-first-match",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "Con estas rutas, ¿qué componente se muestra al ir a `/a/new`?\n```ts\nroutes = [\n  { path: 'a/:id', component: A },\n  { path: 'a/new', component: B },\n];\n```",
+      "options": [
+        "B, porque la ruta más específica siempre tiene prioridad",
+        "Ninguno, porque Angular lanza un error por rutas ambiguas",
+        "A, porque gana la primera ruta que coincide, con `:id` = `new`",
+        "Los dos a la vez, cada uno en su propio `router-outlet`"
+      ],
+      "explanation": "El router recorre las rutas **en orden** y se queda con la **primera que coincide**. `a/:id` coincide con `/a/new` (con `id = \"new\"`), así que `B` nunca se alcanza. Las rutas concretas van **antes** que las que tienen parámetros. Lo comprobé ejecutando el router."
+    },
+    "en": {
+      "prompt": "With these routes, which component is shown when going to `/a/new`?\n```ts\nroutes = [\n  { path: 'a/:id', component: A },\n  { path: 'a/new', component: B },\n];\n```",
+      "options": [
+        "B, because the most specific route always has priority",
+        "None, because Angular throws an error for ambiguous routes",
+        "A, because the first matching route wins, with `:id` = `new`",
+        "Both at once, each in its own `router-outlet`"
+      ],
+      "explanation": "The router goes through the routes **in order** and keeps the **first one that matches**. `a/:id` matches `/a/new` (with `id = \"new\"`), so `B` is never reached. Concrete routes go **before** those with parameters. I checked it by running the router."
+    }
+  },
+  {
+    "id": "rt-redirect-pathmatch",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué pasa con `{ path: '', redirectTo: 'home' }` si no se indica `pathMatch`?",
+      "options": [
+        "Angular lanza un error de configuración: hay que poner `pathMatch: 'full'`",
+        "Funciona igual, porque `'prefix'` es el valor por defecto y basta",
+        "Redirige a `home` solo cuando el usuario escribe la URL a mano",
+        "Se ignora el redirect y se muestra una página en blanco sin error"
+      ],
+      "explanation": "Una redirección con `path: ''` necesita `pathMatch: 'full'`. Sin él, `''` coincidiría como prefijo con **cualquier** URL y entraría en bucle, así que Angular lanza el error `NG04014`. Con `pathMatch: 'full'` solo redirige cuando la URL es exactamente la raíz."
+    },
+    "en": {
+      "prompt": "What happens with `{ path: '', redirectTo: 'home' }` if `pathMatch` is not given?",
+      "options": [
+        "Angular throws a configuration error: you must add `pathMatch: 'full'`",
+        "It works the same, because `'prefix'` is the default value and is enough",
+        "It redirects to `home` only when the user types the URL by hand",
+        "The redirect is ignored and a blank page is shown with no error"
+      ],
+      "explanation": "A redirect with `path: ''` needs `pathMatch: 'full'`. Without it, `''` would match as a prefix of **any** URL and loop, so Angular throws error `NG04014`. With `pathMatch: 'full'` it only redirects when the URL is exactly the root."
+    }
+  },
+  {
+    "id": "rt-wildcard-last",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Dónde se debe colocar la ruta comodín `{ path: '**', component: NotFound }`?",
+      "options": [
+        "Al principio, para que capture los errores antes que las demás",
+        "En cualquier sitio, porque el orden de las rutas no importa",
+        "En un fichero aparte, porque no puede convivir con otras rutas",
+        "Al final, porque coincide con todo y las siguientes nunca se verían"
+      ],
+      "explanation": "`**` coincide con **cualquier** URL, y como gana la primera ruta que coincide, tiene que ir **la última**. Si va antes, tapa a todas las que vienen detrás. Es la forma de mostrar una página 404."
+    },
+    "en": {
+      "prompt": "Where should the wildcard route `{ path: '**', component: NotFound }` be placed?",
+      "options": [
+        "At the beginning, so it catches errors before the others",
+        "Anywhere, because the order of the routes does not matter",
+        "In a separate file, because it cannot live with other routes",
+        "At the end, because it matches everything and later ones would never be seen"
+      ],
+      "explanation": "`**` matches **any** URL, and since the first matching route wins, it has to go **last**. If it goes earlier, it hides all the ones that follow. It is the way to show a 404 page."
+    }
+  },
+  {
+    "id": "rt-guard-urltree",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ocurre si un `canActivate` devuelve `inject(Router).createUrlTree(['/login'])`?",
+      "options": [
+        "La navegación se queda bloqueada y la URL no cambia",
+        "El router cancela la navegación actual y redirige a `/login`",
+        "Se lanza una excepción porque un guard solo puede devolver `boolean`",
+        "La ruta protegida se carga y `/login` se abre en una pestaña nueva"
+      ],
+      "explanation": "Un guard puede devolver `true`, `false` o un **`UrlTree`**. Con un `UrlTree` el router **redirige** a esa URL (aquí acabó en `/login` mostrando la página de login). Es mejor que `false` + `navigate()` porque la redirección forma parte de la misma navegación."
+    },
+    "en": {
+      "prompt": "What happens if a `canActivate` returns `inject(Router).createUrlTree(['/login'])`?",
+      "options": [
+        "The navigation stays blocked and the URL does not change",
+        "The router cancels the current navigation and redirects to `/login`",
+        "An exception is thrown because a guard can only return `boolean`",
+        "The protected route loads and `/login` opens in a new tab"
+      ],
+      "explanation": "A guard can return `true`, `false` or a **`UrlTree`**. With a `UrlTree` the router **redirects** to that URL (here it ended up at `/login` showing the login page). It is better than `false` + `navigate()` because the redirect is part of the same navigation."
+    }
+  },
+  {
+    "id": "rt-guard-false",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Si un guard devuelve `false`, ¿qué devuelve `router.navigateByUrl('/x')`?",
+      "options": [
+        "Una promesa rechazada con el error \"navegación bloqueada\"",
+        "Una promesa que resuelve `true`, porque la llamada se ha hecho bien",
+        "Una promesa que nunca se resuelve hasta que el guard cambie",
+        "Una promesa que resuelve `false` y la URL sigue donde estaba"
+      ],
+      "explanation": "`navigateByUrl` y `navigate` devuelven una **promesa de boolean**: `true` si la navegación termina, `false` si se cancela (por ejemplo, por un guard). No se rechaza: simplemente resuelve `false` y el usuario se queda en la página en la que estaba."
+    },
+    "en": {
+      "prompt": "If a guard returns `false`, what does `router.navigateByUrl('/x')` return?",
+      "options": [
+        "A rejected promise with the error \"navigation blocked\"",
+        "A promise that resolves `true`, because the call was made correctly",
+        "A promise that never resolves until the guard changes",
+        "A promise that resolves `false` and the URL stays where it was"
+      ],
+      "explanation": "`navigateByUrl` and `navigate` return a **promise of boolean**: `true` if the navigation completes, `false` if it is cancelled (for example, by a guard). It is not rejected: it simply resolves `false` and the user stays on the page they were on."
+    }
+  },
+  {
+    "id": "rt-canmatch-vs-canactivate",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `canMatch` y `canActivate`?",
+      "options": [
+        "Si `canMatch` devuelve `false`, el router prueba la siguiente ruta; `canActivate` bloquea",
+        "`canMatch` se ejecuta después de cargar el componente y `canActivate` antes",
+        "`canMatch` solo sirve para rutas hijas y `canActivate` solo para rutas raíz",
+        "No hay ninguna diferencia, `canMatch` es solo el nombre nuevo de `canActivate`"
+      ],
+      "explanation": "`canMatch` decide si la ruta **puede coincidir**. Si da `false`, el router sigue con la **siguiente ruta** que tenga la misma URL (lo comprobé: pasó a la segunda ruta `p`). También evita descargar el chunk de una ruta con lazy loading. `canActivate` solo permite o bloquea una ruta que ya coincidió."
+    },
+    "en": {
+      "prompt": "What is the difference between `canMatch` and `canActivate`?",
+      "options": [
+        "If `canMatch` returns `false`, the router tries the next route; `canActivate` blocks",
+        "`canMatch` runs after loading the component and `canActivate` before",
+        "`canMatch` only works for child routes and `canActivate` only for root routes",
+        "There is no difference, `canMatch` is just the new name of `canActivate`"
+      ],
+      "explanation": "`canMatch` decides whether the route **can match**. If it gives `false`, the router moves on to the **next route** with the same URL (I checked it: it went to the second `p` route). It also avoids downloading the chunk of a lazy-loaded route. `canActivate` only allows or blocks a route that has already matched."
+    }
+  },
+  {
+    "id": "rt-lazy-loadcomponent",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Cómo se carga un componente de forma perezosa (lazy) en una ruta standalone?",
+      "options": [
+        "`{ path: 'a', component: import('./a') }`",
+        "`{ path: 'a', lazy: true, component: A }`",
+        "`{ path: 'a', loadComponent: () => import('./a').then(m => m.A) }`",
+        "`{ path: 'a', loadModule: () => import('./a') }`"
+      ],
+      "explanation": "`loadComponent` recibe una función que hace un `import()` dinámico. El navegador solo **descarga ese trozo (chunk) cuando el usuario entra en la ruta**, así la carga inicial es más pequeña. Para varias rutas hijas se usa `loadChildren` con un fichero de rutas."
+    },
+    "en": {
+      "prompt": "How is a component lazy-loaded in a standalone route?",
+      "options": [
+        "`{ path: 'a', component: import('./a') }`",
+        "`{ path: 'a', lazy: true, component: A }`",
+        "`{ path: 'a', loadComponent: () => import('./a').then(m => m.A) }`",
+        "`{ path: 'a', loadModule: () => import('./a') }`"
+      ],
+      "explanation": "`loadComponent` receives a function that does a dynamic `import()`. The browser only **downloads that chunk when the user enters the route**, so the initial load is smaller. For several child routes `loadChildren` is used with a routes file."
+    }
+  },
+  {
+    "id": "rt-input-binding",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Con `withComponentInputBinding()`, ¿qué datos de la ruta llegan a los `input()` del componente?",
+      "options": [
+        "Solo los parámetros de la ruta, como `:id`",
+        "Parámetros, query params, `data` y resultados de `resolve`, por nombre",
+        "Solo los query params, como `?q=hola`",
+        "Ninguno: sigue siendo obligatorio usar `ActivatedRoute`"
+      ],
+      "explanation": "Con `provideRouter(routes, withComponentInputBinding())`, el router pasa a los inputs (que se llamen igual) los **parámetros de ruta, los query params, el `data` estático y lo que devuelvan los `resolve`**. En la prueba llegaron `1|hola|dato-estatico|resuelto`. Evita inyectar `ActivatedRoute` y suscribirse."
+    },
+    "en": {
+      "prompt": "With `withComponentInputBinding()`, which route data reaches the component `input()`s?",
+      "options": [
+        "Only route parameters, such as `:id`",
+        "Parameters, query params, `data` and `resolve` results, by name",
+        "Only query params, such as `?q=hello`",
+        "None: using `ActivatedRoute` is still mandatory"
+      ],
+      "explanation": "With `provideRouter(routes, withComponentInputBinding())`, the router passes to the inputs (with the same name) the **route parameters, query params, static `data` and what the `resolve`s return**. In the test, `1|hello|static-data|resolved` arrived. It avoids injecting `ActivatedRoute` and subscribing."
+    }
+  },
+  {
+    "id": "rt-component-reuse",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Estás en `/item/1` y navegas a `/item/2` (misma ruta, otro `:id`). ¿Qué hace el router con el componente?",
+      "options": [
+        "Lo destruye y crea uno nuevo, ejecutando `ngOnInit` otra vez",
+        "Lanza un error, porque no se puede navegar a la misma ruta",
+        "Recarga la página completa para empezar con el estado limpio",
+        "Reutiliza la misma instancia y solo actualiza los parámetros"
+      ],
+      "explanation": "Por defecto el router **reutiliza** el componente si la ruta es la misma y solo cambian los parámetros: en la prueba solo se creó **1 instancia**. Por eso `ngOnInit` no se repite y hay que reaccionar al cambio con un `computed`/`effect` sobre el input o suscribiéndose a `paramMap`."
+    },
+    "en": {
+      "prompt": "You are at `/item/1` and navigate to `/item/2` (same route, another `:id`). What does the router do with the component?",
+      "options": [
+        "It destroys it and creates a new one, running `ngOnInit` again",
+        "It throws an error, because you cannot navigate to the same route",
+        "It reloads the whole page to start with a clean state",
+        "It reuses the same instance and only updates the parameters"
+      ],
+      "explanation": "By default the router **reuses** the component if the route is the same and only the parameters change: in the test only **1 instance** was created. That is why `ngOnInit` does not repeat and you must react to the change with a `computed`/`effect` on the input or by subscribing to `paramMap`."
+    }
+  },
+  {
+    "id": "rt-same-url",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué devuelve `router.navigateByUrl('/a')` si ya estás en `/a`?",
+      "options": [
+        "`false`, porque por defecto se ignora la navegación a la misma URL",
+        "`true`, y el componente se vuelve a crear desde cero",
+        "Una promesa rechazada con un error de URL duplicada",
+        "`undefined`, porque no se hace ninguna navegación"
+      ],
+      "explanation": "Por defecto `onSameUrlNavigation` vale `'ignore'`: navegar a la URL actual **no hace nada** y la promesa resuelve `false`. Con `onSameUrlNavigation: 'reload'` se vuelven a ejecutar guards y resolvers, útil para un botón de \"refrescar\"."
+    },
+    "en": {
+      "prompt": "What does `router.navigateByUrl('/a')` return if you are already at `/a`?",
+      "options": [
+        "`false`, because navigation to the same URL is ignored by default",
+        "`true`, and the component is created again from scratch",
+        "A rejected promise with a duplicated URL error",
+        "`undefined`, because no navigation is made"
+      ],
+      "explanation": "By default `onSameUrlNavigation` is `'ignore'`: navigating to the current URL **does nothing** and the promise resolves `false`. With `onSameUrlNavigation: 'reload'` guards and resolvers run again, useful for a \"refresh\" button."
+    }
+  },
+  {
+    "id": "rt-children-outlet",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Una ruta tiene `children`. ¿Dónde se pinta el componente de la ruta hija?",
+      "options": [
+        "Sustituye al componente padre en el `router-outlet` principal",
+        "En el `<router-outlet>` que esté dentro de la plantilla del padre",
+        "En el `<body>` de la página, fuera de la aplicación",
+        "En cualquier `router-outlet`, elegido al azar por el router"
+      ],
+      "explanation": "Las rutas anidadas se pintan en el **`<router-outlet>` de la plantilla del padre**. Si el padre no tiene ese outlet, la hija no se ve. Es lo que se usa para layouts: el padre pone cabecera y menú, y el outlet cambia el contenido."
+    },
+    "en": {
+      "prompt": "A route has `children`. Where is the child route component rendered?",
+      "options": [
+        "It replaces the parent component in the main `router-outlet`",
+        "In the `<router-outlet>` inside the parent template",
+        "In the `<body>` of the page, outside the application",
+        "In any `router-outlet`, chosen at random by the router"
+      ],
+      "explanation": "Nested routes are rendered in the **`<router-outlet>` of the parent template**. If the parent has no such outlet, the child is not shown. It is what is used for layouts: the parent puts header and menu, and the outlet changes the content."
+    }
+  },
+  {
+    "id": "rt-resolve",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué sirve un `resolve` en una ruta?",
+      "options": [
+        "Para decidir si el usuario tiene permiso de entrar a la ruta",
+        "Para traducir los textos de la página al idioma elegido",
+        "Para obtener datos antes de activar la ruta y dárselos al componente",
+        "Para recordar la última ruta visitada al volver a abrir la app"
+      ],
+      "explanation": "Un `resolve` (`ResolveFn`) **carga datos antes de que se active la ruta**: el componente se muestra ya con ellos, sin estado de \"cargando\" propio. El inconveniente es que la navegación espera, así que si tarda, el usuario ve la página anterior más tiempo."
+    },
+    "en": {
+      "prompt": "What is a `resolve` on a route for?",
+      "options": [
+        "To decide whether the user has permission to enter the route",
+        "To translate the texts of the page into the chosen language",
+        "To get data before activating the route and give it to the component",
+        "To remember the last visited route when reopening the app"
+      ],
+      "explanation": "A `resolve` (`ResolveFn`) **loads data before the route is activated**: the component is shown already with it, with no loading state of its own. The drawback is that navigation waits, so if it is slow, the user sees the previous page for longer."
+    }
+  },
+  {
+    "id": "rt-routerlink-active",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué hace `routerLinkActive=\"activo\"` en un enlace?",
+      "options": [
+        "Hace que el enlace se abra siempre en una pestaña nueva",
+        "Deshabilita el enlace cuando la ruta está protegida por un guard",
+        "Precarga la ruta en segundo plano al pasar el ratón por encima",
+        "Añade la clase `activo` cuando la ruta del enlace es la activa"
+      ],
+      "explanation": "`routerLinkActive` pone la clase CSS que indiques cuando la URL del `routerLink` coincide con la actual. Sirve para resaltar el elemento activo del menú. Con `[routerLinkActiveOptions]=\"{ exact: true }\"` solo se activa con coincidencia exacta."
+    },
+    "en": {
+      "prompt": "What does `routerLinkActive=\"active\"` do on a link?",
+      "options": [
+        "It makes the link always open in a new tab",
+        "It disables the link when the route is protected by a guard",
+        "It preloads the route in the background when hovering over it",
+        "It adds the class `active` when the link route is the active one"
+      ],
+      "explanation": "`routerLinkActive` applies the CSS class you give when the `routerLink` URL matches the current one. It is used to highlight the active menu item. With `[routerLinkActiveOptions]=\"{ exact: true }\"` it only activates on an exact match."
+    }
+  },
+  {
+    "id": "rt-preload",
+    "tech": "angular",
+    "topic": "routing",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué hace `withPreloading(PreloadAllModules)` en `provideRouter`?",
+      "options": [
+        "Carga todas las rutas con lazy loading antes de mostrar la primera pantalla",
+        "Tras la carga inicial, descarga en segundo plano las rutas con lazy loading",
+        "Convierte todas las rutas en rutas normales, sin lazy loading",
+        "Guarda las respuestas HTTP en caché para que la app funcione sin conexión"
+      ],
+      "explanation": "Con la precarga, la app arranca rápido (solo el chunk inicial) y **después, en segundo plano, descarga el resto de rutas lazy**, de modo que al navegar ya están listas. Se puede escribir una estrategia propia para precargar solo algunas."
+    },
+    "en": {
+      "prompt": "What does `withPreloading(PreloadAllModules)` do in `provideRouter`?",
+      "options": [
+        "It loads all lazy-loaded routes before showing the first screen",
+        "After the initial load, it downloads lazy-loaded routes in the background",
+        "It turns all routes into normal routes, with no lazy loading",
+        "It caches HTTP responses so the app works without a connection"
+      ],
+      "explanation": "With preloading, the app starts fast (only the initial chunk) and **afterwards, in the background, downloads the rest of the lazy routes**, so when navigating they are already ready. You can write your own strategy to preload only some."
+    }
+  }
+]

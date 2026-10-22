@@ -1,0 +1,366 @@
+[
+  {
+    "id": "di-root-singleton",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un servicio con `@Injectable({ providedIn: 'root' })` se inyecta en 3 sitios. ¿Cuántas instancias hay?",
+      "options": [
+        "Una sola, compartida por toda la aplicación",
+        "Tres, una por cada sitio donde se inyecta",
+        "Dos, una para componentes y otra para servicios",
+        "Depende del navegador que use el usuario"
+      ],
+      "explanation": "`providedIn: 'root'` registra el servicio en el inyector raíz: es un **singleton**, se crea una vez (la primera vez que alguien lo pide) y se comparte. Lo comprobé inyectándolo 3 veces: una instancia. Por eso sirve para guardar estado compartido."
+    },
+    "en": {
+      "prompt": "A service with `@Injectable({ providedIn: 'root' })` is injected in 3 places. How many instances are there?",
+      "options": [
+        "Just one, shared by the whole application",
+        "Three, one for each place where it is injected",
+        "Two, one for components and one for services",
+        "It depends on the browser the user uses"
+      ],
+      "explanation": "`providedIn: 'root'` registers the service in the root injector: it is a **singleton**, created once (the first time someone asks for it) and shared. I checked it by injecting it 3 times: one instance. That is why it is used to keep shared state."
+    }
+  },
+  {
+    "id": "di-injection-token",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué sirve un `InjectionToken`?",
+      "options": [
+        "Para cifrar las contraseñas antes de guardarlas en el servicio",
+        "Para identificar a un usuario autenticado en cada petición HTTP",
+        "Para inyectar valores que no son clases, como una URL o un objeto de config",
+        "Para evitar que un servicio se pueda inyectar más de una vez"
+      ],
+      "explanation": "La inyección usa un **token** como clave. Para las clases, la propia clase es el token; para valores sueltos (un string, un objeto de configuración) se crea un `new InjectionToken<T>('nombre')`. Puede llevar `providedIn` y `factory` para tener un valor por defecto (en la prueba devolvió `por-defecto`)."
+    },
+    "en": {
+      "prompt": "What is an `InjectionToken` for?",
+      "options": [
+        "To encrypt passwords before storing them in the service",
+        "To identify an authenticated user in each HTTP request",
+        "To inject values that are not classes, such as a URL or a config object",
+        "To prevent a service from being injected more than once"
+      ],
+      "explanation": "Injection uses a **token** as a key. For classes, the class itself is the token; for loose values (a string, a configuration object) you create a `new InjectionToken<T>('name')`. It can carry `providedIn` and `factory` to have a default value (in the test it returned `default`)."
+    }
+  },
+  {
+    "id": "di-useclass",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué hace `{ provide: Base, useClass: Derived }`?",
+      "options": [
+        "Crea una copia de `Base` con los datos de `Derived`",
+        "Cuando alguien pide `Base`, Angular le entrega una instancia de `Derived`",
+        "Hace que `Derived` herede de `Base` automáticamente",
+        "Registra las dos clases con el mismo nombre en el inyector"
+      ],
+      "explanation": "El proveedor dice \"cuando pidan este **token**, crea esta **clase**\". Se usa para sustituir implementaciones, por ejemplo un servicio real por uno falso en tests. En la prueba, `inject(Base).name` devolvió `derived`."
+    },
+    "en": {
+      "prompt": "What does `{ provide: Base, useClass: Derived }` do?",
+      "options": [
+        "It creates a copy of `Base` with the data of `Derived`",
+        "When someone asks for `Base`, Angular hands them an instance of `Derived`",
+        "It makes `Derived` inherit from `Base` automatically",
+        "It registers both classes with the same name in the injector"
+      ],
+      "explanation": "The provider says \"when this **token** is requested, create this **class**\". It is used to replace implementations, for example a real service with a fake one in tests. In the test, `inject(Base).name` returned `derived`."
+    }
+  },
+  {
+    "id": "di-useexisting",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `useExisting` y `useClass`?",
+      "options": [
+        "`useExisting` crea una instancia nueva cada vez que se inyecta",
+        "`useClass` reutiliza una instancia y `useExisting` siempre crea otra",
+        "No hay diferencia: son dos nombres para exactamente lo mismo",
+        "`useExisting` crea un alias que devuelve la misma instancia que otro token"
+      ],
+      "explanation": "`useClass` **crea** una instancia de la clase indicada. `useExisting` es un **alias**: redirige un token a otro ya registrado y devuelve **la misma instancia** (en la prueba, `inject('alias') === inject(Base)` fue `true`). Con `useClass` serían dos instancias distintas."
+    },
+    "en": {
+      "prompt": "What is the difference between `useExisting` and `useClass`?",
+      "options": [
+        "`useExisting` creates a new instance every time it is injected",
+        "`useClass` reuses an instance and `useExisting` always creates another",
+        "There is no difference: they are two names for exactly the same thing",
+        "`useExisting` creates an alias that returns the same instance as another token"
+      ],
+      "explanation": "`useClass` **creates** an instance of the given class. `useExisting` is an **alias**: it redirects one token to another already registered and returns **the same instance** (in the test, `inject('alias') === inject(Base)` was `true`). With `useClass` there would be two different instances."
+    }
+  },
+  {
+    "id": "di-usefactory",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Cuándo conviene `useFactory` en un proveedor?",
+      "options": [
+        "Cuando el valor depende de otras cosas y hay que calcularlo con código",
+        "Cuando se quiere crear una clase nueva sin escribir su archivo",
+        "Cuando el servicio tiene que ser un singleton en toda la app",
+        "Cuando se quiere que Angular no inyecte nada en el servicio"
+      ],
+      "explanation": "`useFactory` ejecuta una **función** que devuelve el valor. Dentro se puede usar `inject()` para leer otras dependencias (en la prueba construyó `fabricado-por-defecto` usando otro token). Sirve para decidir la implementación según la configuración o el entorno."
+    },
+    "en": {
+      "prompt": "When is `useFactory` useful in a provider?",
+      "options": [
+        "When the value depends on other things and has to be computed with code",
+        "When you want to create a new class without writing its file",
+        "When the service has to be a singleton across the whole app",
+        "When you want Angular not to inject anything into the service"
+      ],
+      "explanation": "`useFactory` runs a **function** that returns the value. Inside it you can use `inject()` to read other dependencies (in the test it built `made-by-default` using another token). It is used to decide the implementation depending on configuration or environment."
+    }
+  },
+  {
+    "id": "di-multi",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "Se registran dos proveedores con el mismo token y `multi: true`. ¿Qué devuelve `inject(TOKEN)`?",
+      "options": [
+        "Solo el último valor registrado",
+        "Solo el primer valor registrado",
+        "Un array con los dos valores, en el orden de registro",
+        "Un error, porque un token no puede tener dos proveedores"
+      ],
+      "explanation": "Con `multi: true`, cada proveedor **añade** un valor y el resultado es un **array** (`[\"uno\",\"dos\"]` en la prueba). Es el mecanismo detrás de los interceptores y de otros \"puntos de extensión\". Sin `multi`, el último proveedor sustituye al anterior."
+    },
+    "en": {
+      "prompt": "Two providers are registered with the same token and `multi: true`. What does `inject(TOKEN)` return?",
+      "options": [
+        "Only the last registered value",
+        "Only the first registered value",
+        "An array with both values, in registration order",
+        "An error, because a token cannot have two providers"
+      ],
+      "explanation": "With `multi: true`, each provider **adds** a value and the result is an **array** (`[\"one\",\"two\"]` in the test). It is the mechanism behind interceptors and other \"extension points\". Without `multi`, the last provider replaces the previous one."
+    }
+  },
+  {
+    "id": "di-last-wins",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Dos proveedores del mismo token en el mismo nivel, sin `multi`. ¿Cuál se usa?",
+      "options": [
+        "El primero, porque ya estaba registrado",
+        "El último que se registró",
+        "Angular lanza un error por duplicado al arrancar",
+        "Se usa uno u otro al azar en cada inyección"
+      ],
+      "explanation": "Gana el **último** proveedor registrado, sin avisar (en la prueba, con `A` y luego `B`, se obtuvo `B`). Por eso en tests se pueden sobrescribir proveedores añadiéndolos al final, y por eso hay que vigilar no duplicar un token sin querer."
+    },
+    "en": {
+      "prompt": "Two providers of the same token at the same level, without `multi`. Which one is used?",
+      "options": [
+        "The first, because it was already registered",
+        "The last one registered",
+        "Angular throws a duplicate error on startup",
+        "One or the other is used at random on each injection"
+      ],
+      "explanation": "The **last** registered provider wins, without warning (in the test, with `A` and then `B`, `B` was obtained). That is why in tests you can override providers by adding them at the end, and why you must be careful not to duplicate a token by accident."
+    }
+  },
+  {
+    "id": "di-optional",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ocurre con `inject(TOKEN)` si nadie ha registrado un proveedor para `TOKEN`?",
+      "options": [
+        "Devuelve `undefined` y la aplicación sigue",
+        "Devuelve `null` automáticamente en todos los casos",
+        "Crea el token vacío y lo guarda para la siguiente vez",
+        "Lanza el error `NG0201` (no hay proveedor)"
+      ],
+      "explanation": "Sin proveedor, `inject` lanza **`NG0201: No provider found`**. Si la dependencia es opcional, se indica `inject(TOKEN, { optional: true })` y entonces devuelve `null` (lo comprobé ejecutándolo)."
+    },
+    "en": {
+      "prompt": "What happens with `inject(TOKEN)` if nobody has registered a provider for `TOKEN`?",
+      "options": [
+        "It returns `undefined` and the application continues",
+        "It automatically returns `null` in all cases",
+        "It creates the empty token and stores it for next time",
+        "It throws error `NG0201` (no provider found)"
+      ],
+      "explanation": "Without a provider, `inject` throws **`NG0201: No provider found`**. If the dependency is optional, you write `inject(TOKEN, { optional: true })` and then it returns `null` (I checked it by running it)."
+    }
+  },
+  {
+    "id": "di-component-providers",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un servicio se declara en `providers` de un componente. ¿Cuántas instancias se crean si hay dos copias del componente en pantalla?",
+      "options": [
+        "Dos: cada instancia del componente tiene su propio servicio",
+        "Una: se comparte entre las dos copias del componente",
+        "Ninguna: los componentes no pueden tener `providers`",
+        "Una por cada vez que el servicio se inyecta en cualquier clase"
+      ],
+      "explanation": "Los `providers` de un componente crean un **inyector propio de cada instancia del componente**: el servicio vive y muere con él y cada copia tiene el suyo. Es útil para estado local de un componente. Con `providedIn: 'root'` sería uno solo para todos."
+    },
+    "en": {
+      "prompt": "A service is declared in a component's `providers`. How many instances are created if there are two copies of the component on screen?",
+      "options": [
+        "Two: each component instance has its own service",
+        "One: it is shared between the two copies of the component",
+        "None: components cannot have `providers`",
+        "One for each time the service is injected into any class"
+      ],
+      "explanation": "A component's `providers` create an **injector of its own for each component instance**: the service lives and dies with it and each copy has its own. It is useful for the local state of a component. With `providedIn: 'root'` there would be a single one for all."
+    }
+  },
+  {
+    "id": "di-skipself",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "Un componente hijo tiene su propio `providers` para `Svc`. ¿Qué hace `inject(Svc, { skipSelf: true })` en el hijo?",
+      "options": [
+        "Devuelve su propia instancia, ignorando al padre",
+        "Lanza un error porque no se puede saltar al propio componente",
+        "Se salta su propio proveedor y devuelve el del padre",
+        "Crea una instancia nueva distinta de las dos anteriores"
+      ],
+      "explanation": "`skipSelf` empieza a buscar **en el inyector del padre**, saltándose el del propio componente. En la prueba, el hijo tenía `hijo` y con `skipSelf` obtuvo `padre`. Hay otros modificadores: `self` (solo el propio), `host` y `optional`."
+    },
+    "en": {
+      "prompt": "A child component has its own `providers` for `Svc`. What does `inject(Svc, { skipSelf: true })` do in the child?",
+      "options": [
+        "It returns its own instance, ignoring the parent",
+        "It throws an error because the component itself cannot be skipped",
+        "It skips its own provider and returns the parent's one",
+        "It creates a new instance different from the previous two"
+      ],
+      "explanation": "`skipSelf` starts looking **in the parent's injector**, skipping the component's own. In the test, the child had `child` and with `skipSelf` it obtained `parent`. There are other modifiers: `self` (only its own), `host` and `optional`."
+    }
+  },
+  {
+    "id": "di-injection-context",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Dónde se puede llamar a `inject()`?",
+      "options": [
+        "En cualquier sitio: dentro de un método, de un `setTimeout`, de un evento...",
+        "En un contexto de inyección: constructor, inicializador de campo o factory",
+        "Solo dentro de `ngOnInit`, cuando el componente ya está listo",
+        "Solo en funciones marcadas con el decorador `@Inject()`"
+      ],
+      "explanation": "`inject()` solo funciona en un **contexto de inyección**: el constructor, un inicializador de campo, una `useFactory`, un guard funcional... Fuera de ahí (o después de un `await`) lanza `NG0203`. Si se necesita en otro sitio, se guarda el servicio en un campo o se usa `runInInjectionContext`. Me pasó al verificar un `effect` tras un `await`."
+    },
+    "en": {
+      "prompt": "Where can `inject()` be called?",
+      "options": [
+        "Anywhere: inside a method, a `setTimeout`, an event...",
+        "In an injection context: constructor, field initializer or factory",
+        "Only inside `ngOnInit`, when the component is already ready",
+        "Only in functions marked with the `@Inject()` decorator"
+      ],
+      "explanation": "`inject()` only works in an **injection context**: the constructor, a field initializer, a `useFactory`, a functional guard... Outside of that (or after an `await`) it throws `NG0203`. If it is needed elsewhere, the service is stored in a field or `runInInjectionContext` is used. It happened to me when verifying an `effect` after an `await`."
+    }
+  },
+  {
+    "id": "di-inject-vs-constructor",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ventaja tiene `private http = inject(HttpClient)` frente a inyectar por constructor?",
+      "options": [
+        "Es más rápido en ejecución, porque se salta el inyector",
+        "Permite inyectar servicios que no son singleton",
+        "Es la única forma de inyectar servicios en componentes standalone",
+        "Menos código y funciona también en funciones, y la herencia es más fácil"
+      ],
+      "explanation": "`inject()` evita escribir el constructor y su lista de parámetros, se puede usar en **funciones** (guards, interceptores funcionales) y en las clases hijas no hay que pasar las dependencias al `super(...)`. El constructor sigue funcionando; no es obligatorio dejarlo."
+    },
+    "en": {
+      "prompt": "What advantage does `private http = inject(HttpClient)` have over constructor injection?",
+      "options": [
+        "It is faster at runtime, because it skips the injector",
+        "It allows injecting services that are not singletons",
+        "It is the only way to inject services in standalone components",
+        "Less code and it also works in functions, and inheritance is easier"
+      ],
+      "explanation": "`inject()` avoids writing the constructor and its parameter list, it can be used in **functions** (guards, functional interceptors) and in child classes the dependencies do not have to be passed to `super(...)`. The constructor still works; it is not mandatory to drop it."
+    }
+  },
+  {
+    "id": "di-provided-in-vs-providers",
+    "tech": "angular",
+    "topic": "di",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Cuál es la ventaja de `providedIn: 'root'` frente a añadir el servicio a `providers` de `app.config.ts`?",
+      "options": [
+        "Funciona sin Angular, en JavaScript puro",
+        "Es la única forma de que el servicio sea un singleton",
+        "Es \"tree-shakable\": si nadie lo usa, no entra en el bundle final",
+        "Evita tener que escribir `@Injectable()` en la clase"
+      ],
+      "explanation": "Un servicio con `providedIn: 'root'` se registra a sí mismo y el compilador puede **eliminarlo del bundle si nadie lo inyecta** (tree-shaking). Un servicio listado en `providers` siempre se incluye. Además, no hace falta acordarse de registrarlo."
+    },
+    "en": {
+      "prompt": "What is the advantage of `providedIn: 'root'` over adding the service to the `providers` of `app.config.ts`?",
+      "options": [
+        "It works without Angular, in plain JavaScript",
+        "It is the only way for the service to be a singleton",
+        "It is \"tree-shakable\": if nobody uses it, it does not enter the final bundle",
+        "It avoids having to write `@Injectable()` on the class"
+      ],
+      "explanation": "A service with `providedIn: 'root'` registers itself and the compiler can **remove it from the bundle if nobody injects it** (tree-shaking). A service listed in `providers` is always included. Also, you do not have to remember to register it."
+    }
+  }
+]

@@ -1,0 +1,422 @@
+[
+  {
+    "id": "sig-computed-lazy",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Creas `const dbl = computed(() => a() * 2)` y nadie lo lee. ¿Cuántas veces se ha ejecutado la función?",
+      "options": [
+        "Una vez, justo al crearlo",
+        "Ninguna: un `computed` es perezoso y solo calcula al leerse",
+        "Una vez por cada cambio de `a`, aunque nadie lo lea",
+        "Dos veces, una para el valor y otra para las dependencias"
+      ],
+      "explanation": "Un `computed` es **perezoso**: no calcula hasta que alguien lo lee por primera vez (0 evaluaciones tras crearlo). Y es **memoizado**: lee dos veces seguidas y solo calcula una; vuelve a calcular únicamente si una dependencia cambió y se lee de nuevo."
+    },
+    "en": {
+      "prompt": "You create `const dbl = computed(() => a() * 2)` and nobody reads it. How many times has the function run?",
+      "options": [
+        "Once, right when it is created",
+        "None: a `computed` is lazy and only calculates when read",
+        "Once for each change of `a`, even if nobody reads it",
+        "Twice, once for the value and once for the dependencies"
+      ],
+      "explanation": "A `computed` is **lazy**: it does not calculate until someone reads it for the first time (0 evaluations after creating it). And it is **memoized**: read it twice in a row and it only calculates once; it recalculates only if a dependency changed and it is read again."
+    }
+  },
+  {
+    "id": "sig-computed-dynamic",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "`computed(() => flag() ? x1() : x2())` con `flag = true`. Cambias `x2`. ¿Se recalcula?",
+      "options": [
+        "Sí, porque depende de todos los signals que aparecen escritos en la función",
+        "Sí, pero solo cuando `flag` también cambie",
+        "No: solo depende de los signals que realmente leyó en la última ejecución",
+        "No se puede saber: depende del orden en que se creen los signals"
+      ],
+      "explanation": "Las dependencias de un `computed` se **descubren al ejecutarlo**, no por lo que está escrito. Con `flag = true` solo leyó `flag` y `x1`; cambiar `x2` no lo invalida (en la prueba siguió con 1 evaluación). Cambiar `x1` sí lo recalcula."
+    },
+    "en": {
+      "prompt": "`computed(() => flag() ? x1() : x2())` with `flag = true`. You change `x2`. Does it recalculate?",
+      "options": [
+        "Yes, because it depends on all the signals written in the function",
+        "Yes, but only when `flag` also changes",
+        "No: it only depends on the signals it actually read in the last run",
+        "It cannot be known: it depends on the order the signals were created"
+      ],
+      "explanation": "The dependencies of a `computed` are **discovered when it runs**, not by what is written. With `flag = true` it only read `flag` and `x1`; changing `x2` does not invalidate it (in the test it stayed at 1 evaluation). Changing `x1` does recalculate it."
+    }
+  },
+  {
+    "id": "sig-same-value",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "`s.set(1)` cuando `s` ya vale `1` y hay un `computed` leyéndolo. ¿Qué pasa?",
+      "options": [
+        "Nada: el valor es igual y no se notifica, así que no se recalcula",
+        "El `computed` se recalcula siempre, porque se llamó a `set`",
+        "Angular lanza un aviso por asignar el mismo valor",
+        "Se repinta la plantilla entera de la aplicación"
+      ],
+      "explanation": "Un signal compara el valor nuevo con el anterior (con `Object.is` por defecto). Si es **igual, no notifica** a nadie: en la prueba el `computed` se quedó en 1 evaluación. Por eso los signals evitan trabajo innecesario."
+    },
+    "en": {
+      "prompt": "`s.set(1)` when `s` is already `1` and a `computed` is reading it. What happens?",
+      "options": [
+        "Nothing: the value is equal and nobody is notified, so nothing recalculates",
+        "The `computed` always recalculates, because `set` was called",
+        "Angular throws a warning for assigning the same value",
+        "The whole template of the application is re-rendered"
+      ],
+      "explanation": "A signal compares the new value with the previous one (with `Object.is` by default). If it is **equal, it notifies nobody**: in the test the `computed` stayed at 1 evaluation. That is why signals avoid unnecessary work."
+    }
+  },
+  {
+    "id": "sig-mutate-array",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "`const l = signal([1]); l().push(2); l.set(l());` ¿Se enteran los `computed` que leen `l`?",
+      "options": [
+        "Sí, porque `set` siempre notifica a quien lo lee",
+        "Sí, porque `push` avisa a Angular de que el array ha cambiado",
+        "Solo si el `computed` está dentro de una plantilla",
+        "No: es el mismo array, así que el signal cree que no ha cambiado"
+      ],
+      "explanation": "Es la misma referencia, así que el signal ve \"valor igual\" y **no notifica** (en la prueba, `length` siguió en 1 y no hubo recálculo). Con signals hay que ser **inmutable**: `l.set([...l(), 2])` o `l.update(x => [...x, 2])`."
+    },
+    "en": {
+      "prompt": "`const l = signal([1]); l().push(2); l.set(l());` Do the `computed`s that read `l` find out?",
+      "options": [
+        "Yes, because `set` always notifies whoever reads it",
+        "Yes, because `push` tells Angular that the array has changed",
+        "Only if the `computed` is inside a template",
+        "No: it is the same array, so the signal thinks it has not changed"
+      ],
+      "explanation": "It is the same reference, so the signal sees \"equal value\" and **does not notify** (in the test, `length` stayed at 1 and there was no recalculation). With signals you have to be **immutable**: `l.set([...l(), 2])` or `l.update(x => [...x, 2])`."
+    }
+  },
+  {
+    "id": "sig-effect-async",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "Creas un `effect` y haces `e.set(1); e.set(2); e.set(3);` seguidos. ¿Cuántas veces y con qué valor corre?",
+      "options": [
+        "Tres veces, con 1, 2 y 3",
+        "Una vez, con el último valor (3), cuando Angular lo ejecuta",
+        "Ninguna: un `effect` solo corre cuando se llama a `.run()`",
+        "Una vez, con el primer valor (1)"
+      ],
+      "explanation": "Un `effect` **no es síncrono**: se programa y Angular lo ejecuta en el siguiente ciclo, con el valor que tengan los signals **en ese momento**. En la prueba el log fue `[0, 3]`: la ejecución inicial y una sola más con el último valor."
+    },
+    "en": {
+      "prompt": "You create an `effect` and do `e.set(1); e.set(2); e.set(3);` in a row. How many times and with what value does it run?",
+      "options": [
+        "Three times, with 1, 2 and 3",
+        "Once, with the last value (3), when Angular runs it",
+        "Never: an `effect` only runs when `.run()` is called",
+        "Once, with the first value (1)"
+      ],
+      "explanation": "An `effect` is **not synchronous**: it is scheduled and Angular runs it in the next cycle, with the value the signals have **at that moment**. In the test the log was `[0, 3]`: the initial run and just one more with the last value."
+    }
+  },
+  {
+    "id": "sig-effect-oncleanup",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Para qué sirve `onCleanup` dentro de un `effect`?",
+      "options": [
+        "Para borrar el valor de los signals que ha leído",
+        "Para evitar que el `effect` se vuelva a ejecutar",
+        "Para limpiar los `console.log` que haya escrito",
+        "Para deshacer lo anterior (timers, listeners) antes de la siguiente ejecución"
+      ],
+      "explanation": "`effect((onCleanup) => { ... onCleanup(() => ...) })` registra una función que Angular llama **antes de volver a ejecutar** el effect y cuando se destruye. En la prueba el orden fue `run0, limpia0, run1`. Es el sitio para `clearTimeout`, `removeEventListener`, etc."
+    },
+    "en": {
+      "prompt": "What is `onCleanup` inside an `effect` for?",
+      "options": [
+        "To erase the value of the signals it has read",
+        "To prevent the `effect` from running again",
+        "To clear any `console.log` it has written",
+        "To undo the previous work (timers, listeners) before the next run"
+      ],
+      "explanation": "`effect((onCleanup) => { ... onCleanup(() => ...) })` registers a function that Angular calls **before running the effect again** and when it is destroyed. In the test the order was `run0, cleanup0, run1`. It is the place for `clearTimeout`, `removeEventListener`, etc."
+    }
+  },
+  {
+    "id": "sig-effect-when",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Para qué NO se debe usar un `effect`?",
+      "options": [
+        "Para registrar en consola cuándo cambia un valor",
+        "Para guardar un valor en `localStorage` cuando cambia",
+        "Para calcular un valor derivado de otros signals, que es trabajo de `computed`",
+        "Para sincronizar un valor con una librería externa"
+      ],
+      "explanation": "Un `effect` es para **efectos secundarios** (logs, `localStorage`, librerías externas, DOM manual). Si lo que se quiere es un valor que se deriva de otros, se usa `computed`: es más claro, perezoso y evita que el effect escriba signals en cascada."
+    },
+    "en": {
+      "prompt": "What should an `effect` NOT be used for?",
+      "options": [
+        "To log to the console when a value changes",
+        "To save a value in `localStorage` when it changes",
+        "To compute a value derived from other signals, which is the job of `computed`",
+        "To synchronize a value with an external library"
+      ],
+      "explanation": "An `effect` is for **side effects** (logs, `localStorage`, external libraries, manual DOM). If what you want is a value derived from others, you use `computed`: it is clearer, lazy and avoids the effect writing signals in cascade."
+    }
+  },
+  {
+    "id": "sig-linkedsignal",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "`sel = linkedSignal(() => opts()[0])`. Haces `sel.set('b')` y luego cambias `opts`. ¿Qué vale `sel`?",
+      "options": [
+        "El primer elemento de la nueva lista: se reinicia al cambiar la fuente",
+        "Sigue siendo `'b'`, porque `set` lo fija para siempre",
+        "Vale `undefined` hasta que se vuelva a llamar a `set`",
+        "Lanza un error, porque un `linkedSignal` no admite `set`"
+      ],
+      "explanation": "`linkedSignal` es un signal **escribible que se reinicia** cuando cambia su fuente. Con `set` toma el valor que quieras, pero si `opts` cambia, vuelve a calcularse desde la fuente (en la prueba: `a` → `b` → `x`). Va muy bien para \"selección actual\" que depende de una lista."
+    },
+    "en": {
+      "prompt": "`sel = linkedSignal(() => opts()[0])`. You do `sel.set('b')` and then change `opts`. What is `sel`?",
+      "options": [
+        "The first element of the new list: it resets when the source changes",
+        "It is still `'b'`, because `set` fixes it forever",
+        "It is `undefined` until `set` is called again",
+        "It throws an error, because a `linkedSignal` does not accept `set`"
+      ],
+      "explanation": "`linkedSignal` is a **writable signal that resets** when its source changes. With `set` it takes the value you want, but if `opts` changes, it is computed again from the source (in the test: `a` → `b` → `x`). It is great for a \"current selection\" that depends on a list."
+    }
+  },
+  {
+    "id": "sig-untracked",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué hace `untracked(() => other())` dentro de un `computed`?",
+      "options": [
+        "Hace que `other` deje de ser un signal para siempre",
+        "Fuerza a que el `computed` se recalcule en cada lectura",
+        "Impide que `other` tenga un valor por defecto",
+        "Lee `other` sin que el `computed` dependa de él"
+      ],
+      "explanation": "`untracked` lee un signal **sin registrar la dependencia**. En la prueba, `u1() + untracked(u2)`: al cambiar `u2` no hubo recálculo (evaluaciones = 1) y el valor mostrado quedó con el `u2` antiguo. Se usa con cuidado, para evitar reacciones no deseadas."
+    },
+    "en": {
+      "prompt": "What does `untracked(() => other())` do inside a `computed`?",
+      "options": [
+        "It makes `other` stop being a signal forever",
+        "It forces the `computed` to recalculate on every read",
+        "It prevents `other` from having a default value",
+        "It reads `other` without the `computed` depending on it"
+      ],
+      "explanation": "`untracked` reads a signal **without registering the dependency**. In the test, `u1() + untracked(u2)`: when `u2` changed there was no recalculation (evaluations = 1) and the shown value kept the old `u2`. It is used carefully, to avoid unwanted reactions."
+    }
+  },
+  {
+    "id": "sig-equal",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Para qué sirve la opción `equal` al crear un signal?",
+      "options": [
+        "Para obligar a que dos signals distintos tengan siempre el mismo valor",
+        "Para decidir cuándo dos valores cuentan como \"iguales\" y no notificar",
+        "Para comparar el signal con otro dentro de la plantilla",
+        "Para desactivar la memoización del signal"
+      ],
+      "explanation": "Por defecto se compara con `Object.is`. Con `signal(valor, { equal: (a, b) => a.id === b.id })` se define qué es \"igual\" para el signal. En la prueba, un objeto nuevo con el mismo `id` **no** notificó (evaluaciones = 1). Útil con objetos que se reciben de nuevo del servidor."
+    },
+    "en": {
+      "prompt": "What is the `equal` option for when creating a signal?",
+      "options": [
+        "To force two different signals to always have the same value",
+        "To decide when two values count as \"equal\" and not notify",
+        "To compare the signal with another one inside the template",
+        "To disable the memoization of the signal"
+      ],
+      "explanation": "By default `Object.is` is used. With `signal(value, { equal: (a, b) => a.id === b.id })` you define what is \"equal\" for the signal. In the test, a new object with the same `id` did **not** notify (evaluations = 1). Useful with objects that are received again from the server."
+    }
+  },
+  {
+    "id": "sig-computed-readonly",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "easy",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Se puede hacer `miComputed.set(5)`?",
+      "options": [
+        "Sí, y el `computed` mantiene el valor hasta que cambie una dependencia",
+        "Sí, pero solo dentro de un `effect`",
+        "No: un `computed` es de solo lectura, su valor sale de su fórmula",
+        "Sí, si se declara con `writable: true`"
+      ],
+      "explanation": "Un `computed` **no tiene `set` ni `update`**: su valor siempre se deriva de otros signals (lo comprobé: `'set' in computed` es `false`). Si necesitas un valor derivado pero editable, existe `linkedSignal`. Y `signal.asReadonly()` también quita `set`."
+    },
+    "en": {
+      "prompt": "Can you do `myComputed.set(5)`?",
+      "options": [
+        "Yes, and the `computed` keeps the value until a dependency changes",
+        "Yes, but only inside an `effect`",
+        "No: a `computed` is read-only, its value comes from its formula",
+        "Yes, if it is declared with `writable: true`"
+      ],
+      "explanation": "A `computed` **has no `set` or `update`**: its value is always derived from other signals (I checked: `'set' in computed` is `false`). If you need a derived but editable value, `linkedSignal` exists. And `signal.asReadonly()` also removes `set`."
+    }
+  },
+  {
+    "id": "sig-asreadonly",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "Un servicio tiene `private _items = signal<string[]>([])`. ¿Cómo lo expone sin que otros lo modifiquen?",
+      "options": [
+        "`readonly items = this._items.asReadonly()`",
+        "`readonly items = this._items`, porque `readonly` impide el `set`",
+        "`items = () => this._items.set`",
+        "No se puede: un signal siempre es modificable desde fuera"
+      ],
+      "explanation": "`asReadonly()` devuelve una **vista de solo lectura** del mismo signal: los demás pueden leerlo y reaccionar, pero no tienen `set` ni `update`. El que escribe es el servicio. `readonly` de TypeScript solo impide reasignar la propiedad, no llamar a `.set()`."
+    },
+    "en": {
+      "prompt": "A service has `private _items = signal<string[]>([])`. How does it expose it without others modifying it?",
+      "options": [
+        "`readonly items = this._items.asReadonly()`",
+        "`readonly items = this._items`, because `readonly` prevents `set`",
+        "`items = () => this._items.set`",
+        "It cannot be done: a signal can always be modified from outside"
+      ],
+      "explanation": "`asReadonly()` returns a **read-only view** of the same signal: others can read it and react, but have no `set` or `update`. The service is the one that writes. TypeScript's `readonly` only prevents reassigning the property, not calling `.set()`."
+    }
+  },
+  {
+    "id": "sig-resource",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "hard",
+    "refVersion": "angular@22",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "En `resource({ params: () => ({ id: id() }), loader })`, ¿qué ocurre al hacer `id.set(2)`?",
+      "options": [
+        "Nada: hay que llamar manualmente a `reload()` cada vez",
+        "Se crea un recurso nuevo y se pierde el anterior",
+        "El `loader` se ejecuta con el primer valor de `id` para siempre",
+        "El `loader` se vuelve a ejecutar con `id = 2` y `value()` pasa a ser el nuevo dato"
+      ],
+      "explanation": "Un `resource` es **reactivo**: `params` es como un `computed` y cuando cambia, el `loader` se relanza. Pasa por estados (`loading` → `resolved`) y se lee con `value()`, `status()`, `error()`. En la prueba: `loading → resolved:item-1 → resolved:item-2` con 2 cargas. `httpResource` es lo mismo pensado para HTTP."
+    },
+    "en": {
+      "prompt": "In `resource({ params: () => ({ id: id() }), loader })`, what happens when you do `id.set(2)`?",
+      "options": [
+        "Nothing: you have to call `reload()` manually every time",
+        "A new resource is created and the previous one is lost",
+        "The `loader` runs with the first value of `id` forever",
+        "The `loader` runs again with `id = 2` and `value()` becomes the new data"
+      ],
+      "explanation": "A `resource` is **reactive**: `params` is like a `computed` and when it changes, the `loader` is triggered again. It goes through states (`loading` → `resolved`) and is read with `value()`, `status()`, `error()`. In the test: `loading → resolved:item-1 → resolved:item-2` with 2 loads. `httpResource` is the same thing designed for HTTP."
+    }
+  },
+  {
+    "id": "sig-tosignal",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué hace `toSignal(obs$)` y qué hay que tener en cuenta?",
+      "options": [
+        "Convierte un signal en Observable, y hay que suscribirse a mano",
+        "Convierte el Observable en signal; es obligatorio llamar a `unsubscribe()`",
+        "Convierte el Observable en signal y se desuscribe solo; sin valor inicial puede dar `undefined`",
+        "Hace que el Observable emita solo una vez y luego se complete"
+      ],
+      "explanation": "`toSignal` se suscribe al Observable y expone su último valor como signal; **se desuscribe automáticamente** al destruirse el contexto. Hasta que emita, vale `undefined` (salvo que pases `initialValue`). Lo contrario es `toObservable(signal)`. Ambos viven en `@angular/core/rxjs-interop`."
+    },
+    "en": {
+      "prompt": "What does `toSignal(obs$)` do and what should be kept in mind?",
+      "options": [
+        "It converts a signal into an Observable, and you must subscribe by hand",
+        "It converts the Observable into a signal; calling `unsubscribe()` is mandatory",
+        "It converts the Observable into a signal and unsubscribes itself; without an initial value it may be `undefined`",
+        "It makes the Observable emit only once and then complete"
+      ],
+      "explanation": "`toSignal` subscribes to the Observable and exposes its last value as a signal; it **unsubscribes automatically** when the context is destroyed. Until it emits, it is `undefined` (unless you pass `initialValue`). The opposite is `toObservable(signal)`. Both live in `@angular/core/rxjs-interop`."
+    }
+  },
+  {
+    "id": "sig-model",
+    "tech": "angular",
+    "topic": "signals",
+    "difficulty": "medium",
+    "refVersion": "angular@22",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué es `model()` en un componente?",
+      "options": [
+        "Un decorador para validar un formulario con reglas",
+        "Un signal que sirve de input y de output a la vez (binding de dos vías)",
+        "Un tipo para describir los datos que llegan desde Supabase",
+        "Una función para clonar el estado de un componente"
+      ],
+      "explanation": "`model<T>()` crea una propiedad que el padre puede pasar y que el hijo puede **modificar con `set`**, avisando al padre automáticamente. Se usa con la sintaxis `[(valor)]=\"dato\"`. Equivale a un `input()` más un `output()` con el nombre `valorChange`."
+    },
+    "en": {
+      "prompt": "What is `model()` in a component?",
+      "options": [
+        "A decorator to validate a form with rules",
+        "A signal that serves as input and output at once (two-way binding)",
+        "A type to describe the data coming from Supabase",
+        "A function to clone a component's state"
+      ],
+      "explanation": "`model<T>()` creates a property that the parent can pass and that the child can **modify with `set`**, notifying the parent automatically. It is used with the `[(value)]=\"data\"` syntax. It is equivalent to an `input()` plus an `output()` named `valueChange`."
+    }
+  }
+]
