@@ -40,12 +40,20 @@ export class ProgressService {
   /**
    * Los ids de las preguntas que tengo falladas: aquellas cuyo ÚLTIMO intento fue 'wrong'.
    * Si fallas una pregunta y luego la aciertas, deja de estar en fallos.
-   *
-   * TODO (Pablo): `attempts` viene del más reciente al más antiguo. Recorre la lista, quédate
-   * con el primer intento de cada question_id y devuelve los ids de los que sean 'wrong'.
-   * Pista: un Set con los ids ya vistos evita mirar dos veces la misma pregunta.
    */
-  readonly wrongIds = computed<string[]>(() => []);
+  readonly wrongIds = computed<string[]>(() => {
+    const seen = new Set<string>();
+    const wrong: string[] = []; // los que quedan en fallos
+    for (const attempt of this.attempts()) {
+      if (!seen.has(attempt.question_id)) {
+        seen.add(attempt.question_id);
+        if (attempt.result === 'wrong') {
+          wrong.push(attempt.question_id);
+        }
+      }
+    }
+    return wrong;
+  });
 
   constructor() {
     effect(() => {
