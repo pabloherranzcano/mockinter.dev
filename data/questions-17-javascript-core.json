@@ -1,0 +1,954 @@
+[
+  {
+    "id": "js2-this-lost",
+    "tech": "javascript",
+    "topic": "this",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué devuelve `f()`?\n```js\nconst obj = {\n  n: 'obj',\n  nombre() { return this?.n; },\n};\nconst f = obj.nombre;\nf();\n```",
+      "options": [
+        "`'obj'`, porque el método pertenece a `obj`",
+        "Lanza un `ReferenceError` porque `f` no está definida",
+        "`undefined`: al extraer el método se pierde el `this`",
+        "`'f'`, el nombre de la variable que lo guarda"
+      ],
+      "explanation": "El valor de `this` no depende de dónde se **define** una función normal, sino de **cómo se llama**. `obj.nombre()` tiene `this = obj`; pero `f()` es una llamada suelta y `this` queda sin valor (`undefined` en modo estricto). Por eso se pierde el `this` al pasar un método como callback."
+    },
+    "en": {
+      "prompt": "What does `f()` return?\n```js\nconst obj = {\n  n: 'obj',\n  nombre() { return this?.n; },\n};\nconst f = obj.nombre;\nf();\n```",
+      "options": [
+        "`'obj'`, because the method belongs to `obj`",
+        "It throws a `ReferenceError` because `f` is not defined",
+        "`undefined`: extracting the method loses the `this`",
+        "`'f'`, the name of the variable that stores it"
+      ],
+      "explanation": "The value of `this` does not depend on where a normal function is **defined**, but on **how it is called**. `obj.nombre()` has `this = obj`; but `f()` is a loose call and `this` has no value (`undefined` in strict mode). That is why `this` is lost when a method is passed as a callback."
+    }
+  },
+  {
+    "id": "js2-arrow-this",
+    "tech": "javascript",
+    "topic": "this",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre una función flecha y una función normal respecto a `this`?",
+      "options": [
+        "La flecha no tiene `this` propio: usa el del sitio donde se escribió",
+        "La flecha siempre tiene `this` igual a `window`, sin importar dónde se haya escrito",
+        "La flecha crea un `this` nuevo en cada llamada, como un constructor",
+        "No hay ninguna diferencia, solo cambia la sintaxis"
+      ],
+      "explanation": "Una función flecha **no tiene su propio `this`**: lo \"hereda\" del contexto donde se define. Por eso dentro de `setTimeout(() => this.n)` en un método, `this` sigue siendo el objeto (lo comprobé: devolvió `obj`). Por la misma razón no sirve para métodos de objeto ni como constructor."
+    },
+    "en": {
+      "prompt": "What is the difference between an arrow function and a normal function regarding `this`?",
+      "options": [
+        "The arrow has no `this` of its own: it uses the one where it was written",
+        "The arrow always has `this` equal to `window`, no matter where it was written",
+        "The arrow creates a new `this` on each call, like a constructor",
+        "There is no difference, only the syntax changes"
+      ],
+      "explanation": "An arrow function **has no `this` of its own**: it \"inherits\" it from the context where it is defined. That is why inside `setTimeout(() => this.n)` in a method, `this` is still the object (I checked: it returned `obj`). For the same reason it is not suitable for object methods or as a constructor."
+    }
+  },
+  {
+    "id": "js2-bind-call-apply",
+    "tech": "javascript",
+    "topic": "this",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué hacen `call`, `apply` y `bind`?",
+      "options": [
+        "Los tres ejecutan la función al instante con otro `this`, y solo cambia la forma de pasar los argumentos",
+        "`call` y `apply` crean una función nueva; `bind` la ejecuta",
+        "Sirven para copiar una función dentro de otro objeto",
+        "`call` y `apply` ejecutan ya con un `this` dado; `bind` devuelve una función nueva"
+      ],
+      "explanation": "`fn.call(thisArg, a, b)` y `fn.apply(thisArg, [a, b])` **ejecutan** la función en ese momento con el `this` indicado (cambia solo cómo se pasan los argumentos). `fn.bind(thisArg)` **no ejecuta**: devuelve una nueva función con el `this` fijado, para usarla después."
+    },
+    "en": {
+      "prompt": "What do `call`, `apply` and `bind` do?",
+      "options": [
+        "All three run the function immediately with another `this`, and only the way arguments are passed changes",
+        "`call` and `apply` create a new function; `bind` runs it",
+        "They are used to copy a function inside another object",
+        "`call` and `apply` run now with a given `this`; `bind` returns a new function"
+      ],
+      "explanation": "`fn.call(thisArg, a, b)` and `fn.apply(thisArg, [a, b])` **run** the function right away with the given `this` (only how arguments are passed changes). `fn.bind(thisArg)` **does not run**: it returns a new function with `this` fixed, to be used later."
+    }
+  },
+  {
+    "id": "js2-bind-fixed",
+    "tech": "javascript",
+    "topic": "this",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "`const b = obj.nombre.bind({ n: 'atado' });` ¿Qué devuelve `b.call({ n: 'otro' })`?",
+      "options": [
+        "`'otro'`, porque `call` siempre manda sobre cualquier `this` anterior que se hubiera fijado",
+        "`'atado'`: el `this` de un `bind` ya no se puede cambiar",
+        "`undefined`, porque se pisan los dos `this`",
+        "Lanza un error por intentar atar dos veces"
+      ],
+      "explanation": "Una función creada con `bind` tiene el `this` **fijado para siempre**; `call`, `apply` o un segundo `bind` no lo cambian. Lo comprobé: devolvió `atado`."
+    },
+    "en": {
+      "prompt": "`const b = obj.nombre.bind({ n: 'bound' });` What does `b.call({ n: 'other' })` return?",
+      "options": [
+        "`'other'`, because `call` always wins over any previous `this` that had been fixed",
+        "`'bound'`: the `this` of a `bind` can no longer be changed",
+        "`undefined`, because both `this` clash",
+        "It throws an error for binding twice"
+      ],
+      "explanation": "A function created with `bind` has its `this` **fixed forever**; `call`, `apply` or a second `bind` do not change it. I checked it: it returned `bound`."
+    }
+  },
+  {
+    "id": "js2-tdz",
+    "tech": "javascript",
+    "topic": "hoisting",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ocurre con `console.log(x); let x = 1;`?",
+      "options": [
+        "Imprime `undefined`, igual que con `var`",
+        "Imprime `1`, porque la declaración de `let` sube al principio y ya tiene su valor asignado",
+        "Imprime `null` hasta que se asigna el valor",
+        "Lanza `ReferenceError`: está en la \"zona muerta temporal\""
+      ],
+      "explanation": "`let` y `const` también se \"elevan\", pero **no se pueden usar antes de su declaración**: entre el inicio del bloque y la línea de `let x` está la *zona muerta temporal* (TDZ) y acceder lanza `ReferenceError: Cannot access 'x' before initialization`. Con `var` sí daría `undefined`."
+    },
+    "en": {
+      "prompt": "What happens with `console.log(x); let x = 1;`?",
+      "options": [
+        "It prints `undefined`, just like with `var`",
+        "It prints `1`, because the `let` declaration moves to the top and already has its value assigned",
+        "It prints `null` until the value is assigned",
+        "It throws `ReferenceError`: it is in the \"temporal dead zone\""
+      ],
+      "explanation": "`let` and `const` are also \"hoisted\", but they **cannot be used before their declaration**: between the start of the block and the `let x` line lies the *temporal dead zone* (TDZ), and accessing throws `ReferenceError: Cannot access 'x' before initialization`. With `var` it would give `undefined`."
+    }
+  },
+  {
+    "id": "js2-var-hoist",
+    "tech": "javascript",
+    "topic": "hoisting",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué devuelve `typeof v` en esta función?\n```js\nfunction f() {\n  return typeof v;\n  var v = 1;\n}\n```",
+      "options": [
+        "`'undefined'`: `v` existe pero aún no tiene valor",
+        "`'number'`, porque `v` vale 1",
+        "Lanza un `ReferenceError` porque `v` no está declarada",
+        "`'object'`, que es el tipo por defecto"
+      ],
+      "explanation": "`var` se **eleva** (hoisting): la declaración sube al principio de la función, pero la asignación `= 1` se queda donde está. Por eso `v` existe pero vale `undefined` en el `return`. Es una de las razones para usar `let` y `const`."
+    },
+    "en": {
+      "prompt": "What does `typeof v` return in this function?\n```js\nfunction f() {\n  return typeof v;\n  var v = 1;\n}\n```",
+      "options": [
+        "`'undefined'`: `v` exists but has no value yet",
+        "`'number'`, because `v` is 1",
+        "It throws a `ReferenceError` because `v` is not declared",
+        "`'object'`, which is the default type"
+      ],
+      "explanation": "`var` is **hoisted**: the declaration moves to the top of the function, but the `= 1` assignment stays where it is. That is why `v` exists but is `undefined` at the `return`. It is one of the reasons to use `let` and `const`."
+    }
+  },
+  {
+    "id": "js2-fn-hoist",
+    "tech": "javascript",
+    "topic": "hoisting",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `function g() {}` y `var g = function () {}` al llamarlas antes de su línea?",
+      "options": [
+        "Ninguna: las dos funcionan antes de declararse porque JavaScript eleva todas las funciones por igual",
+        "La segunda funciona y la primera da error",
+        "La declaración funciona; con `var` da `g is not a function`",
+        "Las dos dan `ReferenceError`"
+      ],
+      "explanation": "Una **declaración** de función se eleva entera (nombre y cuerpo), así que se puede llamar antes. Con `var g = function(){}`, solo sube la variable `g` (con valor `undefined`); llamarla antes da `TypeError: g is not a function`. Con `let` o `const` sería `ReferenceError` por la zona muerta."
+    },
+    "en": {
+      "prompt": "What is the difference between `function g() {}` and `var g = function () {}` when called before their line?",
+      "options": [
+        "None: both work before being declared because JavaScript hoists all functions equally",
+        "The second works and the first fails",
+        "The declaration works; with `var` it gives `g is not a function`",
+        "Both give `ReferenceError`"
+      ],
+      "explanation": "A function **declaration** is hoisted entirely (name and body), so it can be called earlier. With `var g = function(){}`, only the variable `g` rises (with value `undefined`); calling it earlier gives `TypeError: g is not a function`. With `let` or `const` it would be `ReferenceError` due to the dead zone."
+    }
+  },
+  {
+    "id": "js2-event-loop-micro",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿En qué orden se imprime?\n```js\nsetTimeout(() => console.log('timeout'), 0);\nPromise.resolve().then(() => console.log('promise'));\nqueueMicrotask(() => console.log('micro'));\nconsole.log('sync');\n```",
+      "options": [
+        "`sync`, `timeout`, `promise`, `micro`",
+        "`sync`, `promise`, `micro`, `timeout`",
+        "`timeout`, `sync`, `promise`, `micro`",
+        "`sync`, `micro`, `promise`, `timeout`"
+      ],
+      "explanation": "Primero el código **síncrono** (`sync`). Luego se vacía la cola de **microtareas** (promesas y `queueMicrotask`, en orden de registro: `promise`, `micro`). Y solo después las **macrotareas** como `setTimeout`, aunque sea con `0`. Lo comprobé ejecutándolo."
+    },
+    "en": {
+      "prompt": "In what order is it printed?\n```js\nsetTimeout(() => console.log('timeout'), 0);\nPromise.resolve().then(() => console.log('promise'));\nqueueMicrotask(() => console.log('micro'));\nconsole.log('sync');\n```",
+      "options": [
+        "`sync`, `timeout`, `promise`, `micro`",
+        "`sync`, `promise`, `micro`, `timeout`",
+        "`timeout`, `sync`, `promise`, `micro`",
+        "`sync`, `micro`, `promise`, `timeout`"
+      ],
+      "explanation": "First the **synchronous** code (`sync`). Then the **microtask** queue is emptied (promises and `queueMicrotask`, in registration order: `promise`, `micro`). Only afterwards the **macrotasks** such as `setTimeout`, even with `0`. I checked it by running it."
+    }
+  },
+  {
+    "id": "js2-then-chain",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué valor recibe el último `then`?\n```js\nPromise.resolve(1)\n  .then((x) => x + 1)\n  .then((x) => x * 10)\n  .then((x) => console.log(x));\n```",
+      "options": [
+        "`1`, el valor original de la promesa",
+        "`2`, el resultado del primer `then`",
+        "`20`: cada `then` recibe lo que devolvió el anterior",
+        "`undefined`, porque los callbacks de flecha no devuelven nada a menos que se escriba `return` explícito"
+      ],
+      "explanation": "Cada `.then` **devuelve una promesa nueva** con el valor que retorna su callback, y el siguiente `then` lo recibe: `1 → 2 → 20`. Si un callback devolviera otra promesa, la cadena espera a que se resuelva."
+    },
+    "en": {
+      "prompt": "What value does the last `then` receive?\n```js\nPromise.resolve(1)\n  .then((x) => x + 1)\n  .then((x) => x * 10)\n  .then((x) => console.log(x));\n```",
+      "options": [
+        "`1`, the original value of the promise",
+        "`2`, the result of the first `then`",
+        "`20`: each `then` receives what the previous one returned",
+        "`undefined`, because arrow callbacks return nothing unless an explicit `return` is written"
+      ],
+      "explanation": "Each `.then` **returns a new promise** with the value its callback returns, and the next `then` receives it: `1 → 2 → 20`. If a callback returned another promise, the chain waits for it to resolve."
+    }
+  },
+  {
+    "id": "js2-catch-finally",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué se ejecuta, y en qué orden?\n```js\nPromise.resolve()\n  .then(() => { throw new Error('a'); })\n  .then(() => console.log('then'))\n  .catch(() => console.log('catch'))\n  .finally(() => console.log('finally'));\n```",
+      "options": [
+        "`catch` y después `finally`; el segundo `then` se salta",
+        "`then`, `catch` y `finally`, los tres",
+        "Solo `finally`, porque `catch` no capta errores del primer `then`",
+        "Nada: el error no capturado detiene toda la cadena"
+      ],
+      "explanation": "Un error lanzado en un `then` **salta** los `then` siguientes hasta el primer `catch`. Después, la cadena continúa con normalidad y `finally` se ejecuta **siempre**, haya error o no. Salió `catch,finally`."
+    },
+    "en": {
+      "prompt": "What runs, and in what order?\n```js\nPromise.resolve()\n  .then(() => { throw new Error('a'); })\n  .then(() => console.log('then'))\n  .catch(() => console.log('catch'))\n  .finally(() => console.log('finally'));\n```",
+      "options": [
+        "`catch` and then `finally`; the second `then` is skipped",
+        "`then`, `catch` and `finally`, all three",
+        "Only `finally`, because `catch` does not catch errors from the first `then`",
+        "Nothing: the uncaught error stops the whole chain"
+      ],
+      "explanation": "An error thrown in a `then` **skips** the following `then`s until the first `catch`. Afterwards, the chain continues normally and `finally` runs **always**, whether there was an error or not. `catch,finally` came out."
+    }
+  },
+  {
+    "id": "js2-finally-value",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "`await Promise.resolve(5).finally(() => 99)` ¿qué valor devuelve?",
+      "options": [
+        "`99`, el valor que devuelve el `finally`, que sustituye al de la promesa original",
+        "`undefined`, porque `finally` no recibe nada",
+        "`104`, la suma de los dos valores",
+        "`5`: `finally` no cambia el valor de la promesa"
+      ],
+      "explanation": "`finally` sirve para **limpiar** (cerrar un spinner, liberar un recurso) y **no modifica el resultado**: el valor `5` pasa por encima. Solo si dentro lanzas un error, o devuelves una promesa rechazada, cambia el resultado."
+    },
+    "en": {
+      "prompt": "`await Promise.resolve(5).finally(() => 99)` what value does it return?",
+      "options": [
+        "`99`, the value returned by the `finally`, which replaces the one of the original promise",
+        "`undefined`, because `finally` receives nothing",
+        "`104`, the sum of both values",
+        "`5`: `finally` does not change the value of the promise"
+      ],
+      "explanation": "`finally` is for **cleaning up** (closing a spinner, releasing a resource) and **does not modify the result**: the value `5` passes through. Only if you throw an error inside, or return a rejected promise, does the result change."
+    }
+  },
+  {
+    "id": "js2-race-any",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `Promise.race` y `Promise.any`?",
+      "options": [
+        "`race` espera a todas y `any` a la primera",
+        "`race` acaba con la primera que termine (también si falla); `any`, con la primera que se cumpla",
+        "`any` acaba con la primera promesa que termine, sea éxito o error, y `race` solo con la primera que se cumpla con éxito",
+        "No hay diferencia, son nombres distintos del mismo método"
+      ],
+      "explanation": "`Promise.race` se resuelve o rechaza **igual que la primera promesa que termine**, sea éxito o error. `Promise.any` **ignora los errores** y devuelve la primera que se cumpla; solo falla si fallan **todas**."
+    },
+    "en": {
+      "prompt": "What is the difference between `Promise.race` and `Promise.any`?",
+      "options": [
+        "`race` waits for all and `any` for the first",
+        "`race` ends with the first to settle (even if it fails); `any`, with the first to fulfil",
+        "`any` ends with the first promise to settle, success or error, and `race` only with the first one that fulfils successfully",
+        "There is no difference, they are different names for the same method"
+      ],
+      "explanation": "`Promise.race` resolves or rejects **like the first promise to settle**, whether success or error. `Promise.any` **ignores errors** and returns the first that fulfils; it only fails if **all** fail."
+    }
+  },
+  {
+    "id": "js2-any-aggregate",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "Si todas las promesas de `Promise.any` se rechazan, ¿qué error se lanza?",
+      "options": [
+        "El error de la última promesa que falló",
+        "El error de la primera promesa que falló",
+        "Un `AggregateError` con todos los errores",
+        "Un `TypeError` porque `any` necesita al menos un éxito"
+      ],
+      "explanation": "`Promise.any` rechaza con un **`AggregateError`**, un error especial cuya propiedad `errors` contiene los motivos de **todas** las promesas rechazadas (lo comprobé: la clase es `AggregateError`)."
+    },
+    "en": {
+      "prompt": "If all the promises of `Promise.any` are rejected, what error is thrown?",
+      "options": [
+        "The error of the last promise that failed",
+        "The error of the first promise that failed",
+        "An `AggregateError` with all the errors",
+        "A `TypeError` because `any` needs at least one success"
+      ],
+      "explanation": "`Promise.any` rejects with an **`AggregateError`**, a special error whose `errors` property contains the reasons of **all** the rejected promises (I checked: the class is `AggregateError`)."
+    }
+  },
+  {
+    "id": "js2-all-fast-fail",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "`Promise.all([ok, fallo, ok])`: ¿qué pasa en cuanto una promesa se rechaza?",
+      "options": [
+        "`Promise.all` se rechaza ya, sin esperar a las demás",
+        "`Promise.all` espera a todas y devuelve un array con los errores",
+        "`Promise.all` ignora el error y devuelve solo las correctas",
+        "Se reintenta la promesa fallida una vez"
+      ],
+      "explanation": "`Promise.all` es **\"todo o nada\"**: se rechaza con el error de la primera que falle. Si quieres el resultado de todas, éxito o fallo, usa `Promise.allSettled`."
+    },
+    "en": {
+      "prompt": "`Promise.all([ok, fail, ok])`: what happens as soon as one promise is rejected?",
+      "options": [
+        "`Promise.all` rejects right away, without waiting for the others",
+        "`Promise.all` waits for all and returns an array with the errors",
+        "`Promise.all` ignores the error and returns only the successful ones",
+        "The failed promise is retried once"
+      ],
+      "explanation": "`Promise.all` is **\"all or nothing\"**: it rejects with the error of the first one that fails. If you want the result of all, success or failure, use `Promise.allSettled`."
+    }
+  },
+  {
+    "id": "js2-await-parallel",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "Hay dos peticiones independientes de 30 ms cada una. ¿Cuál es más rápida?",
+      "options": [
+        "`await a(); await b();`: tarda unos 30 ms",
+        "`const x = await a(); const y = await b();`: tarda unos 30 ms",
+        "Las dos tardan lo mismo, unos 60 ms",
+        "`await Promise.all([a(), b()])`: tarda unos 30 ms, no 60"
+      ],
+      "explanation": "Con `await a(); await b();` la segunda **no empieza** hasta que acaba la primera (~60 ms). Con `Promise.all` se lanzan **a la vez** y se espera a las dos (~30 ms). Lo comprobé midiendo el tiempo."
+    },
+    "en": {
+      "prompt": "There are two independent requests of 30 ms each. Which one is faster?",
+      "options": [
+        "`await a(); await b();`: takes about 30 ms",
+        "`const x = await a(); const y = await b();`: takes about 30 ms",
+        "Both take the same, about 60 ms",
+        "`await Promise.all([a(), b()])`: takes about 30 ms, not 60"
+      ],
+      "explanation": "With `await a(); await b();` the second one **does not start** until the first one ends (~60 ms). With `Promise.all` they are launched **at the same time** and both are awaited (~30 ms). I checked it by measuring the time."
+    }
+  },
+  {
+    "id": "js2-foreach-async",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué imprime?\n```js\n[1, 2, 3].forEach(async (x) => {\n  await sleep(10 - x);\n  console.log(x);\n});\nconsole.log('fin');\n```",
+      "options": [
+        "`1`, `2`, `3`, `fin`",
+        "`fin`, `3`, `2`, `1`",
+        "`fin`, `1`, `2`, `3`",
+        "Nada: `forEach` no admite funciones `async`"
+      ],
+      "explanation": "`forEach` **no espera** a las promesas que devuelven sus callbacks: lanza los tres a la vez y sigue (por eso `fin` va primero). Cada uno espera `10 - x` ms, así que el `3` termina antes. Para esperar se usa `for...of` con `await` (en serie) o `Promise.all(array.map(...))` (en paralelo)."
+    },
+    "en": {
+      "prompt": "What does it print?\n```js\n[1, 2, 3].forEach(async (x) => {\n  await sleep(10 - x);\n  console.log(x);\n});\nconsole.log('end');\n```",
+      "options": [
+        "`1`, `2`, `3`, `end`",
+        "`end`, `3`, `2`, `1`",
+        "`end`, `1`, `2`, `3`",
+        "Nothing: `forEach` does not accept `async` functions"
+      ],
+      "explanation": "`forEach` **does not wait** for the promises its callbacks return: it launches the three at once and moves on (that is why `end` comes first). Each one waits `10 - x` ms, so `3` finishes earlier. To wait use `for...of` with `await` (in series) or `Promise.all(array.map(...))` (in parallel)."
+    }
+  },
+  {
+    "id": "js2-async-returns-promise",
+    "tech": "javascript",
+    "topic": "async",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué devuelve siempre una función `async`?",
+      "options": [
+        "El valor que retorna, tal cual",
+        "`undefined`, hasta que se use `await` para que la función entregue por fin su resultado",
+        "Una `Promise` que se resuelve con ese valor",
+        "Un objeto `Observable`"
+      ],
+      "explanation": "Una función `async` **siempre devuelve una promesa**: `async () => 1` es equivalente a `() => Promise.resolve(1)`. Si lanza un error, la promesa se rechaza. Por eso hay que usar `await` o `.then` para leer el resultado."
+    },
+    "en": {
+      "prompt": "What does an `async` function always return?",
+      "options": [
+        "The value it returns, as is",
+        "`undefined`, until `await` is used so that the function finally delivers its result",
+        "A `Promise` that resolves with that value",
+        "An `Observable` object"
+      ],
+      "explanation": "An `async` function **always returns a promise**: `async () => 1` is equivalent to `() => Promise.resolve(1)`. If it throws an error, the promise is rejected. That is why you have to use `await` or `.then` to read the result."
+    }
+  },
+  {
+    "id": "js2-structuredclone",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué ventaja tiene `structuredClone(obj)` sobre `JSON.parse(JSON.stringify(obj))`?",
+      "options": [
+        "Copia en profundidad y conserva `Date`, `Map`, `Set` y otros tipos",
+        "Es más rápido porque solo copia el primer nivel del objeto y comparte el resto de las referencias",
+        "Copia también las funciones y los métodos del objeto",
+        "Mantiene la referencia al objeto original para sincronizarlos"
+      ],
+      "explanation": "La copia por JSON **pierde** `Date` (lo convierte en texto), `undefined` y funciones. `structuredClone` hace una **copia profunda** y conserva `Date`, `Map`, `Set`, etc. Eso sí, tampoco copia funciones (lanza un error si hay alguna)."
+    },
+    "en": {
+      "prompt": "What advantage does `structuredClone(obj)` have over `JSON.parse(JSON.stringify(obj))`?",
+      "options": [
+        "It deep-copies and keeps `Date`, `Map`, `Set` and other types",
+        "It is faster because it only copies the first level of the object and shares the rest of the references",
+        "It also copies the functions and methods of the object",
+        "It keeps a reference to the original object to sync them"
+      ],
+      "explanation": "The JSON copy **loses** `Date` (it turns it into text), `undefined` and functions. `structuredClone` makes a **deep copy** and keeps `Date`, `Map`, `Set`, etc. However, it does not copy functions either (it throws an error if there is one)."
+    }
+  },
+  {
+    "id": "js2-freeze-shallow",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "`const o = Object.freeze({ a: { b: 1 } }); o.a.b = 5;` ¿qué vale `o.a.b`?",
+      "options": [
+        "`1`, porque el objeto está congelado y ninguna propiedad se puede modificar, ni siquiera las anidadas",
+        "Lanza un error siempre, incluso fuera del modo estricto",
+        "`5`: `freeze` es superficial y no protege los objetos anidados",
+        "`undefined`, porque `a` se elimina al congelar"
+      ],
+      "explanation": "`Object.freeze` congela **solo el primer nivel**: no se pueden añadir ni cambiar las propiedades directas, pero `o.a` es otro objeto y sigue siendo modificable (lo comprobé: `{\"a\":{\"b\":5}}`). Para congelar en profundidad hay que recorrerlo recursivamente."
+    },
+    "en": {
+      "prompt": "`const o = Object.freeze({ a: { b: 1 } }); o.a.b = 5;` what is `o.a.b`?",
+      "options": [
+        "`1`, because the object is frozen and no property can be modified, not even the nested ones",
+        "It always throws an error, even outside strict mode",
+        "`5`: `freeze` is shallow and does not protect nested objects",
+        "`undefined`, because `a` is removed when freezing"
+      ],
+      "explanation": "`Object.freeze` freezes **only the first level**: direct properties cannot be added or changed, but `o.a` is another object and is still modifiable (I checked: `{\"a\":{\"b\":5}}`). To freeze deeply you have to walk it recursively."
+    }
+  },
+  {
+    "id": "js2-map-vs-object",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué ocurre con `o[{}] = 1; o[{ a: 1 }] = 2;` en un objeto normal?",
+      "options": [
+        "Se crean dos claves distintas, una por cada objeto",
+        "Las dos acaban en la misma clave, `\"[object Object]\"`",
+        "Lanza un `TypeError` porque un objeto no puede ser clave",
+        "Se ignoran las dos asignaciones"
+      ],
+      "explanation": "Las claves de un objeto normal solo pueden ser **strings o símbolos**: un objeto se convierte con `toString()` en `\"[object Object]\"`, así que las dos asignaciones pisan la misma clave. Un `Map` sí admite **cualquier valor como clave** (lo comprobó: `m.get(k)` funciona con la misma referencia)."
+    },
+    "en": {
+      "prompt": "What happens with `o[{}] = 1; o[{ a: 1 }] = 2;` in a normal object?",
+      "options": [
+        "Two different keys are created, one for each object",
+        "Both end up in the same key, `\"[object Object]\"`",
+        "It throws a `TypeError` because an object cannot be a key",
+        "Both assignments are ignored"
+      ],
+      "explanation": "The keys of a normal object can only be **strings or symbols**: an object is converted with `toString()` to `\"[object Object]\"`, so both assignments overwrite the same key. A `Map` does accept **any value as a key** (I checked: `m.get(k)` works with the same reference)."
+    }
+  },
+  {
+    "id": "js2-symbol",
+    "tech": "javascript",
+    "topic": "objects",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué devuelve `Symbol('a') === Symbol('a')`?",
+      "options": [
+        "`true`, porque los dos símbolos se han creado con la misma descripción de texto y se consideran iguales",
+        "`true`, porque los dos son del tipo `symbol`",
+        "Lanza un error, porque los símbolos no se pueden comparar",
+        "`false`: cada símbolo es único, aunque tengan el mismo texto"
+      ],
+      "explanation": "Cada llamada a `Symbol()` crea un valor **único e irrepetible**; la descripción solo sirve para depurar. Se usan, por ejemplo, como claves de propiedades que no chocan con otras. Para compartir uno por nombre existe `Symbol.for('a')`."
+    },
+    "en": {
+      "prompt": "What does `Symbol('a') === Symbol('a')` return?",
+      "options": [
+        "`true`, because both symbols were created with the same text description and are considered equal",
+        "`true`, because both are of type `symbol`",
+        "It throws an error, because symbols cannot be compared",
+        "`false`: each symbol is unique, even with the same text"
+      ],
+      "explanation": "Each call to `Symbol()` creates a **unique, unrepeatable** value; the description is only for debugging. They are used, for example, as property keys that do not clash with others. To share one by name there is `Symbol.for('a')`."
+    }
+  },
+  {
+    "id": "js2-find-filter",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "`[1, 2, 3].find(x => x > 1)` y `[1, 2, 3].filter(x => x > 1)`, ¿qué devuelven?",
+      "options": [
+        "`[2, 3]` los dos, porque tanto `find` como `filter` devuelven siempre un array con las coincidencias",
+        "`2` (el primero) y `[2, 3]` (todos)",
+        "`[2]` y `[3]`",
+        "`2` y `3`"
+      ],
+      "explanation": "`find` devuelve **el primer elemento** que cumple (o `undefined` si ninguno), y `filter` devuelve **un array con todos** los que cumplen (vacío si ninguno). Si solo necesitas saber si existe alguno, `some` devuelve `true`/`false`."
+    },
+    "en": {
+      "prompt": "`[1, 2, 3].find(x => x > 1)` and `[1, 2, 3].filter(x => x > 1)`, what do they return?",
+      "options": [
+        "`[2, 3]` both, because both `find` and `filter` always return an array with the matches",
+        "`2` (the first) and `[2, 3]` (all)",
+        "`[2]` and `[3]`",
+        "`2` and `3`"
+      ],
+      "explanation": "`find` returns **the first element** that matches (or `undefined` if none), and `filter` returns **an array with all** that match (empty if none). If you only need to know whether any exists, `some` returns `true`/`false`."
+    }
+  },
+  {
+    "id": "js2-reduce-empty",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Qué ocurre con `[].reduce((a, b) => a + b)` (sin valor inicial)?",
+      "options": [
+        "Devuelve `0`, porque la suma de ningún elemento es cero y `reduce` lo calcula por su cuenta",
+        "Devuelve `undefined`",
+        "Devuelve `NaN`",
+        "Lanza un `TypeError`"
+      ],
+      "explanation": "Sin valor inicial, `reduce` usa el primer elemento como acumulador; si el array está **vacío**, no hay nada que usar y lanza `TypeError: Reduce of empty array with no initial value`. Por eso conviene dar siempre el valor inicial: `[].reduce((a, b) => a + b, 0)` devuelve `0`."
+    },
+    "en": {
+      "prompt": "What happens with `[].reduce((a, b) => a + b)` (no initial value)?",
+      "options": [
+        "It returns `0`, because the sum of no elements is zero and `reduce` works that out on its own",
+        "It returns `undefined`",
+        "It returns `NaN`",
+        "It throws a `TypeError`"
+      ],
+      "explanation": "Without an initial value, `reduce` uses the first element as the accumulator; if the array is **empty**, there is nothing to use and it throws `TypeError: Reduce of empty array with no initial value`. That is why it is wise to always give the initial value: `[].reduce((a, b) => a + b, 0)` returns `0`."
+    }
+  },
+  {
+    "id": "js2-some-every-empty",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué devuelven `[].some(x => x)` y `[].every(x => x)`?",
+      "options": [
+        "`false` y `true`",
+        "`true` y `false`",
+        "`false` y `false`",
+        "`true` y `true`"
+      ],
+      "explanation": "`some` pregunta \"¿hay **alguno** que cumpla?\": en un array vacío no hay ninguno, `false`. `every` pregunta \"¿**todos** cumplen?\": en uno vacío no hay ningún contraejemplo, así que es `true` (verdad \"por vacuidad\"). Es una trampa clásica."
+    },
+    "en": {
+      "prompt": "What do `[].some(x => x)` and `[].every(x => x)` return?",
+      "options": [
+        "`false` and `true`",
+        "`true` and `false`",
+        "`false` and `false`",
+        "`true` and `true`"
+      ],
+      "explanation": "`some` asks \"does **any** match?\": in an empty array there is none, `false`. `every` asks \"do **all** match?\": in an empty one there is no counterexample, so it is `true` (vacuously true). It is a classic trap."
+    }
+  },
+  {
+    "id": "js2-flat",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Qué devuelve `[1, [2, [3, [4]]]].flat()`?",
+      "options": [
+        "`[1, 2, 3, 4]`, porque `flat()` aplana por defecto todos los niveles de anidación del array",
+        "`[1, [2, [3, [4]]]]`, no cambia nada",
+        "`[1, 2, [3, [4]]]`, aplana solo un nivel",
+        "`[[1], [2], [3], [4]]`"
+      ],
+      "explanation": "`flat()` aplana **un nivel** por defecto. Para más niveles se indica la profundidad, y `flat(Infinity)` aplana todo: `[1, 2, 3, 4]`. Es útil junto a `flatMap`, que hace `map` y `flat(1)` a la vez."
+    },
+    "en": {
+      "prompt": "What does `[1, [2, [3, [4]]]].flat()` return?",
+      "options": [
+        "`[1, 2, 3, 4]`, because `flat()` flattens by default all the nesting levels of the array",
+        "`[1, [2, [3, [4]]]]`, nothing changes",
+        "`[1, 2, [3, [4]]]`, it flattens only one level",
+        "`[[1], [2], [3], [4]]`"
+      ],
+      "explanation": "`flat()` flattens **one level** by default. For more levels you give the depth, and `flat(Infinity)` flattens everything: `[1, 2, 3, 4]`. It is useful along with `flatMap`, which does `map` and `flat(1)` at once."
+    }
+  },
+  {
+    "id": "js2-tosorted",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué diferencia hay entre `arr.sort()` y `arr.toSorted()`?",
+      "options": [
+        "`toSorted` ordena números y `sort` solo texto",
+        "`sort` modifica el array original y `toSorted` devuelve una copia ordenada",
+        "`toSorted` modifica el array original y `sort` devuelve una copia, que es justo lo contrario de lo habitual",
+        "Ninguna, `toSorted` es un alias de `sort`"
+      ],
+      "explanation": "`sort` **muta** el array original. `toSorted` (ES2023) devuelve **un array nuevo** y deja el original intacto (comprobé: `[3,1,2]` siguió igual). Es mejor con signals y estado inmutable. Lo mismo ocurre con `reverse`/`toReversed` y `splice`/`toSpliced`."
+    },
+    "en": {
+      "prompt": "What is the difference between `arr.sort()` and `arr.toSorted()`?",
+      "options": [
+        "`toSorted` sorts numbers and `sort` only text",
+        "`sort` modifies the original array and `toSorted` returns a sorted copy",
+        "`toSorted` modifies the original array and `sort` returns a copy, which is just the opposite of the usual",
+        "None, `toSorted` is an alias of `sort`"
+      ],
+      "explanation": "`sort` **mutates** the original array. `toSorted` (ES2023) returns **a new array** and leaves the original untouched (I checked: `[3,1,2]` stayed the same). It is better with signals and immutable state. The same applies to `reverse`/`toReversed` and `splice`/`toSpliced`."
+    }
+  },
+  {
+    "id": "js2-for-in-of",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "`for (const k in ['a', 'b'])` y `for (const v of ['a', 'b'])`, ¿qué reciben `k` y `v`?",
+      "options": [
+        "`k` recibe `a`, `b` y `v` recibe `0`, `1`, porque `in` recorre los valores y `of` los índices",
+        "Las dos reciben `a` y `b`",
+        "Las dos reciben `0` y `1`",
+        "`k` recibe los índices (`\"0\"`, `\"1\"`) y `v` los valores (`a`, `b`)"
+      ],
+      "explanation": "`for...in` recorre las **claves** (en un array, los índices, como texto), y `for...of` recorre los **valores** de cualquier iterable. Para arrays casi siempre se quiere `for...of`, porque `for...in` también recorre propiedades heredadas."
+    },
+    "en": {
+      "prompt": "`for (const k in ['a', 'b'])` and `for (const v of ['a', 'b'])`, what do `k` and `v` receive?",
+      "options": [
+        "`k` receives `a`, `b` and `v` receives `0`, `1`, because `in` loops over values and `of` over indexes",
+        "Both receive `a` and `b`",
+        "Both receive `0` and `1`",
+        "`k` receives the indexes (`\"0\"`, `\"1\"`) and `v` the values (`a`, `b`)"
+      ],
+      "explanation": "`for...in` loops over **keys** (in an array, the indexes, as text), and `for...of` loops over the **values** of any iterable. For arrays you almost always want `for...of`, because `for...in` also loops over inherited properties."
+    }
+  },
+  {
+    "id": "js2-includes-nan",
+    "tech": "javascript",
+    "topic": "arrays",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "¿Qué devuelven `[NaN].includes(NaN)` y `[NaN].indexOf(NaN)`?",
+      "options": [
+        "`true` y `-1`",
+        "`true` y `0`",
+        "`false` y `-1`",
+        "`false` y `0`"
+      ],
+      "explanation": "`includes` usa un algoritmo que considera `NaN` igual a `NaN`, así que lo encuentra (`true`). `indexOf` usa `===`, y `NaN === NaN` es `false`, por lo que devuelve `-1`. Otra razón para preferir `includes` al buscar si algo está."
+    },
+    "en": {
+      "prompt": "What do `[NaN].includes(NaN)` and `[NaN].indexOf(NaN)` return?",
+      "options": [
+        "`true` and `-1`",
+        "`true` and `0`",
+        "`false` and `-1`",
+        "`false` and `0`"
+      ],
+      "explanation": "`includes` uses an algorithm that considers `NaN` equal to `NaN`, so it finds it (`true`). `indexOf` uses `===`, and `NaN === NaN` is `false`, so it returns `-1`. Another reason to prefer `includes` when checking whether something is there."
+    }
+  },
+  {
+    "id": "js2-class-prototype",
+    "tech": "javascript",
+    "topic": "classes",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "En `class A { m() {} }`, ¿dónde vive el método `m`?",
+      "options": [
+        "Copiado dentro de cada instancia, como una propiedad propia",
+        "En la propia clase `A`, como método estático",
+        "En `A.prototype`, compartido por todas las instancias",
+        "En el objeto global, accesible desde cualquier sitio"
+      ],
+      "explanation": "Los métodos de una clase se guardan **una sola vez en `A.prototype`**, y todas las instancias los comparten a través de la cadena de prototipos (`Object.hasOwn(new A(), 'm')` es `false` y `Object.hasOwn(A.prototype, 'm')` es `true`). Ahorra memoria. Una flecha como campo de clase, en cambio, se crea en cada instancia."
+    },
+    "en": {
+      "prompt": "In `class A { m() {} }`, where does the method `m` live?",
+      "options": [
+        "Copied inside each instance, as an own property",
+        "In the class `A` itself, as a static method",
+        "In `A.prototype`, shared by all the instances",
+        "In the global object, accessible from anywhere"
+      ],
+      "explanation": "The methods of a class are stored **only once in `A.prototype`**, and all instances share them through the prototype chain (`Object.hasOwn(new A(), 'm')` is `false` and `Object.hasOwn(A.prototype, 'm')` is `true`). It saves memory. An arrow as a class field, however, is created on each instance."
+    }
+  },
+  {
+    "id": "js2-class-new",
+    "tech": "javascript",
+    "topic": "classes",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué pasa si llamas a una clase sin `new`, como `A()`?",
+      "options": [
+        "Funciona como una función normal y devuelve `undefined`, igual que las antiguas funciones constructoras sin `new`",
+        "Lanza `TypeError: Class constructor A cannot be invoked without 'new'`",
+        "Crea el objeto igualmente, porque `new` es opcional",
+        "Devuelve la propia clase `A`"
+      ],
+      "explanation": "Aunque `typeof A` es `'function'`, las clases **exigen `new`**: sin él lanzan `TypeError`. Es una diferencia con las antiguas funciones constructoras, que sin `new` se ejecutaban como funciones normales."
+    },
+    "en": {
+      "prompt": "What happens if you call a class without `new`, like `A()`?",
+      "options": [
+        "It works like a normal function and returns `undefined`, just like the old constructor functions without `new`",
+        "It throws `TypeError: Class constructor A cannot be invoked without 'new'`",
+        "It creates the object anyway, because `new` is optional",
+        "It returns the class `A` itself"
+      ],
+      "explanation": "Although `typeof A` is `'function'`, classes **require `new`**: without it they throw `TypeError`. It is a difference from the old constructor functions, which without `new` ran as normal functions."
+    }
+  },
+  {
+    "id": "js2-parseint-number",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 1,
+    "es": {
+      "prompt": "¿Qué devuelven `parseInt('12px')` y `Number('12px')`?",
+      "options": [
+        "`12` y `12`",
+        "`12` y `NaN`",
+        "`NaN` y `12`",
+        "`NaN` y `NaN`"
+      ],
+      "explanation": "`parseInt` lee el número **hasta que encuentra algo que no es dígito** y se queda con lo leído (`12`). `Number` es estricto: si todo el texto no es un número válido, da `NaN`."
+    },
+    "en": {
+      "prompt": "What do `parseInt('12px')` and `Number('12px')` return?",
+      "options": [
+        "`12` and `12`",
+        "`12` and `NaN`",
+        "`NaN` and `12`",
+        "`NaN` and `NaN`"
+      ],
+      "explanation": "`parseInt` reads the number **until it finds something that is not a digit** and keeps what it read (`12`). `Number` is strict: if the whole text is not a valid number, it gives `NaN`."
+    }
+  },
+  {
+    "id": "js2-bigint",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "hard",
+    "refVersion": "es2024",
+    "correctIndex": 2,
+    "es": {
+      "prompt": "¿Por qué existe `BigInt` (`2n ** 64n`)?",
+      "options": [
+        "Para hacer más rápidos los cálculos con números decimales",
+        "Para guardar números con muchos decimales sin errores de redondeo, como los de dinero o porcentajes",
+        "Para enteros mayores que `Number.MAX_SAFE_INTEGER` sin perder precisión",
+        "Para que los números no puedan ser negativos"
+      ],
+      "explanation": "Los `number` son decimales de 64 bits y solo representan enteros con seguridad hasta `2^53 - 1` (`Number.MAX_SAFE_INTEGER`): `MAX_SAFE_INTEGER + 2 === MAX_SAFE_INTEGER + 1` es `true`. `BigInt` (con la `n` final) guarda enteros **de cualquier tamaño**, pero no se puede mezclar con `number` en una operación."
+    },
+    "en": {
+      "prompt": "Why does `BigInt` exist (`2n ** 64n`)?",
+      "options": [
+        "To make calculations with decimal numbers faster",
+        "To store numbers with many decimals without rounding errors, such as money or percentages",
+        "For integers above `Number.MAX_SAFE_INTEGER` without losing precision",
+        "So that numbers cannot be negative"
+      ],
+      "explanation": "`number`s are 64-bit decimals and only represent integers safely up to `2^53 - 1` (`Number.MAX_SAFE_INTEGER`): `MAX_SAFE_INTEGER + 2 === MAX_SAFE_INTEGER + 1` is `true`. `BigInt` (with the trailing `n`) stores integers **of any size**, but cannot be mixed with `number` in an operation."
+    }
+  },
+  {
+    "id": "js2-optional-call",
+    "tech": "javascript",
+    "topic": "types",
+    "difficulty": "easy",
+    "refVersion": "es2024",
+    "correctIndex": 0,
+    "es": {
+      "prompt": "`const o = {}; o.fn?.()` ¿qué ocurre?",
+      "options": [
+        "Devuelve `undefined` sin error: no llama a `fn` porque no existe",
+        "Lanza `TypeError: o.fn is not a function`, porque no se puede llamar a algo que no existe en el objeto",
+        "Crea la función `fn` vacía y la ejecuta",
+        "Devuelve `null`"
+      ],
+      "explanation": "El **encadenamiento opcional** `?.` corta la expresión en cuanto encuentra `null` o `undefined` y devuelve `undefined`, también al **llamar a una función** (`o.fn?.()`) o al leer propiedades profundas (`o.a?.b?.c`). Sin él, daría `TypeError`."
+    },
+    "en": {
+      "prompt": "`const o = {}; o.fn?.()` what happens?",
+      "options": [
+        "It returns `undefined` with no error: it does not call `fn` because it does not exist",
+        "It throws `TypeError: o.fn is not a function`, because you cannot call something that does not exist in the object",
+        "It creates an empty function `fn` and runs it",
+        "It returns `null`"
+      ],
+      "explanation": "**Optional chaining** `?.` cuts the expression as soon as it finds `null` or `undefined` and returns `undefined`, also when **calling a function** (`o.fn?.()`) or reading deep properties (`o.a?.b?.c`). Without it, it would give `TypeError`."
+    }
+  },
+  {
+    "id": "js2-debounce",
+    "tech": "javascript",
+    "topic": "functions",
+    "difficulty": "medium",
+    "refVersion": "es2024",
+    "correctIndex": 3,
+    "es": {
+      "prompt": "¿Cómo funciona un `debounce` y cuándo se usa?",
+      "options": [
+        "Limita una función a ejecutarse como máximo una vez cada X ms, a un ritmo regular y constante",
+        "Ejecuta la función en la primera llamada y descarta el resto para siempre",
+        "Repite la función cada X ms hasta que se cancele",
+        "Espera X ms desde la última llamada y entonces ejecuta, ideal para buscadores"
+      ],
+      "explanation": "Un `debounce` guarda un temporizador y lo **reinicia con cada llamada** (`clearTimeout` + `setTimeout`): la función solo se ejecuta cuando pasan X ms **sin nuevas llamadas** (en la prueba, tres llamadas seguidas ejecutaron una sola vez). Se usa al escribir en un buscador, o al redimensionar la ventana. Es un buen ejemplo de **closure**: el temporizador vive en la función interna."
+    },
+    "en": {
+      "prompt": "How does a `debounce` work and when is it used?",
+      "options": [
+        "It limits a function to run at most once every X ms, at a regular and constant pace",
+        "It runs the function on the first call and discards the rest forever",
+        "It repeats the function every X ms until cancelled",
+        "It waits X ms since the last call and then runs, ideal for search boxes"
+      ],
+      "explanation": "A `debounce` keeps a timer and **restarts it on each call** (`clearTimeout` + `setTimeout`): the function only runs when X ms pass **without new calls** (in the test, three calls in a row ran just once). It is used when typing in a search box, or when resizing the window. It is a good example of a **closure**: the timer lives in the inner function."
+    }
+  }
+]
