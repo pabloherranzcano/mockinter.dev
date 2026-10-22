@@ -12,7 +12,10 @@ export const es = {
     changeTheme: 'Cambiar tema',
   },
   notFound: {
-    title: 'Página no encontrada'
+    title: 'Página no encontrada',
+    text: 'Esta dirección no existe o ha cambiado de sitio.',
+    imageAlt: 'Un terminal que muestra el error 404',
+    backHome: 'Volver al inicio',
   },
   home: {
     title: 'Practica entrevistas técnicas',
@@ -21,6 +24,15 @@ export const es = {
     all: 'Todas',
     start: 'Empezar',
     streak: 'Racha (días)',
+    selectGroup: 'Marcar todo',
+    clearGroup: 'Quitar todo',
+    groups: {
+      frontend: 'Frontend',
+      backend: 'Backend',
+      data: 'Datos',
+      tools: 'Herramientas',
+      other: 'Otros',
+    },
   },
   login: {
     signInTitle: 'Entrar',

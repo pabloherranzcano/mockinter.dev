@@ -1,0 +1,56 @@
+.spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+// Tres puntos que botan en ola, uno detrás de otro
+.dots {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.dot {
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: wave 1.1s ease-in-out infinite;
+
+  &:nth-child(2) {
+    background: var(--cyan);
+    animation-delay: 0.15s;
+  }
+
+  &:nth-child(3) {
+    background: var(--amber);
+    animation-delay: 0.3s;
+  }
+}
+
+.label {
+  margin: 0;
+  color: var(--muted);
+  font: 500 0.85rem/1.4 var(--font-mono);
+}
+
+@keyframes wave {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.45;
+  }
+  30% {
+    transform: translateY(-0.8rem);
+    opacity: 1;
+  }
+}
+
+// Si el usuario tiene las animaciones desactivadas, los puntos se quedan quietos
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+  }
+}

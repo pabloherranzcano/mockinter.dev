@@ -1,1 +1,22 @@
-<p>{{t().notFound.title}}</p>
+<main class="not-found">
+  <svg
+    class="art"
+    viewBox="0 0 320 200"
+    role="img"
+    [attr.aria-label]="t().notFound.imageAlt"
+  >
+    <rect class="window" x="8" y="8" width="304" height="184" rx="10" />
+    <path class="bar" d="M8 18a10 10 0 0 1 10-10h284a10 10 0 0 1 10 10v22H8z" />
+    <circle class="dot-bad" cx="28" cy="24" r="5" />
+    <circle class="dot-warn" cx="46" cy="24" r="5" />
+    <circle class="dot-ok" cx="64" cy="24" r="5" />
+    <text class="prompt" x="28" y="68">$ cd /esta-pagina</text>
+    <text class="error" x="28" y="92">error: no such directory</text>
+    <text class="big" x="28" y="158">404</text>
+    <rect class="cursor" x="156" y="124" width="14" height="4" />
+  </svg>
+
+  <h1>{{ t().notFound.title }}</h1>
+  <p class="text">{{ t().notFound.text }}</p>
+  <a class="btn" routerLink="/">{{ t().notFound.backHome }}</a>
+</main>

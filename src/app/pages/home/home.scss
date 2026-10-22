@@ -83,3 +83,35 @@ h1 {
 .start {
   align-self: flex-start;
 }
+
+// Cada grupo (Frontend, Backend...) con su título y su botón de marcar todo
+.group {
+  margin-top: 1.25rem;
+}
+
+.group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.group-title {
+  margin: 0;
+  font: 600 0.85rem/1 var(--font-mono);
+  color: var(--ink);
+}
+
+.group-toggle {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--muted);
+  font: 500 0.75rem/1 var(--font-mono);
+  cursor: pointer;
+
+  &:hover {
+    color: var(--accent);
+  }
+}

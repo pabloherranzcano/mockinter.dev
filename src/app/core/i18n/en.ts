@@ -14,7 +14,10 @@ export const en: typeof es = {
     changeTheme: 'Switch theme',
   },
   notFound: {
-    title: 'Web not found',
+    title: 'Page not found',
+    text: 'This address does not exist or has moved.',
+    imageAlt: 'A terminal showing the 404 error',
+    backHome: 'Back to home',
   },
   home: {
     title: 'Practice technical interviews',
@@ -23,6 +26,15 @@ export const en: typeof es = {
     all: 'All',
     start: 'Start',
     streak: 'Streak (days)',
+    selectGroup: 'Select all',
+    clearGroup: 'Clear all',
+    groups: {
+      frontend: 'Frontend',
+      backend: 'Backend',
+      data: 'Data',
+      tools: 'Tools',
+      other: 'Other',
+    },
   },
   login: {
     signInTitle: 'Log in',

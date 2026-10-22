@@ -1,6 +1,6 @@
 @if (questionsService.rows.isLoading()) {
   <main class="lesson state">
-    <p>{{ t().lesson.loading }}</p>
+    <app-spinner [label]="t().lesson.loading" />
   </main>
 } @else if (questionsService.rows.error()) {
   <main class="lesson state">

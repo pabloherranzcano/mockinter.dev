@@ -1,0 +1,86 @@
+// Todo centrado en la pantalla
+.not-found {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  min-height: 70vh;
+  padding: 2rem 1rem;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+}
+
+.text {
+  margin: 0 0 0.5rem;
+  color: var(--muted);
+}
+
+.art {
+  width: min(20rem, 100%);
+  height: auto;
+}
+
+.window {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 2;
+}
+
+.bar {
+  fill: var(--sunk);
+}
+
+.dot-bad {
+  fill: var(--bad);
+}
+
+.dot-warn {
+  fill: var(--amber);
+}
+
+.dot-ok {
+  fill: var(--ok);
+}
+
+text {
+  font-family: var(--font-mono);
+}
+
+.prompt {
+  fill: var(--muted);
+  font-size: 14px;
+}
+
+.error {
+  fill: var(--bad);
+  font-size: 14px;
+}
+
+.big {
+  fill: var(--accent);
+  font-size: 56px;
+  font-weight: 700;
+}
+
+// El cursor del terminal parpadea
+.cursor {
+  fill: var(--accent);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor {
+    animation: none;
+  }
+}
