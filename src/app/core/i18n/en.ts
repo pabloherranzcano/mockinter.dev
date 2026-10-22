@@ -22,6 +22,7 @@ export const en: typeof es = {
     pick: 'What do you want to practice?',
     all: 'All',
     start: 'Start',
+    streak: 'Streak (days)',
   },
   login: {
     signInTitle: 'Log in',

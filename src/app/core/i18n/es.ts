@@ -20,6 +20,7 @@ export const es = {
     pick: '¿Qué quieres practicar?',
     all: 'Todas',
     start: 'Empezar',
+    streak: 'Racha (días)',
   },
   login: {
     signInTitle: 'Entrar',

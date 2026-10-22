@@ -22,6 +22,17 @@ h1 {
   max-width: 34rem;
 }
 
+.streak {
+  margin: 0;
+  color: var(--muted);
+  font: 500 0.9rem/1 var(--font-mono);
+
+  strong {
+    color: var(--amber);
+    font-size: 1.1rem;
+  }
+}
+
 .label {
   margin: 0 0 0.75rem;
   color: var(--muted);

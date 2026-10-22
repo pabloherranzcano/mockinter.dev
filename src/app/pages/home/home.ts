@@ -1,6 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../core/auth.service';
 import { LanguageService } from '../../core/language.service';
+import { ProgressService } from '../../core/progress.service';
 import { QuestionsService } from '../../core/questions/questions.service';
 
 @Component({
@@ -12,6 +14,8 @@ import { QuestionsService } from '../../core/questions/questions.service';
 export class Home {
   protected readonly t = inject(LanguageService).t;
   protected readonly questionsService = inject(QuestionsService);
+  protected readonly user = inject(AuthService).user;
+  protected readonly streak = inject(ProgressService).streak;
 
   /** Tecnología elegida. 'all' son todas, y es lo que se practica si no se toca nada. */
   protected readonly selected = signal('all');

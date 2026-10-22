@@ -9,7 +9,7 @@ export class AuthService {
   private readonly _supabase = inject(SupabaseService);
 
   constructor() {
-    this._supabase.client.auth.onAuthStateChange((evento, session) => {
+    this._supabase.client.auth.onAuthStateChange((event, session) => {
       this.session.set(session);
     });
   }
